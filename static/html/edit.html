@@ -10,8 +10,7 @@
         <!-- Bootstrap core CSS -->
         <link href="../../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
         <link href="../../bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
-        <link href="../../bower_components/hallo/examples/hallo.css" rel="stylesheet" />
-        <link href="../../bower_componentsjq/jquery-ui-bootstrap/jquery.ui.theme.css" rel="stylesheet" />
+        <link href="../../bower_components/pen/src/pen.css" rel="stylesheet" />
         <!-- Custom styles for this template -->
 
         <style>
@@ -209,7 +208,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <h1>Title</h1>
+                            <h1 contenteditable="true">Title</h1>
                             <div id="note">
                                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia consectetur. Donec ut libero sed arcu vehicula ultricies a non tortor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ut gravida lorem. Ut turpis felis, pulvinar a semper sed, adipiscing id dolor. Pellentesque auctor nisi id magna consequat sagittis. Curabitur dapibus enim sit amet elit pharetra tincidunt feugiat nisl imperdiet. Ut convallis libero in urna ultrices accumsan. Donec sed odio eros. Donec viverra mi quis quam pulvinar at malesuada arcu rhoncus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. In rutrum accumsan ultricies. Mauris vitae nisi at sem facilisis semper ac in est.
 
@@ -235,22 +234,14 @@ Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos
         ->
     <!-- Placed at the end of the document so the pages load faster -->
         <script src="../../bower_components/jquery/jquery.min.js"></script>
-        <script src="../../bower_components/jquery-ui/ui/minified/jquery-ui.min.js"></script>
-        <script src="../../bower_components/rangy/rangy-core.js"></script>
-        <script src="../../bower_components/hallo/dist/hallo.js"></scrip>
         <script src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="../../bower_components/pen/src/pen.js"></script>
+        <script src="../../bower_components/pen/src/markdown.js"></script>
+        <script src="src/markdown.js"></script>
         <script>
-            jQuery("#note").hallo({
-  plugins: {
-            'halloformat': {},
-            'halloblock': {},
-            'hallojustify': {},
-            'hallolists': {},
-            'hallolink': {},
-            'halloreundo': {}  },
-            toolbar: 'halloToolbarFixed'
-});
+            var editor = new Pen('#note');
         </script>
+
     </body>
 
 </html>
