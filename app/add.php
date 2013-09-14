@@ -18,9 +18,12 @@ if (isset($_POST["data"])){
             case "checklist" :
                 $result = add_checklist($data);
             break;
+            default :
+                exit(json_encode(array("error" => "unknown_type")));
         }
     }
     echo json_encode($result);
+} else {
+    echo json_encode(array("error" => "unset_data"));
 }
-
 ?>
