@@ -1,8 +1,8 @@
 <?php
 if (isset($_POST["data"])){
-    $data["sent"] = json_decode($_POST["data"]);
-    if (isset($data["sent"]["type"])){
-        switch ($data["sent"]["type"]){
+    $data = json_decode($_POST["data"]);
+    if (isset($data["type"])){
+        switch ($data["type"]){
             case "todo" : 
                 $result = add_todo($data);
             break;
