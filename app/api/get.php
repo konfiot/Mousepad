@@ -2,7 +2,7 @@
 if (isset($_POST["data"])){
     $data["sent"] = json_decode($_POST["data"]);
     if (isset($data["sent"]["type"])){
-        get($data);
+        get_card($data);
     } else {
         $result = get_all();
     }
