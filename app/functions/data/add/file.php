@@ -1,7 +1,7 @@
 <?php 
 function add_file($data) {
     if ($data["type"] != "file"){
-        return json_encode({"error" : "expected file, but saw " . $data["type"]. " instead" });
+        return json_encode(array("error" => "expected file, but saw " . $data["type"]. " instead" ));
     }
     
     $title = htmlspecialchars($data["title"]);
@@ -11,7 +11,7 @@ function add_file($data) {
     $id = db_add_file($title, $path, $parent);
     
     if ($id === false){
-        return json_encode({"error" : "Database error" });
+        return json_encode(array("error" => "Database error" ));
     }
 }
 ?>
