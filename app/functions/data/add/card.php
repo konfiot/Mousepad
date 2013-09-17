@@ -1,9 +1,5 @@
 <?php 
-function add_note($data) {
-    if ($data["type"] != "note"){
-        return json_encode(array("error" => "expected note, but saw " . $data["type"]. " instead" ));
-    }
-    
+function add_card($data) {
     $title = htmlspecialchars($data["title"]);
     $content = htmlspecialchars($data["content"]);
     
