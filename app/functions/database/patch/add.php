@@ -12,7 +12,7 @@ function db_add_diff($diff, $parent){
             $contents = fread($file, filesize(JSONTYPE));
             
             $uuid = uniqid()
-            $json = json_decode($contents);
+            $json = json_decode($contents, true);
             $json[$uuid] = array("content" => $diff, "parent" => $parent, "timestamp" => time());
             
             fwrite($file, json_encode($json));
