@@ -2,7 +2,7 @@
 define(DBTYPE, "json");
 define(JSONFILECARDS, "cards.json");
 
-function db_add_card($type, $title){
+function db_add_card($type, $title, $tags){
     switch (DBTYPE){
         case "json" :
             touch(JSONFILECARDS);
@@ -16,7 +16,7 @@ function db_add_card($type, $title){
             
             $json = json_decode($contents, true);
             $uuid = uniqid();
-            $json[$uuid] = array("type" => $type, "title" => $title);
+            $json[$uuid] = array("type" => $type, "title" => $title, "tags" => $tags);
             
             fwrite($file, json_encode($json));
             flock($file, LOCK_UN);

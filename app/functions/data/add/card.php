@@ -7,14 +7,14 @@ include "../functions/diff_match_patch.php";
 function add_card($data) {
     $title = htmlspecialchars($data["title"]);
     $content = htmlspecialchars($data["content"]);
+    $tags = htmlspecialchars($data["tags"]);
     
     $patcher = new diff_match_patch();    
     
     $patch = $patcher->patch_make("", $content);
-    echo "dan";
     $diff = $patcher->patch_toText($patch);
 
-    $id = db_add_card($data["type"], $title);
+    $id = db_add_card($data["type"], $title, $tags);
     
     if ($id === false){
         return json_encode(array("error" => "Database error" ));
