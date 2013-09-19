@@ -3,6 +3,8 @@ header("Content-Type: application/json");
 
 include '../functions/data/add/card.php';
 
+
+
 if (isset($_POST["data"])){
     $data = json_decode($_POST["data"], true);
     

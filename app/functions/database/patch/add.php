@@ -1,17 +1,20 @@
 <?php
 define(DBTYPE, "json");
-define(JSONFILE, "diffs.json");
+define(JSONFILEDIFFS, "diffs.json");
 
 function db_add_diff($diff, $parent){
     switch (DBTYPE){
         case "json" :
-            touch(JSONFILE);
+            touch(JSONFILEDIFFS);
             
-            $file = fopen(JSONFILE, "w");
+            $file = fopen(JSONFILEDIFFS, "w");
+            if(!$file){
+                return false;
+            }
             while (flock($file, LOCK_EX) === false);
-            $contents = fread($file, filesize(JSONTYPE));
+            $contents = fread($file, filesize(JSONFILEDIFFS));
             
-            $uuid = uniqid()
+            $uuid = uniqid();
             $json = json_decode($contents, true);
             $json[$uuid] = array("content" => $diff, "parent" => $parent, "timestamp" => time());
             
@@ -19,8 +22,7 @@ function db_add_diff($diff, $parent){
             flock($file, LOCK_UN);
             fclose($file);
             
-            return $uuid
-
+            return $uuid;
         break;
         default :
             return false;

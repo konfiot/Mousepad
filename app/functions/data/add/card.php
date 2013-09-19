@@ -1,21 +1,19 @@
 <?php 
+include "../functions/database/card/add.php";
+include "../functions/database/patch/add.php";
+include "../functions/diff_match_patch.php";
 
-include "../../database/card/add.php";
-include "../../database/patch/add.php";
 
 function add_card($data) {
     $title = htmlspecialchars($data["title"]);
     $content = htmlspecialchars($data["content"]);
+    
+    $patcher = new diff_match_patch();    
+    
+    $patch = $patcher->patch_make("", $content);
+    echo "dan";
+    $diff = $patcher->patch_toText($patch);
 
-if (function_exists('xdiff_string_diff')) {
-    echo "IMAP functions are available.<br />\n";
-} else {
-    echo "IMAP functions are not available.<br />\n";
-}
-    $diff = xdiff_string_diff("", $content);
-    
-    echo $diff;
-    
     $id = db_add_card($data["type"], $title);
     
     if ($id === false){

@@ -1,15 +1,18 @@
 <?php
 define(DBTYPE, "json");
-define(JSONFILE, "cards.json");
+define(JSONFILECARDS, "cards.json");
 
 function db_add_card($type, $title){
     switch (DBTYPE){
         case "json" :
-            touch(JSONFILE);
+            touch(JSONFILECARDS);
             
-            $file = fopen(JSONFILE, "w");
+            $file = fopen(JSONFILECARDS, "w");
+            if(!$file){
+                return false;
+            }
             while (flock($file, LOCK_EX) === false);
-            $contents = fread($file, filesize(JSONTYPE));
+            $contents = fread($file, filesize(JSONFILECARDS));
             
             $json = json_decode($contents, true);
             $uuid = uniqid();
