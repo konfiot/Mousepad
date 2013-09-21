@@ -13,8 +13,6 @@ function db_list_diffs($id){
             }
             while (flock($file, LOCK_SH) === false);
             $contents = fread($file, filesize(JSONFILEDIFFS));
-            
-            $uuid = uniqid();
             $json = json_decode($contents, true);
 
             flock($file, LOCK_UN);
@@ -23,8 +21,8 @@ function db_list_diffs($id){
             $json_out = array();
             
             foreach ($json as $key => $value){
-                if ($key ==  $id){
-                    $json[$key] = $value;
+                if ($value["parent"] ==  $id){
+                    $json_out[$key] = $value;
                 }
             } 
             

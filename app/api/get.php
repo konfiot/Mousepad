@@ -1,10 +1,14 @@
 <?php
+include '../functions/data/get.php';
+
+header("Content-Type: application/json");
+
 if (isset($_POST["data"])){
-    $data["sent"] = json_decode($_POST["data"]);
-    if (isset($data["sent"]["type"])){
-        get_card($data);
+    $data = json_decode($_POST["data"], true);
+    if (isset($data["id"])){
+        $result = get_card($data);
     } else {
-        $result = get_all();
+        exit(json_encode(array("error" => "unset_id")));
     }
     echo json_encode($result);
 } else {
