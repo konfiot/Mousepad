@@ -7,17 +7,18 @@ function db_add_diff($diff, $parent){
         case "json" :
             touch(JSONFILEDIFFS);
             
-            $file = fopen(JSONFILEDIFFS, "w");
+            $file = fopen(JSONFILEDIFFS, "a+");
             if(!$file){
                 return false;
             }
             while (flock($file, LOCK_EX) === false);
-            $contents = fread($file, filesize(JSONFILEDIFFS));
-            
+            $content = fread($file, filesize(JSONFILEDIFFS));
+            echo "DAAAAN\n" . $content . "\nNAOOOOO";
             $uuid = uniqid();
-            $json = json_decode($contents, true);
+            $json = json_decode($content, true);
             $json[$uuid] = array("content" => $diff, "parent" => $parent, "timestamp" => time());
             
+            ftruncate($file, 0);
             fwrite($file, json_encode($json));
             flock($file, LOCK_UN);
             fclose($file);
