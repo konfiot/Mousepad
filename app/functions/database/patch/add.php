@@ -13,7 +13,6 @@ function db_add_diff($diff, $parent){
             }
             while (flock($file, LOCK_EX) === false);
             $content = fread($file, filesize(JSONFILEDIFFS));
-            echo "DAAAAN\n" . $content . "\nNAOOOOO";
             $uuid = uniqid();
             $json = json_decode($content, true);
             $json[$uuid] = array("content" => $diff, "parent" => $parent, "timestamp" => time());

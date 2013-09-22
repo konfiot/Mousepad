@@ -13,8 +13,6 @@ function mod_card($data) {
     $patch = $patcher->patch_make($old["content"], $content);
     $diff = $patcher->patch_toText($patch);
 
-    echo $diff ."\n";
-    
     if (db_add_diff($diff, $data["id"]) === false){
         return json_encode(array("error" => "Database error" ));
     } else {
