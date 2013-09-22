@@ -8,6 +8,10 @@ function mod_card($data) {
     $content = htmlspecialchars($data["content"]);
 
     $old = get_card($data);
+    
+    if ($old["content"] === $content){
+        return json_encode(array("success" => "not modified" ));
+    }
     $patcher = new diff_match_patch();    
     
     $patch = $patcher->patch_make($old["content"], $content);

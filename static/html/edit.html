@@ -176,7 +176,7 @@
                             </li>
                             <li>Action</li>
                             <li>
-                                <a href="#">Save</a>
+                                <a href="#" onclick="save();">Save</a>
                             </li>
                             <li>
                                 <a href="#">Add File</a>
@@ -247,6 +247,13 @@
                     $("#title").html("Title");
                 }
             });
+            
+            function save(){
+                $.post("/app/api/mod.php", {data: JSON.stringify({id: $.cookie("id"), content: $("#note").html()})}, function(data){
+                    $("#note").html(data["content"]);
+                    $("#title").html(data["meta"]["title"]);
+                }, "json");
+            }
         </script>
 
     </body>
