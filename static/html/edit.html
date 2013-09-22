@@ -249,9 +249,8 @@
             });
             
             function save(){
-                $.post("/app/api/mod.php", {data: JSON.stringify({id: $.cookie("id"), content: $("#note").html()})}, function(data){
-                    $("#note").html(data["content"]);
-                    $("#title").html(data["meta"]["title"]);
+                $.post("/app/api/mod.php", {data: JSON.stringify({id: $.cookie("id"), content: $("#note").html(), title: $("#title").html()})}, function(data){
+                    
                 }, "json");
             }
         </script>
