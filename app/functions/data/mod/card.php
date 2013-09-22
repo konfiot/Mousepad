@@ -1,17 +1,25 @@
-<?php 
+<?php
 include "../functions/data/get.php";
 include "../functions/database/patch/add.php";
 include "../functions/database/card/set_title.php";
+include "../functions/database/card/set_tags.php";
 include_once "../functions/diff_match_patch.php";
 
 
+
 function mod_card($data) {
+    
     $content = htmlspecialchars($data["content"]);
     $title = htmlspecialchars($data["title"]);
+    $tags = $data["tags"];
     
     $old = get_card($data);
 
     db_set_title($data["id"], $title);
+    
+    echo "dan";
+    db_set_tags($data["id"], $tags);
+    echo "dannao";
     
     if ($old["content"] === $content){
         return json_encode(array("success" => "not modified" ));

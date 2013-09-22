@@ -11,6 +11,7 @@
         <link href="../../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
         <link href="../../bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
         <link href="../../bower_components/pen/src/pen.css" rel="stylesheet" />
+        <link href="../../bower_components/bootstrap-tagsinput.css" rel="stylesheet" />
         <!-- Custom styles for this template -->
 
         <style>
@@ -158,21 +159,7 @@
                             </li>
                             <li>Tags</li>
                             <li>
-                                <a  href="#">#Lorem <i onclick="alert('remove')" class="icon-remove-circle pull-right"></i></a>
-                            </li>
-                            <li>
-                                <a href="#">#Ipsum <i onclick="alert('remove')" class="icon-remove-circle pull-right"></i></a>
-                            </li>
-                            <li>
-                                <a href="#">#Thegame <i onclick="alert('remove')" class="icon-remove-circle pull-right"></i></a>
-                            </li>
-                            <li>
-                            <a>
-                                <span class="input-group">
-                                    <span class="input-group-addon">#</span>
-                                    <input type="text" class="form-control" placeholder="Tag">
-                                </span>
-                            </a>
+                            <form><input type="text" autocomplete="off" id="tags" data-role="tagsinput" value=""/></form>
                             </li>
                             <li>Action</li>
                             <li>
@@ -231,16 +218,22 @@
         <script src="../../bower_components/jquery.cookie/jquery.cookie.js"></script>
         <script src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
         <script src="../../bower_components/pen/src/pen.js"></script>
-        <script src="../../bower_components/pen/src/markdown.js"></script>
+        <script src="../../bower_components/bootstrap-tagsinput.min.js"></script>
         <script>
+            var selectize;
             $(function(){
                 var editor = new Pen('#note');
-                
+
                 var id = $.cookie("id");
+                
                 if (typeof(id) === "string"){
                     $.post("/app/api/get.php", {data: JSON.stringify({id: id})}, function(data){
                         $("#note").html(data["content"]);
                         $("#title").html(data["meta"]["title"]);
+                        for (i in data["meta"]["tags"]){
+                            $('#tags').tagsinput('add', data["meta"]["tags"][i]);
+                        }
+                        console.log($("#tags").val().split(","))
                     }, "json");
                 } else {
                     $("#note").html("Content");
@@ -249,7 +242,7 @@
             });
             
             function save(){
-                $.post("/app/api/mod.php", {data: JSON.stringify({id: $.cookie("id"), content: $("#note").html(), title: $("#title").html()})}, function(data){
+                $.post("/app/api/mod.php", {data: JSON.stringify({id: $.cookie("id"), content: $("#note").html(), title: $("#title").html(), tags: $("#tags").val().split(",")})}, function(data){
                     
                 }, "json");
             }
