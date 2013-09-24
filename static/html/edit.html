@@ -218,13 +218,19 @@
         <script src="../../bower_components/jquery.cookie/jquery.cookie.js"></script>
         <script src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
         <script src="../../bower_components/pen/src/pen.js"></script>
+        <script src="../../bower_components/pen/src/markdown.js"></script>
         <script src="../../bower_components/bootstrap-tagsinput.min.js"></script>
         <script>
             var selectize;
+function getAnchor() {
+    var currentUrl = document.URL,
+        urlParts = currentUrl.split('#');
+    return (urlParts.length > 1) ? urlParts[1] : undefined;
+}
+            var id;
             $(function(){
                 var editor = new Pen('#note');
-
-                var id = $.cookie("id");
+                id = getAnchor();
                 
                 if (typeof(id) === "string"){
                     $.post("/app/api/get.php", {data: JSON.stringify({id: id})}, function(data){
@@ -242,7 +248,7 @@
             });
             
             function save(){
-                $.post("/app/api/mod.php", {data: JSON.stringify({id: $.cookie("id"), content: $("#note").html(), title: $("#title").html(), tags: $("#tags").val().split(",")})}, function(data){
+                $.post("/app/api/mod.php", {data: JSON.stringify({id: id, content: $("#note").html(), title: $("#title").html(), tags: $("#tags").val().split(",")})}, function(data){
                     
                 }, "json");
             }

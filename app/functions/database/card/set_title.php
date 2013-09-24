@@ -7,23 +7,24 @@ function db_set_title($id, $title){
         case "json" :
             touch(JSONFILECARDS);
             
-            $file = fopen(JSONFILECARDS, "w");
+            $file = fopen(JSONFILECARDS, "a+");
             if(!$file){
                 return false;
             }
             while (flock($file, LOCK_EX) === false);
-            $contents = fread($file, filesize(JSONFILECARDS));
+            $contents = fread($file, filesize(JSONFILECARDS););
             
             $json = json_decode($contents, true);
             
             $json[$id]["title"] = $title;
-            
+
+            ftruncate($file, 0);
             fwrite($file, json_encode($json));
+            clearstatcache();
             flock($file, LOCK_UN);
             fclose($file);
             
-            return $uuid;
-
+            return true;
         break;
         default :
             return false;

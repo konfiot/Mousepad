@@ -14,13 +14,9 @@ function mod_card($data) {
     $tags = $data["tags"];
     
     $old = get_card($data);
-
     db_set_title($data["id"], $title);
-    
-    echo "dan";
     db_set_tags($data["id"], $tags);
-    echo "dannao";
-    
+
     if ($old["content"] === $content){
         return json_encode(array("success" => "not modified" ));
     }

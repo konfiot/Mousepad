@@ -7,7 +7,7 @@ function db_add_card($type, $title, $tags){
         case "json" :
             touch(JSONFILECARDS);
             
-            $file = fopen(JSONFILECARDS, "w");
+            $file = fopen(JSONFILECARDS, "a+");
             if(!$file){
                 return false;
             }
@@ -18,6 +18,7 @@ function db_add_card($type, $title, $tags){
             $uuid = uniqid();
             $json[$uuid] = array("type" => $type, "title" => $title, "tags" => $tags);
             
+            ftruncate($file, 0);
             fwrite($file, json_encode($json));
             flock($file, LOCK_UN);
             fclose($file);
