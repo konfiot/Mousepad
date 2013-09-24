@@ -220,6 +220,8 @@
         <script src="../../bower_components/pen/src/pen.js"></script>
         <script src="../../bower_components/pen/src/markdown.js"></script>
         <script src="../../bower_components/bootstrap-tagsinput.min.js"></script>
+        <script src="../../bower_components/html-md/dist/md.min.js"></script>
+        <script src="../../bower_components/marked/lib/marked.js"></script>
         <script>
             var selectize;
 function getAnchor() {
@@ -234,12 +236,11 @@ function getAnchor() {
                 
                 if (typeof(id) === "string"){
                     $.post("/app/api/get.php", {data: JSON.stringify({id: id})}, function(data){
-                        $("#note").html(data["content"]);
+                        $("#note").html(marked(data["content"]));
                         $("#title").html(data["meta"]["title"]);
                         for (i in data["meta"]["tags"]){
                             $('#tags').tagsinput('add', data["meta"]["tags"][i]);
                         }
-                        console.log($("#tags").val().split(","))
                     }, "json");
                 } else {
                     $("#note").html("Content");
@@ -248,7 +249,7 @@ function getAnchor() {
             });
             
             function save(){
-                $.post("/app/api/mod.php", {data: JSON.stringify({id: id, content: $("#note").html(), title: $("#title").html(), tags: $("#tags").val().split(",")})}, function(data){
+                $.post("/app/api/mod.php", {data: JSON.stringify({id: id, content: md($("#note").html()), title: $("#title").html(), tags: $("#tags").val().split(",")})}, function(data){
                     
                 }, "json");
             }

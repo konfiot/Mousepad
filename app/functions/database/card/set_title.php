@@ -12,7 +12,7 @@ function db_set_title($id, $title){
                 return false;
             }
             while (flock($file, LOCK_EX) === false);
-            $contents = fread($file, filesize(JSONFILECARDS););
+            $contents = fread($file, filesize(JSONFILECARDS));
             
             $json = json_decode($contents, true);
             
