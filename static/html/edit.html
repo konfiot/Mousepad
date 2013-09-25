@@ -149,13 +149,10 @@
                         <ul class="nav">
                             <li>Edit With</li>
                             <li class="active">
-                                <a href="#" class="active">WYSIWYG Editor</a>
+                                <a href="#" onclick="switch_to_WYSIWYG()">WYSIWYG Editor</a>
                             </li>
                             <li>
-                                <a href="#">Classic Markdown editor</a>
-                            </li>
-                            <li>
-                                <a href="#">Vim Markdown editor</a>
+                                <a href="#" onclick="switch_to_classic()">Classic Markdown editor</a>
                             </li>
                             <li>Tags</li>
                             <li>
@@ -223,15 +220,16 @@
         <script src="../../bower_components/html-md/dist/md.min.js"></script>
         <script src="../../bower_components/marked/lib/marked.js"></script>
         <script>
-            var selectize;
-function getAnchor() {
-    var currentUrl = document.URL,
-        urlParts = currentUrl.split('#');
-    return (urlParts.length > 1) ? urlParts[1] : undefined;
-}
+            function getAnchor() {
+                var currentUrl = document.URL,
+                    urlParts = currentUrl.split('#');
+                return (urlParts.length > 1) ? urlParts[1] : undefined;
+            }
             var id;
+            var editor;
+            var mode = "WYSIWYG";
             $(function(){
-                var editor = new Pen('#note');
+                editor = new Pen('#note');
                 id = getAnchor();
                 
                 if (typeof(id) === "string"){
@@ -249,9 +247,37 @@ function getAnchor() {
             });
             
             function save(){
-                $.post("/app/api/mod.php", {data: JSON.stringify({id: id, content: md($("#note").html()), title: $("#title").html(), tags: $("#tags").val().split(",")})}, function(data){
+                var content;
+                if (mode === "WYSIWYG"){
+                    content = md($("#note").html());
+                } else if (mode === "classic"){
+                    content = $("#input").val();
+                }
+                $.post("/app/api/mod.php", {data: JSON.stringify({id: id, content: content, title: $("#title").html(), tags: $("#tags").val().split(",")})}, function(data){
                     
                 }, "json");
+            }
+            
+            function switch_to_classic(){
+                if (mode === "WYSIWYG"){
+                    mode = "classic";
+                    content = md($("#note").html());
+                    editor.destroy();
+                    $("#note").html("<textarea id='input' rows='" + content.split(/\r\n|\r|\n/).length + "'>" + content + "</textarea>");
+                    $("#note").css("height", "100%");
+                    $("#input").bind('input', function(){
+                        $("#input").attr('rows', $("#input").val().split(/\r\n|\r|\n/).length);
+                    });
+                }
+            }
+            function switch_to_WYSIWYG(){
+                if (mode === "classic"){
+                    mode = "WYSIWYG";
+                    $("#input").unbind();
+                    content = marked($("#input").val());
+                    $("#note").html(content);
+                    editor.rebuild();
+                }
             }
         </script>
 
