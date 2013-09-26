@@ -232,7 +232,7 @@
                 editor = new Pen('#note');
                 id = getAnchor();
                 
-                if (typeof(id) === "string"){
+                if ((typeof(id) === "string") && (id !== "")){
                     $.post("/app/api/get.php", {data: JSON.stringify({id: id})}, function(data){
                         $("#note").html(marked(data["content"]));
                         $("#title").html(data["meta"]["title"]);
@@ -253,9 +253,15 @@
                 } else if (mode === "classic"){
                     content = $("#input").val();
                 }
-                $.post("/app/api/mod.php", {data: JSON.stringify({id: id, content: content, title: $("#title").html(), tags: $("#tags").val().split(",")})}, function(data){
-                    
-                }, "json");
+                if ((typeof(id) === "string") && (id !== "")){
+                    $.post("/app/api/mod.php", {data: JSON.stringify({id: id, content: content, title: $("#title").html(), tags: $("#tags").val().split(",")})}, function(data){}, "json");
+                } else {
+                    $.post("/app/api/add.php", {data: JSON.stringify({type: "note", content: content, title: $("#title").html(), tags: $("#tags").val().split(",")})}, function(data){
+                        console.log(data);
+                        var json = JSON.parse(data);
+                        id = json["id"];
+                    }, "json");
+                }
             }
             
             function switch_to_classic(){
@@ -274,7 +280,9 @@
                 if (mode === "classic"){
                     mode = "WYSIWYG";
                     $("#input").unbind();
+                    console.log($("#input").val());
                     content = marked($("#input").val());
+                    console.log(content);
                     $("#note").html(content);
                     editor.rebuild();
                 }
