@@ -203,20 +203,36 @@
                 <!--/span-->
             </div>
             <!--/row-->
-        </div>
-        <!--/.container-->
+            <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div id="qrcode" style="text-align:center" class="modal-body"></div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!-- /.modal -->
+  </div><!--/.container-->
         <!-- Bootstrap core JavaScript==================================================-
         ->
     <!-- Placed at the end of the document so the pages load faster -->
         <script src="../../bower_components/jquery/jquery.min.js"></script>
         <script src="../../bower_components/jquery.cookie/jquery.cookie.js"></script>
         <script src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="../../bower_components/jquery-qrcode/jquery.qrcode.min.js"></script>
         <script>
+        function qrcode(id){
+            $("#modal").modal("show");
+            $("#qrcode").html("");
+            $('#qrcode').qrcode({text: "http://mousepad.konfiot.c9.io/static/html/edit.html", width: 530, height: 530});
+        }
+        
         $(function(){
             $.post("/app/api/list.php", function(data){
                 $("#list").html("");
                 for (i in data){
-                    $("#list").append('<div class="col-md-4"><div class="thumbnail" style="padding: 0px ; margin-bottom: 20px;"><h4 class="caption">' + data[i]["title"] + '</h4><a href="edit.html#' + i + '" class=""><img src="http://lorempixel.com/260/260/" alt="..."></a><div class="caption" style="margin: 0; padding: 0px ;"><p class="btn-group btn-group-justified" style="margin: 0; border-left: none ; border-bottom: none;"><a class="btn btn-default btn-warning actionbar" href="#"><i class="icon-star"></i></a><a class="btn btn-default btn-info actionbar" href="#"><i class="icon-qrcode"></i></a><a class="btn btn-primary btn-default actionbar" href="#"><i class="icon-folder-close"></i></a><a class="btn btn-default btn-danger actionbar" href="#"><i class="icon-remove"></i></a> <a class="btn btn-default btn-success actionbar" href="#"><i class="icon-plus"></i></a></p></div></div></div>');
+                    $("#list").append('<div class="col-md-4"><div class="thumbnail" style="padding: 0px ; margin-bottom: 20px;"><h4 class="caption">' + data[i]["title"] + '</h4><a href="edit.html#' + i + '" class=""><img src="http://lorempixel.com/260/260/" alt="..."></a><div class="caption" style="margin: 0; padding: 0px ;"><p class="btn-group btn-group-justified" style="margin: 0; border-left: none ; border-bottom: none;"><a class="btn btn-default btn-warning actionbar" href="#"><i class="icon-star"></i></a><a class="btn btn-default btn-info actionbar" onclick="qrcode(\''+i+'\')" href="#"><i class="icon-qrcode"></i></a><a class="btn btn-primary btn-default actionbar" href="#"><i class="icon-folder-close"></i></a><a class="btn btn-default btn-danger actionbar" href="#"><i class="icon-remove"></i></a> <a class="btn btn-default btn-success actionbar" href="#"><i class="icon-plus"></i></a></p></div></div></div>');
                 }
             }, "json");
         });
