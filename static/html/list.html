@@ -140,7 +140,7 @@
             <div class="row row-offcanvas row-offcanvas-right">
                 <div class="col-md-3 sidebar-offcanvas" id="sidebar" role="navigation">
                     <div class="well sidebar-nav">
-                        <ul class="nav">
+                        <ul class="nav" id="tags">
                             <li>Tags</li>
                             <li class="active">
                                 <a href="#">#Yolo</a>
@@ -222,18 +222,40 @@
         <script src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
         <script src="../../bower_components/jquery-qrcode/jquery.qrcode.min.js"></script>
         <script>
+        var list;
         function qrcode(id){
             $("#modal").modal("show");
             $("#qrcode").html("");
-            $('#qrcode').qrcode({text: "http://mousepad.konfiot.c9.io/static/html/edit.html", width: 530, height: 530});
+            $('#qrcode').qrcode({text: "http://mousepad.konfiot.c9.io/static/html/edit.html#" + id, width: 530, height: 530});
+        }
+        
+        function refresh_filters(){
+            var tags = [];
+            for (var i in list){
+                console.log ("pouche");
+                for (var j in list[i]["tags"]){
+                console.log ("poucheeeeee");
+                    
+                    if ((tags.indexOf(list[i]["tags"][j]) === -1) && (list[i]["tags"][j] !== "")){
+                        tags.push(list[i]["tags"][j]);
+                    }
+                }
+            }
+            $("#tags").html("");
+            $("#tags").append("<li>Tags</li>");
+            for (var i in tags){
+                $("#tags").append("<li><a href='#'>" + tags[i] + "</a></li>");
+            }
         }
         
         $(function(){
             $.post("/app/api/list.php", function(data){
+                list = data;
                 $("#list").html("");
                 for (i in data){
                     $("#list").append('<div class="col-md-4"><div class="thumbnail" style="padding: 0px ; margin-bottom: 20px;"><h4 class="caption">' + data[i]["title"] + '</h4><a href="edit.html#' + i + '" class=""><img src="http://lorempixel.com/260/260/" alt="..."></a><div class="caption" style="margin: 0; padding: 0px ;"><p class="btn-group btn-group-justified" style="margin: 0; border-left: none ; border-bottom: none;"><a class="btn btn-default btn-warning actionbar" href="#"><i class="icon-star"></i></a><a class="btn btn-default btn-info actionbar" onclick="qrcode(\''+i+'\')" href="#"><i class="icon-qrcode"></i></a><a class="btn btn-primary btn-default actionbar" href="#"><i class="icon-folder-close"></i></a><a class="btn btn-default btn-danger actionbar" href="#"><i class="icon-remove"></i></a> <a class="btn btn-default btn-success actionbar" href="#"><i class="icon-plus"></i></a></p></div></div></div>');
                 }
+                refresh_filters();
             }, "json");
         });
         </script>
