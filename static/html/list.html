@@ -232,10 +232,7 @@
         function refresh_filters(){
             var tags = [];
             for (var i in list){
-                console.log ("pouche");
                 for (var j in list[i]["tags"]){
-                console.log ("poucheeeeee");
-                    
                     if ((tags.indexOf(list[i]["tags"][j]) === -1) && (list[i]["tags"][j] !== "")){
                         tags.push(list[i]["tags"][j]);
                     }
@@ -244,7 +241,17 @@
             $("#tags").html("");
             $("#tags").append("<li>Tags</li>");
             for (var i in tags){
-                $("#tags").append("<li><a href='#'>" + tags[i] + "</a></li>");
+                $("#tags").append("<li><a href='#' onclick=\"filter_tags('" + tags[i] + "')\">" + tags[i] + "</a></li>");
+            }
+        }
+        
+        function filter_tags(tag){
+            $("#list").html("");
+            var data = list;
+            for (i in data){
+                if (data[i]["tags"].indexOf(tag) !== -1){
+                    $("#list").append('<div class="col-md-4"><div class="thumbnail" style="padding: 0px ; margin-bottom: 20px;"><h4 class="caption">' + data[i]["title"] + '</h4><a href="edit.html#' + i + '" class=""><img src="http://lorempixel.com/260/260/" alt="..."></a><div class="caption" style="margin: 0; padding: 0px ;"><p class="btn-group btn-group-justified" style="margin: 0; border-left: none ; border-bottom: none;"><a class="btn btn-default btn-warning actionbar" href="#"><i class="icon-star"></i></a><a class="btn btn-default btn-info actionbar" onclick="qrcode(\''+i+'\')" href="#"><i class="icon-qrcode"></i></a><a class="btn btn-primary btn-default actionbar" href="#"><i class="icon-folder-close"></i></a><a class="btn btn-default btn-danger actionbar" href="#"><i class="icon-remove"></i></a> <a class="btn btn-default btn-success actionbar" href="#"><i class="icon-plus"></i></a></p></div></div></div>');
+                }
             }
         }
         
