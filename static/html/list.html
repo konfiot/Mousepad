@@ -213,6 +213,26 @@
                 <!-- /.modal-dialog -->
             </div>
             <!-- /.modal -->
+            <!-- Modal -->
+            <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+            aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">Sure ?</h4>
+                        </div>
+                        <div class="modal-body">Are you sure to delete this note</div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <button type="button" onclick="trash()" data-dismiss="modal" class="btn btn-danger">Delete</button>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!-- /.modal -->
   </div><!--/.container-->
         <!-- Bootstrap core JavaScript==================================================-
         ->
@@ -222,7 +242,7 @@
         <script src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
         <script src="../../bower_components/jquery-qrcode/jquery.qrcode.min.js"></script>
         <script>
-        var list;
+        var list, to_delete;
         function qrcode(id){
             $("#modal").modal("show");
             $("#qrcode").html("");
@@ -250,17 +270,34 @@
             var data = list;
             for (i in data){
                 if ((data[i]["tags"].indexOf(tag) !== -1) || (tag === "")){
-                    $("#list").append('<div class="col-md-4"><div class="thumbnail" style="padding: 0px ; margin-bottom: 20px;"><h4 class="caption">' + data[i]["title"] + '</h4><a href="edit.html#' + i + '" class=""><img src="http://lorempixel.com/260/260/" alt="..."></a><div class="caption" style="margin: 0; padding: 0px ;"><p class="btn-group btn-group-justified" style="margin: 0; border-left: none ; border-bottom: none;"><a class="btn btn-default btn-warning actionbar" href="#"><i class="icon-star"></i></a><a class="btn btn-default btn-info actionbar" onclick="qrcode(\''+i+'\')" href="#"><i class="icon-qrcode"></i></a><a class="btn btn-primary btn-default actionbar" href="#"><i class="icon-folder-close"></i></a><a class="btn btn-default btn-danger actionbar" href="#"><i class="icon-remove"></i></a> <a class="btn btn-default btn-success actionbar" href="#"><i class="icon-plus"></i></a></p></div></div></div>');
+                    $("#list").append('<div class="col-md-4"><div class="thumbnail" style="padding: 0px ; margin-bottom: 20px;"><h4 class="caption">' + data[i]["title"] + '</h4><a href="edit.html#' + i + '" class=""><img src="http://lorempixel.com/260/260/" alt="..."></a><div class="caption" style="margin: 0; padding: 0px ;"><p class="btn-group btn-group-justified" style="margin: 0; border-left: none ; border-bottom: none;"><a class="btn btn-default btn-warning actionbar" href="#"><i class="icon-star"></i></a><a class="btn btn-default btn-info actionbar" onclick="qrcode(\''+i+'\')" href="#"><i class="icon-qrcode"></i></a><a class="btn btn-primary btn-default actionbar" href="#"><i class="icon-folder-close"></i></a><a onclick="pop_confirmation_modal(\'' + i + '\')" class="btn btn-default btn-danger actionbar" ><i class="icon-remove"></i></a> <a class="btn btn-default btn-success actionbar" href="#"><i class="icon-plus"></i></a></p></div></div></div>');
                 }
             }
         }
         
-        $(function(){
+        function pop_confirmation_modal(id){
+            $("#delete").modal('show');
+            to_delete = id;
+        }
+        
+        
+        function init(){
             $.post("/app/api/list.php", function(data){
                 list = data;
                 filter_tags("");
                 refresh_filters();
             }, "json");
+        }
+        
+        function trash(){
+            $.post("/app/api/remove.php", {data: JSON.stringify({id: to_delete})}, function(data){
+                init();
+            }, "json");
+            to_delete = "";
+        }
+        
+        $(function(){
+            init();
         });
         </script>
     </body>
