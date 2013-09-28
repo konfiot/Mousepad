@@ -273,9 +273,24 @@
             var data = list;
             for (i in data){
                 if ((data[i]["tags"].indexOf(tag) !== -1) || (tag === "")){
-                    $("#list").append('<div class="col-md-4"><div class="thumbnail" style="padding: 0px ; margin-bottom: 20px;"><h4 class="caption">' + data[i]["title"] + '</h4><a href="edit.html#' + i + '" class=""><img src="http://lorempixel.com/260/260/" alt="..."></a><div class="caption" style="margin: 0; padding: 0px ;"><p class="btn-group btn-group-justified" style="margin: 0; border-left: none ; border-bottom: none;"><a class="btn btn-default btn-warning actionbar" href="#"><i class="icon-star"></i></a><a class="btn btn-default btn-info actionbar" onclick="qrcode(\''+i+'\')" href="#"><i class="icon-qrcode"></i></a><a class="btn btn-primary btn-default actionbar" href="#"><i class="icon-folder-close"></i></a><a onclick="pop_confirmation_modal(\'' + i + '\')" class="btn btn-default btn-danger actionbar" ><i class="icon-remove"></i></a> <a class="btn btn-default btn-success actionbar" href="#"><i class="icon-plus"></i></a></p></div></div></div>');
+                    $("#list").append('<div class="col-md-4"><div class="thumbnail" style="padding: 0px ; margin-bottom: 20px;"><h4 class="caption">' + data[i]["title"] + '</h4><a href="edit.html#' + i + '" class=""><img src="http://lorempixel.com/260/260/" alt="..."></a><div class="caption" style="margin: 0; padding: 0px ;"><p class="btn-group btn-group-justified" style="margin: 0; border-left: none ; border-bottom: none;"><a class="btn btn-default btn-warning actionbar" href="#" onclick="toogle_star(\'' + i + '\')"><i id="star' + i + '" class="icon-star" style="color: ' + ((data[i]["star"]) ? "grey" : "white")  + '"></i></a><a class="btn btn-default btn-info actionbar" onclick="qrcode(\''+i+'\')" href="#"><i class="icon-qrcode"></i></a><a class="btn btn-primary btn-default actionbar" href="#"><i class="icon-folder-close"></i></a><a onclick="pop_confirmation_modal(\'' + i + '\')" class="btn btn-default btn-danger actionbar" ><i class="icon-remove"></i></a> <a class="btn btn-default btn-success actionbar" href="#"><i class="icon-plus"></i></a></p></div></div></div>');
                 }
             }
+        }
+        
+        function toogle_star(id){
+            var star;
+            if (list[id]["star"] === true){
+                list[id]["star"] = false;
+                star = false;
+                $("#star" + id).css("color", "white");
+            } else {
+                list[id]["star"] = true;
+                star = true;
+                $("#star" + id).css("color", "grey");
+            }
+            $.post("/app/api/mod.php", {data: JSON.stringify({id: id, star: star})}, function(data){}, "json");
+
         }
         
         function pop_confirmation_modal(id){
