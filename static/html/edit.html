@@ -172,7 +172,7 @@
                                 <a href="#">Link Checklist</a>
                             </li>
                             <li>
-                                <a href="#">Delete</a>
+                                <a href="#" onclick="$('#delete').modal('show');">Delete</a>
                             </li>
                         </ul>
                     </div>
@@ -206,6 +206,24 @@
                 <!--/span-->
             </div>
             <!--/row-->
+            <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+            aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">Sure ?</h4>
+                        </div>
+                        <div class="modal-body">Are you sure to delete this note</div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <button type="button" onclick="trash()" data-dismiss="modal" class="btn btn-danger">Delete</button>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
         </div>
         <!--/.container-->
         <!-- Bootstrap core JavaScript==================================================-
@@ -228,6 +246,7 @@
             var id;
             var editor;
             var mode = "WYSIWYG";
+            var to_delete;
             $(function(){
                 editor = new Pen('#note');
                 id = getAnchor();
@@ -287,6 +306,13 @@
                     editor.rebuild();
                 }
             }
+
+        function trash(){
+            $.post("/app/api/remove.php", {data: JSON.stringify({id: id})}, function(data){
+                editor.destroy();
+                $(location).attr('href',"list.html");
+            }, "json");
+        }
         </script>
 
     </body>
