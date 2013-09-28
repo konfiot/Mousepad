@@ -205,7 +205,7 @@
             <!--/row-->
             <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
-                    <div class="modal-content">
+                    <div id="modalcontent" class="modal-content">
                         <div id="qrcode" style="text-align:center" class="modal-body"></div>
                     </div>
                     <!-- /.modal-content -->
@@ -246,7 +246,10 @@
         function qrcode(id){
             $("#modal").modal("show");
             $("#qrcode").html("");
-            $('#qrcode').qrcode({text: "http://mousepad.konfiot.c9.io/static/html/edit.html#" + id, width: 530, height: 530});
+            $('#modal').on('shown.bs.modal', function () {
+                $('#qrcode').qrcode({text: "http://mousepad.konfiot.c9.io/static/html/edit.html#" + id, width: parseInt($("#modalcontent").width()-50), height: parseInt($("#modalcontent").width()-50)});
+                $("#modal").unbind('shown.bs.modal');
+            });
         }
         
         function refresh_filters(){
