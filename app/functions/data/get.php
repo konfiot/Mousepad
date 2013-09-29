@@ -1,5 +1,6 @@
 <?php 
 include "../functions/database/card/get.php";
+include "../functions/database/card/touch.php";
 include "../functions/database/patch/list.php";
 include "../functions/diff_match_patch.php";
 
@@ -19,9 +20,9 @@ function get_card($data) {
     
     
     $patches = db_list_diffs($data["id"]);
-    usort($patches, "cmp"); 
+    usort($patches, "cmp");
 
-    $patcher = new diff_match_patch();    
+    $patcher = new diff_match_patch();
     $content = "";
     
     foreach ($patches as $key => $value){
@@ -29,7 +30,7 @@ function get_card($data) {
         $tmp = $patcher->patch_apply($diff, $content);
         $content = $tmp[0];
     }
-    
+    db_touch($data["id"]);
     $json_out["content"] = $content;
     return $json_out;
 }
