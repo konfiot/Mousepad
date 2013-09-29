@@ -111,35 +111,6 @@
                 <div class="col-md-3 sidebar-offcanvas" id="sidebar" role="navigation">
                     <div class="well sidebar-nav">
                         <ul class="nav" id="tags">
-                            <li>Last edited</li>
-                            <li>
-                                <a href="#">Today</a>
-                            </li>
-                            <li>
-                                <a href="#">Yesterday</a>
-                            </li>
-                            <li>
-                                <a href="#">Last week</a>
-                            </li>
-                            <li>
-                                <a href="#">Last week</a>
-                            </li>
-                            <li>Type</li>
-                            <li>
-                                <a href="#">Note</a>
-                            </li>
-                            <li>
-                                <a href="#">Fichier</a>
-                            </li>
-                            <li>
-                                <a href="#">Lien</a>
-                            </li>
-                            <li>
-                                <a href="#">Checklist</a>
-                            </li>
-                            <li>
-                                <a href="#">Todo</a>
-                            </li>
                         </ul>
                     </div>
                     <!--/.well -->
@@ -216,13 +187,18 @@
         }
         
         function refresh_filters(){
-            var tags = [], timestamps = [], dates_to_display = [false, false, false, false, false];
+            var tags = [], types = [], timestamps = [], dates_to_display = [false, false, false, false, false];
+            
             for (var i in list){
                 timestamps.push(list[i]["last_viewed"]);
                 for (var j in list[i]["tags"]){
                     if ((tags.indexOf(list[i]["tags"][j]) === -1) && (list[i]["tags"][j] !== "")){
                         tags.push(list[i]["tags"][j]);
                     }
+                }
+                
+                if ((types.indexOf(list[i]["type"]) === -1) && (list[i]["type"] !== "")){
+                        types.push(list[i]["type"]);
                 }
             }
             
@@ -271,6 +247,12 @@
                     $("#tags").append("<li><a href='#' onclick=\"filter_date(" + i + ")\">" + date + "</a></li>");
                 }
             }
+            
+            $("#tags").append("<li>Type</li>");
+            
+            for (var i in types){
+                $("#tags").append("<li style='text-transform: capitalize'><a href='#' onclick=\"filter_types('" + types[i] + "')\">" + types[i] + "</a></li>");
+            }
         }
         
         function filter_tags(tag){
@@ -278,6 +260,16 @@
             var data = list;
             for (var i in data){
                 if ((data[i]["tags"].indexOf(tag) !== -1) || (tag === "")){
+                    $("#list").append('<div class="col-md-4"><div class="thumbnail" style="padding: 0px ; margin-bottom: 20px;"><h4 class="caption">' + data[i]["title"] + '</h4><a href="edit.html#' + i + '" class=""><img src="http://lorempixel.com/260/260/" alt="..."></a><div class="caption" style="margin: 0; padding: 0px ;"><p class="btn-group btn-group-justified" style="margin: 0; border-left: none ; border-bottom: none;"><a class="btn btn-default btn-warning actionbar" href="#" onclick="toogle_star(\'' + i + '\')"><i id="star' + i + '" class="icon-star" style="color: ' + ((data[i]["star"]) ? "grey" : "white")  + '"></i></a><a class="btn btn-default btn-info actionbar" onclick="qrcode(\''+i+'\')" href="#"><i class="icon-qrcode"></i></a><a class="btn btn-primary btn-default actionbar" href="#"><i class="icon-folder-close"></i></a><a onclick="pop_confirmation_modal(\'' + i + '\')" class="btn btn-default btn-danger actionbar" ><i class="icon-remove"></i></a> <a class="btn btn-default btn-success actionbar" href="#"><i class="icon-plus"></i></a></p></div></div></div>');
+                }
+            }
+        }
+        
+        function filter_types(type){
+            $("#list").html("");
+            var data = list;
+            for (var i in data){
+                if ((data[i]["type"] === type) || (type === "")){
                     $("#list").append('<div class="col-md-4"><div class="thumbnail" style="padding: 0px ; margin-bottom: 20px;"><h4 class="caption">' + data[i]["title"] + '</h4><a href="edit.html#' + i + '" class=""><img src="http://lorempixel.com/260/260/" alt="..."></a><div class="caption" style="margin: 0; padding: 0px ;"><p class="btn-group btn-group-justified" style="margin: 0; border-left: none ; border-bottom: none;"><a class="btn btn-default btn-warning actionbar" href="#" onclick="toogle_star(\'' + i + '\')"><i id="star' + i + '" class="icon-star" style="color: ' + ((data[i]["star"]) ? "grey" : "white")  + '"></i></a><a class="btn btn-default btn-info actionbar" onclick="qrcode(\''+i+'\')" href="#"><i class="icon-qrcode"></i></a><a class="btn btn-primary btn-default actionbar" href="#"><i class="icon-folder-close"></i></a><a onclick="pop_confirmation_modal(\'' + i + '\')" class="btn btn-default btn-danger actionbar" ><i class="icon-remove"></i></a> <a class="btn btn-default btn-success actionbar" href="#"><i class="icon-plus"></i></a></p></div></div></div>');
                 }
             }
