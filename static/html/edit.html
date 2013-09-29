@@ -146,12 +146,12 @@
             <div class="row row-offcanvas row-offcanvas-right">
                 <div class="col-md-3 sidebar-offcanvas" id="sidebar" role="navigation">
                     <div class="well sidebar-nav">
-                        <ul class="nav">
+                        <ul class="nav nav-pills nav-stacked">
                             <li>Edit With</li>
-                            <li class="active">
+                            <li id="WYSIWYG" class="active">
                                 <a href="#" onclick="switch_to_WYSIWYG()">WYSIWYG Editor</a>
                             </li>
-                            <li>
+                            <li id="classic">
                                 <a href="#" onclick="switch_to_classic()">Classic Markdown editor</a>
                             </li>
                             <li>Tags</li>
@@ -286,6 +286,8 @@
             
             function switch_to_classic(){
                 if (mode === "WYSIWYG"){
+                    $("#WYSIWYG").attr("class", "");
+                    $("#classic").attr("class", "active");
                     mode = "classic";
                     content = md($("#note").html());
                     editor.destroy();
@@ -298,6 +300,8 @@
             }
             function switch_to_WYSIWYG(){
                 if (mode === "classic"){
+                    $("#classic").attr("class", "");
+                    $("#WYSIWYG").attr("class", "active");
                     mode = "WYSIWYG";
                     $("#input").unbind();
                     console.log($("#input").val());
