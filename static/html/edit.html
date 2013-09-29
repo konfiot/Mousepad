@@ -88,41 +88,11 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Recently used<b class="caret"></b></a>
                             <ul id="last_viewed" class="dropdown-menu">
-                                <li>
-                                    <a href="#">Dan</a>
-                                </li>
-                                <li>
-                                    <a href="#">Recette</a>
-                                </li>
-                                <li>
-                                    <a href="#">Todo</a>
-                                </li>
-                                <li>
-                                    <a href="#">A ne pas oublier</a>
-                                </li>
-                                <li>
-                                    <a href="#">A démolir</a>
-                                </li>
                             </ul>
                         </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Most used<b class="caret"></b></a>
                             <ul id="most_viewed"  class="dropdown-menu">
-                                <li>
-                                    <a href="#">Le jeu</a>
-                                </li>
-                                <li>
-                                    <a href="#">Dan</a>
-                                </li>
-                                <li>
-                                    <a href="#">Comment gagner de l'argent en masse</a>
-                                </li>
-                                <li>
-                                    <a href="#">All your base are belong to us</a>
-                                </li>
-                                <li>
-                                    <a href="#">Fonction en O(1/x)</a>
-                                </li>
                             </ul>
                         </li>
                     </ul>
@@ -253,12 +223,15 @@
                 
                 if ((typeof(id) === "string") && (id !== "")){
                     $.post("/app/api/get.php", {data: JSON.stringify({id: id})}, function(data){
+                        init();
                         $("#note").html(marked(data["content"]));
                         $("#title").html(data["meta"]["title"]);
                         for (i in data["meta"]["tags"]){
                             $('#tags').tagsinput('add', data["meta"]["tags"][i]);
                         }
-                        init();
+                        switch (data["meta"]["type"]){
+                            
+                        }
                     }, "json");
                 } else {
                     $("#note").html("Content");
