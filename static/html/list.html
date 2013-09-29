@@ -81,41 +81,11 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Recently used<b class="caret"></b></a>
                             <ul id="last_viewed" class="dropdown-menu">
-                                <li>
-                                    <a href="#">Dan</a>
-                                </li>
-                                <li>
-                                    <a href="#">Recette</a>
-                                </li>
-                                <li>
-                                    <a href="#">Todo</a>
-                                </li>
-                                <li>
-                                    <a href="#">A ne pas oublier</a>
-                                </li>
-                                <li>
-                                    <a href="#">A démolir</a>
-                                </li>
                             </ul>
                         </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Most used<b class="caret"></b></a>
                             <ul id="most_viewed" class="dropdown-menu">
-                                <li>
-                                    <a href="#">Le jeu</a>
-                                </li>
-                                <li>
-                                    <a href="#">Dan</a>
-                                </li>
-                                <li>
-                                    <a href="#">Comment gagner de l'argent en masse</a>
-                                </li>
-                                <li>
-                                    <a href="#">All your base are belong to us</a>
-                                </li>
-                                <li>
-                                    <a href="#">Fonction en O(1/x)</a>
-                                </li>
                             </ul>
                         </li>
                     </ul>
@@ -141,22 +111,15 @@
                 <div class="col-md-3 sidebar-offcanvas" id="sidebar" role="navigation">
                     <div class="well sidebar-nav">
                         <ul class="nav" id="tags">
-                            <li>Tags</li>
-                            <li class="active">
-                                <a href="#">#Yolo</a>
-                            </li>
-                            <li>
-                                <a href="#">#Swag</a>
-                            </li>
-                            <li>
-                                <a href="#">#Kouby</a>
-                            </li>
                             <li>Last edited</li>
                             <li>
                                 <a href="#">Today</a>
                             </li>
                             <li>
                                 <a href="#">Yesterday</a>
+                            </li>
+                            <li>
+                                <a href="#">Last week</a>
                             </li>
                             <li>
                                 <a href="#">Last week</a>
@@ -253,26 +216,93 @@
         }
         
         function refresh_filters(){
-            var tags = [];
+            var tags = [], timestamps = [], dates_to_display = [false, false, false, false, false];
             for (var i in list){
+                timestamps.push(list[i]["last_viewed"]);
                 for (var j in list[i]["tags"]){
                     if ((tags.indexOf(list[i]["tags"][j]) === -1) && (list[i]["tags"][j] !== "")){
                         tags.push(list[i]["tags"][j]);
                     }
                 }
             }
+            
+            for (var i in list){
+                if (list[i]["last_viewed"] - Math.round(new Date().getTime() / 1000) >= Math.round(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).getTime() / 1000) - Math.round(new Date().getTime() / 1000)){
+                    dates_to_display[0] = true;
+                } else if (list[i]["last_viewed"] - (Math.round(new Date().getTime() / 1000)) >= Math.round(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()-1).getTime() / 1000) - Math.round(new Date().getTime() / 1000)){
+                    dates_to_display[1] = true;
+                } else if (list[i]["last_viewed"] - (Math.round(new Date().getTime() / 1000)) >= Math.round(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()- new Date().getDay()).getTime() / 1000) - Math.round(new Date().getTime() / 1000)){
+                    dates_to_display[2] = true;
+                } else if (list[i]["last_viewed"] - (Math.round(new Date().getTime() / 1000)) >= Math.round(new Date(new Date().getFullYear(), new Date().getMonth(), 0).getTime() / 1000) - Math.round(new Date().getTime() / 1000)){
+                    dates_to_display[3] = true;
+                } else if (list[i]["last_viewed"] - (Math.round(new Date().getTime() / 1000)) < Math.round(new Date(new Date().getFullYear(), new Date().getMonth(), 0).getTime() / 1000) - Math.round(new Date().getTime() / 1000)){
+                    dates_to_display[4] = true;
+                }
+            }
+            
             $("#tags").html("");
-            $("#tags").append("<li>Tags</li><li><a href='#' onclick='filter_tags(\"\")'>All</a></li>");
+            $("#tags").append("<li><a href='#' onclick='filter_tags(\"\")'>All</a></li><li>Tags</li>");
             for (var i in tags){
                 $("#tags").append("<li><a href='#' onclick=\"filter_tags('" + tags[i] + "')\">" + tags[i] + "</a></li>");
+            }
+            
+            $("#tags").append("<li>Last edited</li>");
+            
+            for (var i in dates_to_display){
+                if (dates_to_display[i]){
+                    var date;
+                    switch (i){
+                        case '0' :
+                            date = "Today";
+                        break;
+                        case '1' :
+                            date = "Yesterday";
+                        break;
+                        case '2' :
+                            date = "Last Week";
+                        break;
+                        case '3' :
+                            date = "Last Month";
+                        break;
+                        case '4' :
+                            date = "More than one month ago";
+                        break;
+                    }
+                    $("#tags").append("<li><a href='#' onclick=\"filter_date(" + i + ")\">" + date + "</a></li>");
+                }
             }
         }
         
         function filter_tags(tag){
             $("#list").html("");
             var data = list;
-            for (i in data){
+            for (var i in data){
                 if ((data[i]["tags"].indexOf(tag) !== -1) || (tag === "")){
+                    $("#list").append('<div class="col-md-4"><div class="thumbnail" style="padding: 0px ; margin-bottom: 20px;"><h4 class="caption">' + data[i]["title"] + '</h4><a href="edit.html#' + i + '" class=""><img src="http://lorempixel.com/260/260/" alt="..."></a><div class="caption" style="margin: 0; padding: 0px ;"><p class="btn-group btn-group-justified" style="margin: 0; border-left: none ; border-bottom: none;"><a class="btn btn-default btn-warning actionbar" href="#" onclick="toogle_star(\'' + i + '\')"><i id="star' + i + '" class="icon-star" style="color: ' + ((data[i]["star"]) ? "grey" : "white")  + '"></i></a><a class="btn btn-default btn-info actionbar" onclick="qrcode(\''+i+'\')" href="#"><i class="icon-qrcode"></i></a><a class="btn btn-primary btn-default actionbar" href="#"><i class="icon-folder-close"></i></a><a onclick="pop_confirmation_modal(\'' + i + '\')" class="btn btn-default btn-danger actionbar" ><i class="icon-remove"></i></a> <a class="btn btn-default btn-success actionbar" href="#"><i class="icon-plus"></i></a></p></div></div></div>');
+                }
+            }
+        }
+        
+        function filter_date(date){
+            $("#list").html("");
+            var data = list;
+            for (var i in data){
+                var cat = -1;
+                if (data[i]["last_viewed"] - Math.round(new Date().getTime() / 1000) >= Math.round(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).getTime() / 1000) - Math.round(new Date().getTime() / 1000)){
+                    cat = 0;
+                } else if (data[i]["last_viewed"] - Math.round(new Date().getTime() / 1000) >= Math.round(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()-1).getTime() / 1000) - Math.round(new Date().getTime() / 1000)){
+                    cat = 1;
+                } else if (data[i]["last_viewed"] - Math.round(new Date().getTime() / 1000) >= Math.round(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()- new Date().getDay()).getTime() / 1000) - Math.round(new Date().getTime() / 1000)){
+                    cat = 2;
+                } else if (data[i]["last_viewed"] - Math.round(new Date().getTime() / 1000) >= Math.round(new Date(new Date().getFullYear(), new Date().getMonth(), 0).getTime() / 1000) - Math.round(new Date().getTime() / 1000)){
+                    cat = 3;
+                } else if (data[i]["last_viewed"] - Math.round(new Date().getTime() / 1000) < Math.round(new Date(new Date().getFullYear(), new Date().getMonth(), 0).getTime() / 1000) - Math.round(new Date().getTime() / 1000)){
+                    cat = 4;
+                } 
+                
+                console.log(cat);
+                
+                if (cat === date){
                     $("#list").append('<div class="col-md-4"><div class="thumbnail" style="padding: 0px ; margin-bottom: 20px;"><h4 class="caption">' + data[i]["title"] + '</h4><a href="edit.html#' + i + '" class=""><img src="http://lorempixel.com/260/260/" alt="..."></a><div class="caption" style="margin: 0; padding: 0px ;"><p class="btn-group btn-group-justified" style="margin: 0; border-left: none ; border-bottom: none;"><a class="btn btn-default btn-warning actionbar" href="#" onclick="toogle_star(\'' + i + '\')"><i id="star' + i + '" class="icon-star" style="color: ' + ((data[i]["star"]) ? "grey" : "white")  + '"></i></a><a class="btn btn-default btn-info actionbar" onclick="qrcode(\''+i+'\')" href="#"><i class="icon-qrcode"></i></a><a class="btn btn-primary btn-default actionbar" href="#"><i class="icon-folder-close"></i></a><a onclick="pop_confirmation_modal(\'' + i + '\')" class="btn btn-default btn-danger actionbar" ><i class="icon-remove"></i></a> <a class="btn btn-default btn-success actionbar" href="#"><i class="icon-plus"></i></a></p></div></div></div>');
                 }
             }
