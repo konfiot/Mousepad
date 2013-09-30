@@ -8,7 +8,7 @@ Editor.prototype.getModes = function(){
 
 function Note(selector){
     this.selector = selector;
-    this.modes = ["WYSIWYG", "Classic"];
+    this.modes = ["Classic", "WYSIWYG"];
     this.current_editor = "WYSIWYG";
 }
 

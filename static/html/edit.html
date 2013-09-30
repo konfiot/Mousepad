@@ -239,13 +239,6 @@
                     }, "json");
                 }
             }
-            
-            function switch_to_classic(){
-                editor.switch("Classic");
-            }
-            function switch_to_WYSIWYG(){
-                editor.switch("WYSIWYG");
-            }
 
             function trash(){
                 $.post("/app/api/remove.php", {data: JSON.stringify({id: id})}, function(data){
@@ -261,8 +254,9 @@
                 }, "json");
                 editor.init();
                 var modes = editor.getModes();
+                console.log(modes);
                 for (var i in modes){
-                    $("#sidebar").prepend("<li><a href='#' onclick='editor.switch(\""  + modes[i] + "\")'>  " + modes[i] + "</a></li>");
+                    $("#sidebar").prepend("<li id='mode_" + modes[i] + "' class='mode " + ((i == (modes.length-1)) ? "active" : "") + "'><a href='#' onclick='editor.switch(\""  + modes[i] + "\");$(\".mode\").attr(\"class\", \"mode\");$(\"#mode_"+ modes[i] + "\").attr(\"class\", \"mode active\");'>" + modes[i] + "</a></li>");
                 }
                 $("#sidebar").prepend("<li>Edit With</li>");
             }
