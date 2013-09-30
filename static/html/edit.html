@@ -29,7 +29,7 @@
             /*
          * Off Canvas
          * --------------------------------------------------
-         */
+         */                    $("#cl
             @media screen and(max-width: 768px) {
                 .row-offcanvas {
                     position: relative;
@@ -114,16 +114,9 @@
         <!-- /.navbar -->
         <div class="container">
             <div class="row row-offcanvas row-offcanvas-right">
-                <div class="col-md-3 sidebar-offcanvas" id="sidebar" role="navigation">
+                <div class="col-md-3 sidebar-offcanvas" role="navigation">
                     <div class="well sidebar-nav">
-                        <ul class="nav nav-pills nav-stacked">
-                            <li>Edit With</li>
-                            <li id="WYSIWYG" class="active">
-                                <a href="#" onclick="switch_to_WYSIWYG()">WYSIWYG Editor</a>
-                            </li>
-                            <li id="classic">
-                                <a href="#" onclick="switch_to_classic()">Classic Markdown editor</a>
-                            </li>
+                        <ul id="sidebar" class="nav nav-pills nav-stacked">
                             <li>Tags</li>
                             <li>
                             <form><input type="text" autocomplete="off" id="tags" data-role="tagsinput" value=""/></form>
@@ -207,6 +200,7 @@
         <script src="../../bower_components/bootstrap-tagsinput.min.js"></script>
         <script src="../../bower_components/html-md/dist/md.min.js"></script>
         <script src="../../bower_components/marked/lib/marked.js"></script>
+        <script src="../js/editors.js"></script>
         <script>
             function getAnchor() {
                 var currentUrl = document.URL,
@@ -214,40 +208,32 @@
                 return (urlParts.length > 1) ? urlParts[1] : undefined;
             }
             var id;
-            var editor;
+            var editor = new Note("#note");
             var mode = "WYSIWYG";
             var to_delete;
             $(function(){
-                editor = new Pen('#note');
                 id = getAnchor();
                 
                 if ((typeof(id) === "string") && (id !== "")){
                     $.post("/app/api/get.php", {data: JSON.stringify({id: id})}, function(data){
-                        $("#note").html(marked(data["content"]));
+                        editor.setValue(marked(data["content"]));
                         $("#title").html(data["meta"]["title"]);
                         for (i in data["meta"]["tags"]){
                             $('#tags').tagsinput('add', data["meta"]["tags"][i]);
                         }
-                        init();
                     }, "json");
                 } else {
-                    $("#note").html("Content");
+                    editor.setValue("Content");
                     $("#title").html("Title");
                 }
+                init();
             });
             
             function save(){
-                var content;
-                if (mode === "WYSIWYG"){
-                    content = md($("#note").html());
-                } else if (mode === "classic"){
-                    content = $("#input").val();
-                }
                 if ((typeof(id) === "string") && (id !== "")){
-                    $.post("/app/api/mod.php", {data: JSON.stringify({id: id, content: content, title: $("#title").html(), tags: $("#tags").val().split(",")})}, function(data){}, "json");
+                    $.post("/app/api/mod.php", {data: JSON.stringify({id: id, content: editor.getValue(), title: $("#title").html(), tags: $("#tags").val().split(",")})}, function(data){}, "json");
                 } else {
-                    $.post("/app/api/add.php", {data: JSON.stringify({type: "note", content: content, title: $("#title").html(), tags: $("#tags").val().split(",")})}, function(data){
-                        console.log(data);
+                    $.post("/app/api/add.php", {data: JSON.stringify({type: "note", content: editor.getValue(), title: $("#title").html(), tags: $("#tags").val().split(",")})}, function(data){
                         var json = JSON.parse(data);
                         id = json["id"];
                     }, "json");
@@ -255,31 +241,10 @@
             }
             
             function switch_to_classic(){
-                if (mode === "WYSIWYG"){
-                    $("#WYSIWYG").attr("class", "");
-                    $("#classic").attr("class", "active");
-                    mode = "classic";
-                    content = md($("#note").html());
-                    editor.destroy();
-                    $("#note").html("<textarea id='input' rows='" + content.split(/\r\n|\r|\n/).length + "'>" + content + "</textarea>");
-                    $("#note").css("height", "100%");
-                    $("#input").bind('input', function(){
-                        $("#input").attr('rows', $("#input").val().split(/\r\n|\r|\n/).length);
-                    });
-                }
+                editor.switch("Classic");
             }
             function switch_to_WYSIWYG(){
-                if (mode === "classic"){
-                    $("#classic").attr("class", "");
-                    $("#WYSIWYG").attr("class", "active");
-                    mode = "WYSIWYG";
-                    $("#input").unbind();
-                    console.log($("#input").val());
-                    content = marked($("#input").val());
-                    console.log(content);
-                    $("#note").html(content);
-                    editor.rebuild();
-                }
+                editor.switch("WYSIWYG");
             }
 
             function trash(){
@@ -294,6 +259,12 @@
                     list = data;
                     refresh_shortcuts();
                 }, "json");
+                editor.init();
+                var modes = editor.getModes();
+                for (var i in modes){
+                    $("#sidebar").prepend("<li><a href='#' onclick='editor.switch(\""  + modes[i] + "\")'>  " + modes[i] + "</a></li>");
+                }
+                $("#sidebar").prepend("<li>Edit With</li>");
             }
             
             function refresh_shortcuts(){
