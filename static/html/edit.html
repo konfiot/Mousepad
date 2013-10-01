@@ -12,6 +12,7 @@
         <link href="../../bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
         <link href="../../bower_components/pen/src/pen.css" rel="stylesheet" />
         <link href="../../bower_components/bootstrap-tagsinput.css" rel="stylesheet" />
+        <link href="../../bower_components/bootstrap3-datetimepicker/build/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
         <!-- Custom styles for this template -->
 
         <style>
@@ -200,6 +201,7 @@
         <script src="../../bower_components/bootstrap-tagsinput.min.js"></script>
         <script src="../../bower_components/html-md/dist/md.min.js"></script>
         <script src="../../bower_components/marked/lib/marked.js"></script>
+        <script src="../../bower_components/bootstrap3-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
         <script src="../js/editors.js"></script>
         <script>
             function getAnchor() {
@@ -208,29 +210,49 @@
                 return (urlParts.length > 1) ? urlParts[1] : undefined;
             }
             var id;
-            var editor = new Note("#note");
+            var editor;
             var mode = "WYSIWYG";
             var to_delete;
+            var types = ["note", "reminder"];
             $(function(){
                 id = getAnchor();
-                
-                if ((typeof(id) === "string") && (id !== "")){
+                if ((typeof(id) === "string") && (id !== "") && (types.indexOf(id) === -1)){
                     $.post("/app/api/get.php", {data: JSON.stringify({id: id})}, function(data){
-                        editor.setValue(marked(data["content"]));
+                        switch (data["meta"]["type"]){
+                            case "note" : 
+                                editor = new Note("#note");
+                            break;
+                            case "reminder":
+                                editor = new Reminder("#note");
+                            break;
+                        }
+                        editor.setValue(data["content"]);
                         $("#title").html(data["meta"]["title"]);
                         for (i in data["meta"]["tags"]){
                             $('#tags').tagsinput('add', data["meta"]["tags"][i]);
                         }
+                        init();
                     }, "json");
-                } else {
-                    editor.setValue("Content");
+                } else if (types.indexOf(id) !== -1){
+                    switch (id){
+                        case "note" : 
+                            editor = new Note("#note");
+                        break;
+                        case "reminder":
+                            editor = new Reminder("#note");
+                        break;
+                    }
                     $("#title").html("Title");
+                    init();
+                } else {
+                    editor = new Note("#note");
+                    $("#title").html("Title");
+                    init();
                 }
-                init();
             });
             
             function save(){
-                if ((typeof(id) === "string") && (id !== "")){
+                if ((typeof(id) === "string") && (id !== "") && (types.indexOf(id) === -1)){
                     $.post("/app/api/mod.php", {data: JSON.stringify({id: id, content: editor.getValue(), title: $("#title").html(), tags: $("#tags").val().split(",")})}, function(data){}, "json");
                 } else {
                     $.post("/app/api/add.php", {data: JSON.stringify({type: "note", content: editor.getValue(), title: $("#title").html(), tags: $("#tags").val().split(",")})}, function(data){
@@ -254,11 +276,12 @@
                 }, "json");
                 editor.init();
                 var modes = editor.getModes();
-                console.log(modes);
-                for (var i in modes){
-                    $("#sidebar").prepend("<li id='mode_" + modes[i] + "' class='mode " + ((i == (modes.length-1)) ? "active" : "") + "'><a href='#' onclick='editor.switch(\""  + modes[i] + "\");$(\".mode\").attr(\"class\", \"mode\");$(\"#mode_"+ modes[i] + "\").attr(\"class\", \"mode active\");'>" + modes[i] + "</a></li>");
+                if (modes.length >1){
+                    for (var i in modes){
+                        $("#sidebar").prepend("<li id='mode_" + modes[i] + "' class='mode " + ((i == (modes.length-1)) ? "active" : "") + "'><a href='#' onclick='editor.switch(\""  + modes[i] + "\");$(\".mode\").attr(\"class\", \"mode\");$(\"#mode_"+ modes[i] + "\").attr(\"class\", \"mode active\");'>" + modes[i] + "</a></li>");
+                    }
+                    $("#sidebar").prepend("<li>Edit With</li>");
                 }
-                $("#sidebar").prepend("<li>Edit With</li>");
             }
             
             function refresh_shortcuts(){
