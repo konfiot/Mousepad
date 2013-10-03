@@ -6,7 +6,7 @@ include "../functions/diff_match_patch.php";
 
 function add_card($data) {
     $title = htmlspecialchars($data["title"]);
-    $content = htmlspecialchars($data["content"]);
+    $content = htmlspecialchars($data["content"], ENT_NOQUOTES);
     $tags = $data["tags"];
     
     $patcher = new diff_match_patch();    
@@ -17,13 +17,13 @@ function add_card($data) {
     $id = db_add_card($data["type"], $title, $tags);
     
     if ($id === false){
-        return json_encode(array("error" => "Database error" ));
+        return array("error" => "Database error" );
     }
     
     if (db_add_diff($diff, $id) === false){
-        return json_encode(array("error" => "Database error" ));
+        return array("error" => "Database error" );
     } else {
-        return json_encode(array("id" => $id));
+        return array("id" => $id);
     }
 }
 ?>
