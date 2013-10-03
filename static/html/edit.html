@@ -247,11 +247,13 @@
                         break;
                     }
                     $("#title").html("Title");
+                    editor.init();
                     init();
                 } else {
                     type = "note";
                     editor = new Note("#note");
                     $("#title").html("Title");
+                    editor.init();
                     init();
                 }
             });

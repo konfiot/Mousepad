@@ -10,7 +10,7 @@ include_once "../functions/diff_match_patch.php";
 
 function mod_card($data) {
     
-    $content = htmlspecialchars($data["content"]);
+    $content = htmlspecialchars($data["content"], ENT_NOQUOTES);
     $title = htmlspecialchars($data["title"]);
     $tags = $data["tags"];
     $star = $data["star"];

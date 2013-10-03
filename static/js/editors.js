@@ -52,7 +52,7 @@ Note.prototype.init = function () {
 
 function Reminder(selector){
     this.selector = selector;
-    this.modes = ["Time", "Place"];
+    this.modes = ["Place", "Time"];
     this.current_editor = "Time";
 }
 
