@@ -209,15 +209,17 @@
                     urlParts = currentUrl.split('#');
                 return (urlParts.length > 1) ? urlParts[1] : undefined;
             }
-            var id;
+            var anchor, type, id;
             var editor;
             var mode = "WYSIWYG";
             var to_delete;
             var types = ["note", "reminder"];
             $(function(){
-                id = getAnchor();
-                if ((typeof(id) === "string") && (id !== "") && (types.indexOf(id) === -1)){
+                anchor = getAnchor();
+                if ((typeof(anchor) === "string") && (anchor !== "") && (types.indexOf(anchor) === -1)){
+                    id = anchor;
                     $.post("/app/api/get.php", {data: JSON.stringify({id: id})}, function(data){
+                        type = data["meta"]["type"];
                         switch (data["meta"]["type"]){
                             case "note" : 
                                 editor = new Note("#note");
@@ -226,6 +228,7 @@
                                 editor = new Reminder("#note");
                             break;
                         }
+                        editor.init();
                         editor.setValue(data["content"]);
                         $("#title").html(data["meta"]["title"]);
                         for (i in data["meta"]["tags"]){
@@ -233,8 +236,9 @@
                         }
                         init();
                     }, "json");
-                } else if (types.indexOf(id) !== -1){
-                    switch (id){
+                } else if (types.indexOf(anchor) !== -1){
+                    type = anchor;
+                    switch (type){
                         case "note" : 
                             editor = new Note("#note");
                         break;
@@ -245,6 +249,7 @@
                     $("#title").html("Title");
                     init();
                 } else {
+                    type = "note";
                     editor = new Note("#note");
                     $("#title").html("Title");
                     init();
@@ -255,9 +260,8 @@
                 if ((typeof(id) === "string") && (id !== "") && (types.indexOf(id) === -1)){
                     $.post("/app/api/mod.php", {data: JSON.stringify({id: id, content: editor.getValue(), title: $("#title").html(), tags: $("#tags").val().split(",")})}, function(data){}, "json");
                 } else {
-                    $.post("/app/api/add.php", {data: JSON.stringify({type: "note", content: editor.getValue(), title: $("#title").html(), tags: $("#tags").val().split(",")})}, function(data){
-                        var json = JSON.parse(data);
-                        id = json["id"];
+                    $.post("/app/api/add.php", {data: JSON.stringify({type: type, content: editor.getValue(), title: $("#title").html(), tags: $("#tags").val().split(",")})}, function(data){
+                        id = data["id"];
                     }, "json");
                 }
             }
@@ -274,7 +278,6 @@
                     list = data;
                     refresh_shortcuts();
                 }, "json");
-                editor.init();
                 var modes = editor.getModes();
                 if (modes.length >1){
                     for (var i in modes){

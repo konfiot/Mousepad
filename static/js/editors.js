@@ -70,7 +70,8 @@ Reminder.prototype.init = function(){
 Reminder.prototype.setValue = function (value) {
     var data = JSON.parse(value);
     if (data["type"] === "Time"){
-        this.switch("time");
+        //this.switch("Time");
+        this.init();
         $("#calendar").val(data["date"]);
         $("#addinfo").val(data["addinfo"]);
     }
@@ -79,7 +80,7 @@ Reminder.prototype.setValue = function (value) {
 Reminder.prototype.getValue = function () {
     if (this.current_editor === "Time") {
         return JSON.stringify({
-            type: "time",
+            type: "Time",
             date: $("#calendar").val(),
             addinfo: $("#addinfo").val()
         });
