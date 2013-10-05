@@ -87,6 +87,34 @@ Reminder.prototype.getValue = function () {
     }
 }
 
+Reminder.prototype.switch = function (editor) {
+    if (editor === "Time"){
+        if (this.current_editor === "Place"){
+            this.current_editor = "Time";
+            this.init();
+        }
+    } else if (editor === "Place"){
+        if (this.current_editor === "Time"){
+            var height;
+            
+            if (typeof(window.innerHeight) == 'number') height = window.innerHeight;
+            else if (document.documentElement && document.documentElement.clientHeight) height = document.documentElement.clientHeight;
+            height -= 250;
+            
+            this.current_editor = "Place";
+            $("#note").html("<div id='map' style='height: " +  height + "px'></div>");
+            var map = L.map('map').setView([51.505, - 0.09], 13);
+            L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+            new L.Control.GeoSearch({
+                provider: new L.GeoSearch.Provider.OpenStreetMap(),
+                showMarker: false
+            }).addTo(map);
+        }
+    }
+}
+
 function Checklist(selector){
     this.selector = selector;
     this.modes = ["WYSIWYG"];
@@ -104,7 +132,8 @@ function bind(){
     $("#checklist > .input-group:last > input").bind("input", function (data) {
         if ($("#checklist > .input-group:last > input").val() !== ""){
             $("#checklist > .input-group:last > input").unbind();
-            $("#checklist").append("<div class='input-group'><span style='border-radius: 0 ; border-top: none' class='input-group-addon'><input type='checkbox'></span><input style='border-radius: 0 ; border-top: none' type='text' class='form-control'></div><!-- /input-group -->");
+            $("#checklist > .input-group:last").css('opacity', '1.0');
+            $("#checklist").append("<div style='opacity: 0.5;' class='input-group'><span style='border-radius: 0 ; border-top: none' class='input-group-addon'><input type='checkbox'></span><input style='border-radius: 0 ; border-top: none' type='text' class='form-control'></div><!-- /input-group -->");
             bind();
         }
         
