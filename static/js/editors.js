@@ -86,3 +86,50 @@ Reminder.prototype.getValue = function () {
         });
     }
 }
+
+function Checklist(selector){
+    this.selector = selector;
+    this.modes = ["WYSIWYG"];
+    this.current_editor = "Time";
+}
+
+Checklist.prototype = Object.create(Editor.prototype);
+
+Checklist.prototype.init = function () {
+    $(this.selector).html("<form id='checklist'><div class='input-group'><span style='border-radius: 0' class='input-group-addon'><input type='checkbox'></span><input style='border-radius: 0' type='text' class='form-control'></div><!-- /input-group --></form>");
+    bind();
+}
+
+function bind(){
+    $("#checklist > .input-group:last > input").bind("input", function (data) {
+        if ($("#checklist > .input-group:last > input").val() !== ""){
+            $("#checklist > .input-group:last > input").unbind();
+            $("#checklist").append("<div class='input-group'><span style='border-radius: 0 ; border-top: none' class='input-group-addon'><input type='checkbox'></span><input style='border-radius: 0 ; border-top: none' type='text' class='form-control'></div><!-- /input-group -->");
+            bind();
+        }
+        
+    });    
+}
+
+Checklist.prototype.getValue = function () {
+    var json = [];
+    for (var i in $("#checklist > .input-group > input")){
+        if(($("#checklist > .input-group > input")[i].value !== "") && (typeof($("#checklist > .input-group > input")[i].value) !== "undefined")){
+            json.push({
+                value: $("#checklist > .input-group > input")[i].value,
+                done: $("#checklist > .input-group > .input-group-addon > input")[i].checked
+            });
+        }
+    }
+    return JSON.stringify(json);
+}
+
+Checklist.prototype.setValue = function (value) {
+    var json = JSON.parse(value);
+    $(this.selector).html("<form id='checklist'></form>");
+    var first = true;
+    for (var i in json){
+        $("#checklist").append("<div class='input-group'><span style='border-radius: 0 ; " + ((!(first)) ? "border-top: none" : "") + "' class='input-group-addon'><input type='checkbox' "  + (json[i].done ? "checked" : "") + "></span><input style='border-radius: 0 ; " + ((!(first)) ? "border-top: none" : "") + "' type='text' class='form-control' value='" + json[i].value + "'></div><!-- /input-group -->");
+        first = false;
+    }
+}

@@ -213,7 +213,7 @@
             var editor;
             var mode = "WYSIWYG";
             var to_delete;
-            var types = ["note", "reminder"];
+            var types = ["note", "reminder", "checklist"];
             $(function(){
                 anchor = getAnchor();
                 if ((typeof(anchor) === "string") && (anchor !== "") && (types.indexOf(anchor) === -1)){
@@ -224,8 +224,11 @@
                             case "note" : 
                                 editor = new Note("#note");
                             break;
-                            case "reminder":
+                            case "reminder" :
                                 editor = new Reminder("#note");
+                            break;
+                            case "checklist" :
+                                editor = new Checklist("#note");
                             break;
                         }
                         editor.init();
@@ -242,8 +245,11 @@
                         case "note" : 
                             editor = new Note("#note");
                         break;
-                        case "reminder":
+                        case "reminder" :
                             editor = new Reminder("#note");
+                        break;
+                        case "checklist" :
+                            editor = new Checklist("#note");
                         break;
                     }
                     $("#title").html("Title");
