@@ -15,6 +15,7 @@
         <link href="../../bower_components/bootstrap3-datetimepicker/build/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
         <link href="../../bower_components/leaflet-dist/leaflet.css" rel="stylesheet" />
         <link href="../../bower_components/l.geosearch.css" rel="stylesheet" />
+        <link href="../../bower_components/literallycanvas/css/literally.css" rel="stylesheet" />
         <!-- Custom styles for this template -->
 
         <style>
@@ -201,6 +202,8 @@
         <script src="../../bower_components/leaflet-dist/leaflet.js"></script>
         <script src="../../bower_components/l.control.geosearch.js"></script>
         <script src="../../bower_components/l.geosearch.provider.openstreetmap.js"></script>
+        <script src="http://underscorejs.org/underscore-min.js"></script>
+        <script src="../../bower_components/literallycanvas/js/literallycanvas.min.js"></script>
         <script src="../js/editors.js"></script>
         <script>
             function getAnchor() {
@@ -212,7 +215,7 @@
             var editor;
             var mode = "WYSIWYG";
             var to_delete;
-            var types = ["note", "reminder", "checklist"];
+            var types = ["note", "reminder", "checklist", "sketch"];
             $(function(){
                 anchor = getAnchor();
                 if ((typeof(anchor) === "string") && (anchor !== "") && (types.indexOf(anchor) === -1)){
@@ -228,6 +231,9 @@
                             break;
                             case "checklist" :
                                 editor = new Checklist("#note");
+                            break;
+                            case "sketch" :
+                                editor = new Sketch("#note");
                             break;
                         }
                         editor.init();
@@ -249,6 +255,9 @@
                         break;
                         case "checklist" :
                             editor = new Checklist("#note");
+                        break;
+                        case "sketch" :
+                            editor = new Sketch("#note");
                         break;
                     }
                     $("#title").html("Title");

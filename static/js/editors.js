@@ -118,7 +118,7 @@ Reminder.prototype.switch = function (editor) {
 function Checklist(selector){
     this.selector = selector;
     this.modes = ["WYSIWYG"];
-    this.current_editor = "Time";
+    this.current_editor = "WYSIWYG";
 }
 
 Checklist.prototype = Object.create(Editor.prototype);
@@ -161,4 +161,39 @@ Checklist.prototype.setValue = function (value) {
         $("#checklist").append("<div class='input-group'><span style='border-radius: 0 ; " + ((!(first)) ? "border-top: none" : "") + "' class='input-group-addon'><input type='checkbox' "  + (json[i].done ? "checked" : "") + "></span><input style='border-radius: 0 ; " + ((!(first)) ? "border-top: none" : "") + "' type='text' class='form-control' value='" + json[i].value + "'></div><!-- /input-group -->");
         first = false;
     }
+}
+
+
+function Sketch(selector){
+    this.selector = selector;
+    this.modes = ["WYSIWYG"];
+    this.current_editor = "WYSIWYG";
+}
+
+Sketch.prototype = Object.create(Editor.prototype);
+
+Sketch.prototype.init = function () {
+    var height;
+    
+    if (typeof(window.innerHeight) == 'number') height = window.innerHeight;
+    else if (document.documentElement && document.documentElement.clientHeight) height = document.documentElement.clientHeight;
+    height -= 250;
+    
+    $(this.selector).html("<div id='sketch' style='height: " +  height + "px'><canvas id='canvas'></canvas></div>");
+
+    $("#sketch").literallycanvas();
+}
+
+Sketch.prototype.getValue = function () {
+    return $('#sketch').canvasForExport().toDataURL();
+}
+
+Sketch.prototype.setValue = function (value){
+    var canvas = document.getElementById('canvas');
+    var ctx = canvas.getContext('2d');
+    var img = new Image;
+    img.onload = function() {
+        ctx.drawImage(img, 0, 0); // Or at whatever offset you like
+    };
+    img.src = value;
 }
