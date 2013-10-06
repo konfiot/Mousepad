@@ -96,7 +96,23 @@
                         <button type="submit" class="btn btn-default">Search</button>
                     </form>
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="edit.html"><i class="icon-plus"></i></a></li>
+                        <li class="dropdown">
+                                <a id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="/page.html"><i class="icon-plus"></i></a>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                    <li>
+                                        <a href="edit.html#note">Note</a>
+                                    </li>
+                                    <li>
+                                        <a href="edit.html#reminder">Reminder</a>
+                                    </li>
+                                    <li>
+                                        <a href="edit.html#checklist">Checklist</a>
+                                    </li>
+                                    <li>
+                                        <a href="edit.html#sketch">Sketch</a>
+                                    </li>
+                                </ul>
+                        </li>
                         <li><a href="#"><i class="icon-cog"></i></a></li>
                         <li><a href="#"><i class="icon-signout"></i></a></li>
                     </ul>
