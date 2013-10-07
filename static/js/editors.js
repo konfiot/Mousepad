@@ -182,7 +182,7 @@ Sketch.prototype.init = function () {
     $(this.selector).html("<div id='sketch' style='height: " +  height + "px'><canvas id='canvas'></canvas></div>");
 
     $("#sketch").literallycanvas({
-        imageURLPrefix : "../../bower_components/literallycanvas/img/"
+        imageURLPrefix : "../../bower_components/literallycanvas/lib/img/"
     });
 }
 
