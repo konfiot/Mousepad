@@ -370,6 +370,12 @@
                         this.tagsinput('input').typeahead('setQuery', '');
                     }, $('#tags')));
                     
+                    $("#tags").change(function(){
+                        if ((typeof(id) === "string") && (id !== "") && (types.indexOf(id) === -1)){
+                            $.post("/app/api/mod.php", {data: JSON.stringify({id: id, tags: $("#tags").val().split(",")})}, function(data){console.log(data)}, "json");
+                        }
+                    });
+                    
                 }, "json");
                 var modes = editor.getModes();
                 if (modes.length >1){
