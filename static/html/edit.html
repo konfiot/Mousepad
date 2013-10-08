@@ -176,7 +176,7 @@
                         <ul id="sidebar" class="nav nav-pills nav-stacked">
                             <li>Tags</li>
                             <li>
-                            <form><input class="form-control" type="text" id="tags" value=""/></form>
+                            <form><input class="form-control" data-role="tagsinput" type="text" id="tags" value=""/></form>
                             </li>
                             <li>Action</li>
                             <li>
@@ -249,7 +249,7 @@
         <!-- Bootstrap core JavaScript==================================================-
         ->
     <!-- Placed at the end of the document so the pages load faster -->
-        <script src="../../bower_components/jquery/jquery.js"></script>
+        <script src="../../bower_components/jquery/jquery.min.js"></script>
         <script src="../../bower_components/jquery.cookie/jquery.cookie.js"></script>
         <script src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
         <script src="../../bower_components/pen/src/pen.js"></script>
@@ -361,7 +361,6 @@
                             }
                         }
                     }
-                    $("#tags").tagsinput();
                     $("#tags").tagsinput('input').typeahead({
                         name: 'Tags',
                         local: tags
