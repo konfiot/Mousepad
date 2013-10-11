@@ -4,6 +4,7 @@ include "../functions/database/patch/add.php";
 include "../functions/database/card/set_title.php";
 include "../functions/database/card/set_tags.php";
 include "../functions/database/card/set_star.php";
+include "../functions/database/card/set_dir.php";
 include_once "../functions/diff_match_patch.php";
 
 
@@ -14,6 +15,7 @@ function mod_card($data) {
     $title = htmlspecialchars($data["title"]);
     $tags = $data["tags"];
     $star = $data["star"];
+    $dir = $data["dir"];
 
     if (isset($data["title"])){
         if(db_set_title($data["id"], $title) === false){
@@ -23,6 +25,12 @@ function mod_card($data) {
     
     if (isset($data["tags"])){
         if(db_set_tags($data["id"], $tags) === false){
+            return array("error" => "Database error" );
+        }
+    }
+    
+    if (isset($data["dir"])){
+        if(db_set_dir($data["id"], $dir) === false){
             return array("error" => "Database error" );
         }
     }

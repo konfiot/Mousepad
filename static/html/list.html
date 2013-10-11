@@ -23,6 +23,7 @@
                 padding-left: 15px;
                 padding-right: 15px;
             }
+            html{ overflow-y: scroll; }
             /*
          * Off Canvas
          * --------------------------------------------------
@@ -134,13 +135,7 @@
                 <div class="col-md-9">
                     <div class="row">
                         <div class="col-md-12">
-                            <ol class="breadcrumb">
-                                <li>
-                                    <a href="#">Home</a>
-                                </li>
-                                <li>
-                                    <a href="#">Library</a>
-                                </li>
+                            <ol id="path" class="breadcrumb">
                                 <li class="active dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">Data</a><b class="caret"></b>
                                     <ul  class="dropdown-menu">
                                         <li>
@@ -203,6 +198,26 @@
                 <!-- /.modal-dialog -->
             </div>
             <!-- /.modal -->
+            <!-- Modal -->
+            <div class="modal fade" id="dir" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+            aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">Choose a name (Has to be awesome)</h4>
+                        </div>
+                        <div class="modal-body" style="padding-bottom: 0;"><form class="form-horizontal"><div class="form-group"><label class="col-lg-2 control-label" for="dirname">Name : </label><div class="col-lg-10"><input name="dirname" id="dirname" type="text" class="form-control"/></div></div></form></div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <button type="button" onclick="create_dir()" data-dismiss="modal" class="btn btn-primary">Create</button>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!-- /.modal -->
   </div><!--/.container-->
         <!-- Bootstrap core JavaScript==================================================-
         ->
@@ -212,7 +227,8 @@
         <script src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
         <script src="../../bower_components/jquery-qrcode/jquery.qrcode.min.js"></script>
         <script>
-        var list, to_delete;
+        var list, to_delete, list_all, to_create;
+        
         function qrcode(id){
             $("#modal").modal("show");
             $("#qrcode").html("");
@@ -295,6 +311,12 @@
             $("#list").html("");
             var data = list;
             for (var i in data){
+                if (typeof(data[i]["tags"]) === "undefined"){
+                    if(tag === ""){
+                        $("#list").append('<div class="col-md-4"><div class="thumbnail" style="padding: 0px ; margin-bottom: 20px;"><h4 style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden" class="caption">' + data[i]["title"] + '</h4><a href="edit.html#' + i + '" class=""><img src="http://lorempixel.com/260/260/" alt="..."></a><div class="caption" style="margin: 0; padding: 0px ;"><p class="btn-group btn-group-justified" style="margin: 0; border-left: none ; border-bottom: none;"><a class="btn btn-default btn-warning actionbar" href="#" onclick="toogle_star(\'' + i + '\')"><i id="star' + i + '" class="icon-star" style="color: ' + ((data[i]["star"]) ? "grey" : "white")  + '"></i></a><a class="btn btn-default btn-info actionbar" onclick="qrcode(\''+i+'\')" href="#"><i class="icon-qrcode"></i></a><a class="btn btn-primary btn-default actionbar" href="#"><i class="icon-folder-close"></i></a><a onclick="pop_confirmation_modal(\'' + i + '\')" class="btn btn-default btn-danger actionbar" ><i class="icon-remove"></i></a> <a class="btn btn-default btn-success actionbar" href="#"><i class="icon-plus"></i></a></p></div></div></div>');
+                    }
+                    continue;
+                }
                 if ((data[i]["tags"].indexOf(tag) !== -1) || (tag === "")){
                     $("#list").append('<div class="col-md-4"><div class="thumbnail" style="padding: 0px ; margin-bottom: 20px;"><h4 style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden" class="caption">' + data[i]["title"] + '</h4><a href="edit.html#' + i + '" class=""><img src="http://lorempixel.com/260/260/" alt="..."></a><div class="caption" style="margin: 0; padding: 0px ;"><p class="btn-group btn-group-justified" style="margin: 0; border-left: none ; border-bottom: none;"><a class="btn btn-default btn-warning actionbar" href="#" onclick="toogle_star(\'' + i + '\')"><i id="star' + i + '" class="icon-star" style="color: ' + ((data[i]["star"]) ? "grey" : "white")  + '"></i></a><a class="btn btn-default btn-info actionbar" onclick="qrcode(\''+i+'\')" href="#"><i class="icon-qrcode"></i></a><a class="btn btn-primary btn-default actionbar" href="#"><i class="icon-folder-close"></i></a><a onclick="pop_confirmation_modal(\'' + i + '\')" class="btn btn-default btn-danger actionbar" ><i class="icon-remove"></i></a> <a class="btn btn-default btn-success actionbar" href="#"><i class="icon-plus"></i></a></p></div></div></div>');
                 }
@@ -328,12 +350,56 @@
                     cat = 4;
                 } 
                 
-                console.log(cat);
-                
                 if (cat === date){
                     $("#list").append('<div class="col-md-4"><div class="thumbnail" style="padding: 0px ; margin-bottom: 20px;"><h4 style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden" class="caption">' + data[i]["title"] + '</h4><a href="edit.html#' + i + '" class=""><img src="http://lorempixel.com/260/260/" alt="..."></a><div class="caption" style="margin: 0; padding: 0px ;"><p class="btn-group btn-group-justified" style="margin: 0; border-left: none ; border-bottom: none;"><a class="btn btn-default btn-warning actionbar" href="#" onclick="toogle_star(\'' + i + '\')"><i id="star' + i + '" class="icon-star" style="color: ' + ((data[i]["star"]) ? "grey" : "white")  + '"></i></a><a class="btn btn-default btn-info actionbar" onclick="qrcode(\''+i+'\')" href="#"><i class="icon-qrcode"></i></a><a class="btn btn-primary btn-default actionbar" href="#"><i class="icon-folder-close"></i></a><a onclick="pop_confirmation_modal(\'' + i + '\')" class="btn btn-default btn-danger actionbar" ><i class="icon-remove"></i></a> <a class="btn btn-default btn-success actionbar" href="#"><i class="icon-plus"></i></a></p></div></div></div>');
                 }
             }
+        }
+        
+        function filter_dir(dir){
+            var old_list = list_all;
+            list = {};
+            for (var i in old_list){
+                if (typeof(dir) !== "undefined" ){
+                    if (typeof(old_list[i].dir) !== "undefined"){
+                        if (old_list[i].dir === dir && old_list[i].type !== "directory"){
+                            list[i] = old_list[i];
+                        }
+                    }
+                } else {
+                    if (typeof(old_list[i].dir) === "undefined"){
+                        if(old_list[i].type !== "directory"){
+                            list[i] = old_list[i];
+                        }
+                    }
+                }
+            }
+            var current_dir = (typeof(dir) === "undefined") ? undefined : dir;
+            $("#path").html("");
+            var finished;
+            do {
+                finished = (typeof(current_dir) === "undefined") ? true : false;
+                var output = '<li class="active dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">' + ((typeof(current_dir) === "undefined") ? "Home" : list_all[current_dir]["title"]) + '</a><b class="caret"></b><ul  class="dropdown-menu">';
+                output += '<li><a tabindex="-1" onclick="filter_dir(' + ((typeof(current_dir) === "undefined") ? '' : "\'" + current_dir + "\'") + ')" href="#' + i + '">Roll Back to this directory</a></li>';
+                for (var i in list_all){
+                    if(list_all[i].dir === null) list_all[i].dir = undefined;
+                    if ((list_all[i].type === "directory") && (list_all[i].dir === current_dir)){
+                        output += '<li><a tabindex="-1" onclick="filter_dir(\'' + i + '\')" href="#' + i + '">' + list_all[i].title + '</a></li>';
+                    }
+                }
+                output += '<li><a tabindex="-1" onclick="pop_creation_dir_modal(\'' +  ((typeof(current_dir) === "undefined") ? "" :  current_dir) + '\')" href="#">Add a new directory</a></li>';
+                output += '</ul></li>';
+                $("#path").prepend(output);
+                if (typeof(current_dir) !== "undefined"){
+                    current_dir = (typeof(list_all[current_dir]["dir"]) === "undefined") ? undefined : list_all[current_dir]["dir"];
+                }
+            } while (!finished);
+            filter_tags("");
+        }
+        
+        function pop_creation_dir_modal(id){
+            $("#dir").modal('show');
+            to_create = id;
         }
         
         function toogle_star(id){
@@ -359,8 +425,8 @@
         
         function init(){
             $.post("/app/api/list.php", function(data){
-                list = data;
-                filter_tags("");
+                list_all = data;
+                filter_dir();
                 refresh_filters();
                 refresh_shortcuts();
                 $("#search").bind("input", function(){
@@ -379,6 +445,14 @@
                 init();
             }, "json");
             to_delete = "";
+        }
+        
+        function create_dir(){
+            $.post("/app/api/add.php", {data: JSON.stringify({type: "directory", dir: ((to_create === '') ? undefined : to_create), title: $("#dirname").val()})}, function(data){
+                init();
+            }, "json");
+            ("#dirname").val("");
+            to_create = "";
         }
         
         function refresh_shortcuts(){
