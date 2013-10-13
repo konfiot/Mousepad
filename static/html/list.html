@@ -571,6 +571,7 @@
             var val = $("input:radio[name='radio_dir']:checked").val();
             $.post("/app/api/mod.php", {data: JSON.stringify({id: to_change, dir: val})}, function(data){}, "json");
             to_change="";
+            init();
         }
         
         function toogle_star(id){
