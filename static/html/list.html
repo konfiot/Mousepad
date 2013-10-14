@@ -513,6 +513,7 @@
                     current_dir = (typeof(list_all[current_dir]["dir"]) === "undefined") ? undefined : list_all[current_dir]["dir"];
                 }
             } while (!finished);
+            refresh_filters();
             filter_tags("");
         }
         
@@ -548,7 +549,6 @@
                 } else {
                     return tree;
                 }
-                
             })();
             $("#cdlist").html(tree);
             $('.tree li:has(ul)').addClass('parent_li').find(' > span').attr('title', 'Collapse this branch');
@@ -599,7 +599,6 @@
             $.post("/app/api/list.php", function(data){
                 list_all = data;
                 filter_dir();
-                refresh_filters();
                 refresh_shortcuts();
                 $("#search").bind("input", function(){
                     $("#list").html("");
