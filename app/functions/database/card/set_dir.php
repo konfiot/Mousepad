@@ -16,7 +16,11 @@ function db_set_dir($id, $dir){
             
             $json = json_decode($contents, true);
             
-            $json[$id]["dir"] = $dir;
+            if ($dir === ""){
+                unset($json[$id]["dir"]);
+            } else {
+                $json[$id]["dir"] = $dir;
+            }
 
             ftruncate($file, 0);
             fwrite($file, json_encode($json));

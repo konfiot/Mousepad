@@ -526,7 +526,7 @@
             var tree = "";
             tree = (function(id){
                 var array = [];
-                var tree = ((typeof(id) === "undefined") ? '<div class="tree"><ul role="tree">' : '<ul role="group">');
+                var tree = ((typeof(id) === "undefined") ? '<div class="tree"><ul role="tree"><li class="parent_li" role="treeitem"><label><input style="display: none" type="radio" value="undefined" name="radio_dir"/><span>Home</span></label><ul role="group">' : '<ul role="group">');
                 for (var i in list_all){
                     if(list_all[i].type === "directory"){
                         if ((typeof (list_all[i].dir) === "undefined") && (typeof(id) === "undefined")){
@@ -542,7 +542,7 @@
                         }
                     }
                 }
-                tree += ((typeof(id) === "undefined") ? '</div></ul>' : '</ul>');
+                tree += ((typeof(id) === "undefined") ? '</ul></li></ul></div>' : '</ul>');
                 if(array.join("") === ""){
                     return "";
                 } else {
@@ -568,7 +568,7 @@
         }
         
         function change_dir(){
-            var val = $("input:radio[name='radio_dir']:checked").val();
+            var val = (($("input:radio[name='radio_dir']:checked").val() === "undefined") ? "" : $("input:radio[name='radio_dir']:checked").val());
             $.post("/app/api/mod.php", {data: JSON.stringify({id: to_change, dir: val})}, function(data){}, "json");
             to_change="";
             init();
