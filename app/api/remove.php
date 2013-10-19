@@ -3,6 +3,7 @@ session_start();
 header("Content-Type: application/json");
 
 include '../functions/data/remove.php';
+include '../functions/data/login.php';
 
 
 if (!(is_logged())){

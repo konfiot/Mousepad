@@ -3,6 +3,7 @@ session_start();
 header("Content-Type: application/json");
 
 include '../functions/data/mod/card.php';
+include '../functions/data/login.php';
 
 if (!(is_logged())){
     echo json_encode(array("error" => "Not logged in or bad credentials provided"));

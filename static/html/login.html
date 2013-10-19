@@ -10,6 +10,9 @@
 
     <!-- Bootstrap core CSS -->
     <link href="../../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../bower_components/nprogress/nprogress.css" rel="stylesheet">
+    <link href="../../bower_components/alertify.js/themes/alertify.default.css" rel="stylesheet">
+    <link href="../../bower_components/alertify.js/themes/alertify.core.css" rel="stylesheet">
 
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -65,7 +68,7 @@
 
     <div class="container">
 
-      <form class="form-signin" action="../../app/api/login.php" method="POST">
+      <form id="form" class="form-signin" method="POST">
         <h2 class="form-signin-heading">Please sign in</h2>
         <input type="text" name="user" class="form-control" placeholder="Email address" autofocus>
         <input type="password" name="password" class="form-control" placeholder="Password">
@@ -77,9 +80,29 @@
 
     </div> <!-- /container -->
 
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../../bower_components/jquery/jquery.min.js"></script>
+    <script src="../../bower_components/alertify.js/lib/alertify.min.js"></script>
+    <script src="../../bower_components/nprogress/nprogress.js"></script>
+    <script>
+        $("#form").submit(function(event) {
+            $.post('../../app/api/login.php', $('#form').serialize(), function(data) {
+                if (typeof data['error'] === 'undefined') {
+                    alertify.success('Yaaaay, you logged in !');
+                }
+                else {
+                    alertify.error('Bad password, try again');
+                }
+            }, 'json').fail(function() {
+                alertify.error('Server error');
+            })
+            event.preventDefault();
+        });
+        $(document).ajaxStart(function() {
+            NProgress.start();
+        });
+        $(document).ajaxStop(function() {
+            NProgress.done();
+        });
+    </script>
   </body>
 </html>

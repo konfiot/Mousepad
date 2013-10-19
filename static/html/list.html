@@ -10,6 +10,10 @@
         <!-- Bootstrap core CSS -->
         <link href="../../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
         <link href="../../bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+        <link href="../../bower_components/nprogress/nprogress.css" rel="stylesheet" />
+        <link href="../../bower_components/alertify.js/themes/alertify.default.css" rel="stylesheet">
+        <link href="../../bower_components/alertify.js/themes/alertify.core.css" rel="stylesheet">
+
         <!-- Custom styles for this template -->
         <style>
             /*
@@ -346,6 +350,9 @@
         <script src="../../bower_components/jquery.cookie/jquery.cookie.js"></script>
         <script src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
         <script src="../../bower_components/jquery-qrcode/jquery.qrcode.min.js"></script>
+        <script src="../../bower_components/nprogress/nprogress.js"></script>
+        <script src="../../bower_components/alertify.js/lib/alertify.min.js"></script>
+
         <script>
         var list, to_delete, list_all, to_create, to_change;
         
@@ -669,6 +676,22 @@
         
         $(function(){
             init();
+        });
+        
+        $(document).ajaxStart(function() {
+            NProgress.start();
+        });
+        $(document).ajaxStop(function() {
+            NProgress.done();
+        });
+        $(document).ajaxError(function() {
+            alertify.error("Server error, try again or report it");
+        });
+        $(document).ajaxSuccess(function(event, xhr) {
+            var json = JSON.parse(xhr.responseText);
+            if (typeof(json["error"]) !== "undefined"){
+                alertify.error("Error : " + json["error"]);
+            }
         });
         </script>
     </body>
