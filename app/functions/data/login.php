@@ -11,4 +11,14 @@ function check_login($user, $pwd){
         return false;
     }
 }
+
+function is_logged(){
+    if (isset($_SESSION["user"])){
+        return true;
+    } else if (isset($_POST["user"], $_POST["password"])) {
+        return check_login($_POST["user"], $_POST["password"]);
+    } else {
+        return false;
+    }
+}
 ?>

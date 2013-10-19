@@ -1,7 +1,7 @@
 <?php
+session_start();
 include '../functions/data/login.php';
 
-session_start();
 if (isset($_POST["user"], $_POST["password"])){
     $user = $_POST["user"];
     $password = $_POST["password"];
@@ -12,4 +12,5 @@ if (isset($_POST["user"], $_POST["password"])){
         echo json_encode(array("error" => "Bad pwd, stop tryin to pwn me or just enter the good pwd"));
     }
 }
+session_write_close();
 ?>
