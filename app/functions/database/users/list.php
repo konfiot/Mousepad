@@ -1,6 +1,4 @@
 <?php
-define(DBTYPE, "json");
-define(JSONFILEUSERS, "users.json");
 
 function list_users(){
     switch (DBTYPE){

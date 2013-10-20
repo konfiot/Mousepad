@@ -1,6 +1,6 @@
 <?php
-define(DBTYPE, "json");
-define(JSONFILECARDS, "conf.json");
+
+
 
 function list_conf(){
     switch (DBTYPE){

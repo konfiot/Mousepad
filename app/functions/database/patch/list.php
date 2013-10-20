@@ -1,6 +1,4 @@
 <?php
-define(DBTYPE, "json");
-define(JSONFILEDIFFS, "diffs.json");
 
 function db_list_diffs($id){
     switch (DBTYPE){
