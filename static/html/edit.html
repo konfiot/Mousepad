@@ -445,6 +445,8 @@
                 var json = JSON.parse(xhr.responseText);
                 if (typeof(json["error"]) !== "undefined"){
                     alertify.error("Error : " + json["error"]);
+                    document.location.href = '/';
+
                 }
             });
         </script>

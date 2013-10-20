@@ -600,7 +600,6 @@
         }
         
         function logout(){
-            console.log("dan");
             $.post("/app/api/logout.php", function(data){
                 document.location.href = '/';
             }, "json");
@@ -623,6 +622,7 @@
             var json = JSON.parse(xhr.responseText);
             if (typeof(json["error"]) !== "undefined"){
                 alertify.error("Error : " + json["error"]);
+                document.location.href = '/';
             }
         });
         </script>
