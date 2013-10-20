@@ -16,10 +16,6 @@
 
         <!-- Custom styles for this template -->
         <style>
-            /*
-         * Style twaks
-         * --------------------------------------------------
-         */
             body {
                 padding-top: 70px;
             }
@@ -28,40 +24,6 @@
                 padding-right: 15px;
             }
             html{ overflow-y: scroll; }
-            /*
-         * Off Canvas
-         * --------------------------------------------------
-         */
-            @media screen and(max-width: 768px) {
-                .row-offcanvas {
-                    position: relative;
-                    -webkit-transition: all 0.25s ease-out;
-                    -moz-transition: all 0.25s ease-out;
-                    transition: all 0.25s ease-out;
-                }
-                .row-offcanvas-right .sidebar-offcanvas {
-                    right: -50%;
-                    /* 6 columns */
-                }
-                .row-offcanvas-left .sidebar-offcanvas {
-                    left: -50%;
-                    /* 6 columns */
-                }
-                .row-offcanvas-right.active {
-                    right: 50%;
-                    /* 6 columns */
-                }
-                .row-offcanvas-left.active {
-                    left: 50%;
-                    /* 6 columns */
-                }
-                .sidebar-offcanvas {
-                    position: absolute;
-                    top: 0;
-                    width: 50%;
-                    /* 6 columns */
-                }
-            }
             
             .tree {
                 -webkit-border-radius:4px;
@@ -134,22 +96,7 @@
             .tree li.parent_li>label>span {
                 cursor:pointer
             }
-            /*.tree li.parent_li>label>span:hover {
-                background-color:#df8505;
-                border:1px solid #c67605;
-                color:#fff
-            }
-            .tree li.parent_li>label>span:hover+ul li::after {
-                border-top-color:#f89406
-            }
-            .tree li.parent_li>label>span:hover+ul li::before {
-                border-left-color:#f89406
-            }
-            .tree li.parent_li>label>span:hover+ul li span {
-                background:#fddfb3;
-                border:1px solid #faa937;
-                color:#000
-            }*/
+
             .tree li:last-child::before {
                 height:30px
             }
