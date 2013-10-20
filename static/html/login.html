@@ -88,6 +88,7 @@
             $.post('../../app/api/login.php', $('#form').serialize(), function(data) {
                 if (typeof data['error'] === 'undefined') {
                     alertify.success('Yaaaay, you logged in !');
+                    document.location.href = '/';
                 }
                 else {
                     alertify.error('Bad password, try again');
