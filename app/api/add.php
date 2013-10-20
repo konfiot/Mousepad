@@ -2,8 +2,8 @@
 session_start();
 header("Content-Type: application/json");
 
-include '../functions/data/add/card.php';
 include '../defines/database.php';
+include '../functions/data/add/card.php';
 include '../functions/data/login.php';
 
 if (!(is_logged())){

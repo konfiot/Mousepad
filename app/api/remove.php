@@ -2,9 +2,9 @@
 session_start();
 header("Content-Type: application/json");
 
+include '../defines/database.php';
 include '../functions/data/remove.php';
 include '../functions/data/login.php';
-include '../defines/database.php';
 
 
 if (!(is_logged())){

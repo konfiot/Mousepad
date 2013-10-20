@@ -1,7 +1,7 @@
 <?php
 session_start();
-include '../functions/data/login.php';
 include '../defines/database.php';
+include '../functions/data/login.php';
 
 if (isset($_POST["user"], $_POST["password"])){
     $user = $_POST["user"];
