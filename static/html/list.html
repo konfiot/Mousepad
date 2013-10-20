@@ -371,10 +371,10 @@
                 if (data[i]["type"] !== "directory"){
                     if (typeof(data[i]["tags"]) === "undefined"){
                         if(tag === ""){
-                            $("#list").append('<div class="col-md-4"><div class="thumbnail" style="padding: 0px ; margin-bottom: 20px;"><h4 style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden" class="caption">' + data[i]["title"] + '</h4><a href="edit.html#' + i + '" class=""><img src="http://lorempixel.com/260/260/" alt="..."></a><div class="caption" style="margin: 0; padding: 0px ;"><p class="btn-group btn-group-justified" style="margin: 0; border-left: none ; border-bottom: none;"><a class="btn btn-default btn-warning actionbar" href="#" onclick="toogle_star(\'' + i + '\')"><i id="star' + i + '" class="icon-star" style="color: ' + ((data[i]["star"]) ? "grey" : "white")  + '"></i></a><a class="btn btn-default btn-info actionbar" onclick="qrcode(\''+i+'\')" href="#"><i class="icon-qrcode"></i></a><a class="btn btn-primary btn-default actionbar" onclick="pop_change_dir_modal(\'' + i + '\')" href="#"><i class="icon-folder-close"></i></a><a onclick="pop_confirmation_modal(\'' + i + '\')" class="btn btn-default btn-danger actionbar" ><i class="icon-remove"></i></a> <a class="btn btn-default btn-success actionbar" href="#"><i class="icon-plus"></i></a></p></div></div></div>');
+                            list_append(i, data[i]);
                         }
                     } else  if ((data[i]["tags"].indexOf(tag) !== -1) || (tag === "")){
-                        $("#list").append('<div class="col-md-4"><div class="thumbnail" style="padding: 0px ; margin-bottom: 20px;"><h4 style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden" class="caption">' + data[i]["title"] + '</h4><a href="edit.html#' + i + '" class=""><img src="http://lorempixel.com/260/260/" alt="..."></a><div class="caption" style="margin: 0; padding: 0px ;"><p class="btn-group btn-group-justified" style="margin: 0; border-left: none ; border-bottom: none;"><a class="btn btn-default btn-warning actionbar" href="#" onclick="toogle_star(\'' + i + '\')"><i id="star' + i + '" class="icon-star" style="color: ' + ((data[i]["star"]) ? "grey" : "white")  + '"></i></a><a class="btn btn-default btn-info actionbar" onclick="qrcode(\''+i+'\')" href="#"><i class="icon-qrcode"></i></a><a class="btn btn-primary btn-default actionbar" onclick="pop_change_dir_modal(\'' + i + '\')" href="#"><i class="icon-folder-close"></i></a><a onclick="pop_confirmation_modal(\'' + i + '\')" class="btn btn-default btn-danger actionbar" ><i class="icon-remove"></i></a> <a class="btn btn-default btn-success actionbar" href="#"><i class="icon-plus"></i></a></p></div></div></div>');
+                        list_append(i, data[i]);
                     }
                 }
             }
@@ -385,7 +385,7 @@
             var data = list;
             for (var i in data){
                 if ((data[i]["type"] === type) || (type === "")){
-                    $("#list").append('<div class="col-md-4"><div class="thumbnail" style="padding: 0px ; margin-bottom: 20px;"><h4 style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden" class="caption">' + data[i]["title"] + '</h4><a href="edit.html#' + i + '" class=""><img src="http://lorempixel.com/260/260/" alt="..."></a><div class="caption" style="margin: 0; padding: 0px ;"><p class="btn-group btn-group-justified" style="margin: 0; border-left: none ; border-bottom: none;"><a class="btn btn-default btn-warning actionbar" href="#" onclick="toogle_star(\'' + i + '\')"><i id="star' + i + '" class="icon-star" style="color: ' + ((data[i]["star"]) ? "grey" : "white")  + '"></i></a><a class="btn btn-default btn-info actionbar" onclick="qrcode(\''+i+'\')" href="#"><i class="icon-qrcode"></i></a><a class="btn btn-primary btn-default actionbar" onclick="pop_change_dir_modal(\'' + i + '\')" href="#"><i class="icon-folder-close"></i></a><a onclick="pop_confirmation_modal(\'' + i + '\')" class="btn btn-default btn-danger actionbar" ><i class="icon-remove"></i></a> <a class="btn btn-default btn-success actionbar" href="#"><i class="icon-plus"></i></a></p></div></div></div>');
+                    list_append(i, data[i]);
                 }
             }
         }
@@ -408,7 +408,7 @@
                 } 
                 
                 if (cat === date){
-                    $("#list").append('<div class="col-md-4"><div class="thumbnail" style="padding: 0px ; margin-bottom: 20px;"><h4 style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden" class="caption">' + data[i]["title"] + '</h4><a href="edit.html#' + i + '" class=""><img src="http://lorempixel.com/260/260/" alt="..."></a><div class="caption" style="margin: 0; padding: 0px ;"><p class="btn-group btn-group-justified" style="margin: 0; border-left: none ; border-bottom: none;"><a class="btn btn-default btn-warning actionbar" href="#" onclick="toogle_star(\'' + i + '\')"><i id="star' + i + '" class="icon-star" style="color: ' + ((data[i]["star"]) ? "grey" : "white")  + '"></i></a><a class="btn btn-default btn-info actionbar" onclick="qrcode(\''+i+'\')" href="#"><i class="icon-qrcode"></i></a><a class="btn btn-primary btn-default actionbar" onclick="pop_change_dir_modal(\'' + i + '\')" href="#"><i class="icon-folder-close"></i></a><a onclick="pop_confirmation_modal(\'' + i + '\')" class="btn btn-default btn-danger actionbar" ><i class="icon-remove"></i></a> <a class="btn btn-default btn-success actionbar" href="#"><i class="icon-plus"></i></a></p></div></div></div>');
+                    list_append(i, data[i]);
                 }
             }
         }
@@ -550,11 +550,15 @@
                     $("#list").html("");
                     for (var i in list){
                         if (list[i]["title"].search($("#search").val()) !== -1){
-                            $("#list").append('<div class="col-md-4"><div class="thumbnail" style="padding: 0px ; margin-bottom: 20px;"><h4 style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden" class="caption">' + data[i]["title"] + '</h4><a href="edit.html#' + i + '" class=""><img src="http://lorempixel.com/260/260/" alt="..."></a><div class="caption" style="margin: 0; padding: 0px ;"><p class="btn-group btn-group-justified" style="margin: 0; border-left: none ; border-bottom: none;"><a class="btn btn-default btn-warning actionbar" href="#" onclick="toogle_star(\'' + i + '\')"><i id="star' + i + '" class="icon-star" style="color: ' + ((data[i]["star"]) ? "grey" : "white")  + '"></i></a><a class="btn btn-default btn-info actionbar" onclick="qrcode(\''+i+'\')" href="#"><i class="icon-qrcode"></i></a><a class="btn btn-primary btn-default actionbar" onclick="pop_change_dir_modal(\'' + i + '\')" href="#"><i class="icon-folder-close"></i></a><a onclick="pop_confirmation_modal(\'' + i + '\')" class="btn btn-default btn-danger actionbar" ><i class="icon-remove"></i></a> <a class="btn btn-default btn-success actionbar" href="#"><i class="icon-plus"></i></a></p></div></div></div>');
+                            list_append(i, list[i]);
                         }
                     }
                 });
             }, "json");
+        }
+        
+        function list_append(id, item){
+            $("#list").append('<div class="col-md-4"><div class="thumbnail" style="padding: 0px ; margin-bottom: 20px;"><h4 style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden" class="caption">' + item["title"] + '</h4><a href="edit.html#' + id + '" class=""><img src="http://lorempixel.com/260/260/" alt="..."></a><div class="caption" style="margin: 0; padding: 0px ;"><p class="btn-group btn-group-justified" style="margin: 0; border-left: none ; border-bottom: none;"><a class="btn btn-default btn-warning actionbar" href="#" onclick="toogle_star(\'' + id + '\')"><i id="star' + id + '" class="icon-star" style="color: ' + ((item["star"]) ? "grey" : "white")  + '"></i></a><a class="btn btn-default btn-info actionbar" onclick="qrcode(\''+id+'\')" href="#"><i class="icon-qrcode"></i></a><a class="btn btn-primary btn-default actionbar" onclick="pop_change_dir_modal(\'' + id + '\')" href="#"><i class="icon-folder-close"></i></a><a onclick="pop_confirmation_modal(\'' + id + '\')" class="btn btn-default btn-danger actionbar" ><i class="icon-remove"></i></a> <a class="btn btn-default btn-success actionbar" href="#"><i class="icon-plus"></i></a></p></div></div></div>');
         }
         
         function trash(){
