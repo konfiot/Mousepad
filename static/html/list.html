@@ -366,7 +366,6 @@
         function filter_tags(tag){
             $("#list").html("");
             var data = list;
-            console.log(data);
             for (var i in data){
                 if (data[i]["type"] !== "directory"){
                     if (typeof(data[i]["tags"]) === "undefined"){
@@ -558,7 +557,7 @@
         }
         
         function list_append(id, item){
-            $("#list").append('<div class="col-md-4"><div class="thumbnail" style="padding: 0px ; margin-bottom: 20px;"><h4 style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden" class="caption">' + item["title"] + '</h4><a href="edit.html#' + id + '" class=""><img src="http://lorempixel.com/260/260/" alt="..."></a><div class="caption" style="margin: 0; padding: 0px ;"><p class="btn-group btn-group-justified" style="margin: 0; border-left: none ; border-bottom: none;"><a class="btn btn-default btn-warning actionbar" href="#" onclick="toogle_star(\'' + id + '\')"><i id="star' + id + '" class="icon-star" style="color: ' + ((item["star"]) ? "grey" : "white")  + '"></i></a><a class="btn btn-default btn-info actionbar" onclick="qrcode(\''+id+'\')" href="#"><i class="icon-qrcode"></i></a><a class="btn btn-primary btn-default actionbar" onclick="pop_change_dir_modal(\'' + id + '\')" href="#"><i class="icon-folder-close"></i></a><a onclick="pop_confirmation_modal(\'' + id + '\')" class="btn btn-default btn-danger actionbar" ><i class="icon-remove"></i></a> <a class="btn btn-default btn-success actionbar" href="#"><i class="icon-plus"></i></a></p></div></div></div>');
+            $("#list").append('<div class="col-md-4"><div class="panel panel-default"><div class="panel-heading"><a href="edit.html#' + id + '" class=""><h4 style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden" >' + item["title"] + '</h4></a></div><div class="panel-body" style="padding: 0;"><a href="edit.html#' + id + '" class=""><img src="http://lorempixel.com/260/260/" alt="..." /></a></div><div class="panel-footer" style="margin: 0; padding: 0px ;"><p class="btn-group btn-group-justified" style="margin: 0; border-left: none ; border-bottom: none;"><a class="btn btn-default btn-warning actionbar" href="#" onclick="toogle_star(\'' + id + '\')"><i id="star' + id + '" class="icon-star" style="color: ' + ((item["star"]) ? "grey" : "white")  + '"></i></a><a class="btn btn-default btn-info actionbar" onclick="qrcode(\''+id+'\')" href="#"><i class="icon-qrcode"></i></a><a class="btn btn-primary btn-default actionbar" onclick="pop_change_dir_modal(\'' + id + '\')" href="#"><i class="icon-folder-close"></i></a><a onclick="pop_confirmation_modal(\'' + id + '\')" class="btn btn-default btn-danger actionbar" ><i class="icon-remove"></i></a> <a class="btn btn-default btn-success actionbar" href="#"><i class="icon-plus"></i></a></p></div></div></div>');
         }
         
         function trash(){

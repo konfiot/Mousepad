@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Starter Template for Bootstrap</title>
+        <!-- Bootstrap core CSS -->
+        <link href="../../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+        <style>
+        body {
+            padding-top: 70px;
+        }
+        </style>
+    </head>
+    
+    <body>
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">Mousepad</a>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active">
+                            <a href="#">Home</a>
+                        </li>
+                        <li>
+                            <a href="#about">About</a>
+                        </li>
+                        <li>
+                            <a href="#contact">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+                <!--/.nav-collapse -->
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>Welcome in the Mousepad installation wizard</h1>
+                    <form role="form" id="form" method="POST">
+                        <hr/>
+                        <h3>Database setup</h3>
+                        <div class="form-group">
+                            <label class="control-label">Select database type</label>
+                            <select required class="form-control">
+                                <option value="json">JSON</option>
+                            </select>
+                        </div>
+                        <hr/>
+                        <h3>Admin Credentials</h3>
+                        <div class="form-group">
+                            <label for="username" class="control-label">Admin username</label>
+                            <input type="text" class="form-control" name="username" placeholder="Username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password" class="control-label">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password_confirm" class="control-label">Confirmation</label>
+                            <input type="password" class="form-control" id="password_confirm" name="password_confirm" placeholder="Confirm your password">
+                            <span class="help-block"></span>
+                        </div>
+                        <hr/>
+                        <button type="submit" class="btn btn-default">Submit</button>
+                    </form>
+            </div>
+        </div>
+        <!-- /.container -->
+        <!-- Bootstrap core JavaScript==================================================-
+        ->
+    <!-- Placed at the end of the document so the pages load faster -->
+        <script src="../../bower_components/jquery/jquery.min.js"></script>
+        <script src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script>
+            $(function(){
+                $("#form").submit(function(event){
+                    if($("#password").val() !== $("#password_confirm").val()){
+                        $("#password_confirm").parent().attr("class", "has-error");
+                        $("#password_confirm + span").html("<span class='help-block'>Passwords doesn't match</span>");
+                        event.preventDefault();
+                    }
+                });
+                $("#password_confirm").on("change", function(){
+                    if($("#password").val() !== $("#password_confirm").val()){
+                        $("#password_confirm").parent().attr("class", "form-group has-error");
+                        $("#password_confirm + .help-block").text("Passwords doesn't match");
+                    } else {
+                        $("#password_confirm").parent().attr("class", "form-group");
+                        $("#password_confirm + .help-block").text(" ");
+                        
+                    }
+                });
+                $("#password").on("input", function(){
+                    if($("#password").val() === $("#password_confirm").val()){
+                        $("#password_confirm").parent().attr("class", "form-group");
+                        $("#password_confirm + .help-block").text(" ");
+                        
+                    }
+                });
+                $("#password_confirm").on("input", function(){
+                    if($("#password").val() === $("#password_confirm").val()){
+                        $("#password_confirm").parent().attr("class", "form-group");
+                        $("#password_confirm + .help-block").text(" ");
+                        
+                    }
+                });
+            });
+        </script>
+    </body>
+
+</html>
