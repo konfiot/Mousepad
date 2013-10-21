@@ -40,12 +40,12 @@
             <div class="row">
                 <div class="col-md-12">
                     <h1>Welcome in the Mousepad installation wizard</h1>
-                    <form role="form" id="form" method="POST">
+                    <form role="form" id="form" action="../../app/api/install.php" method="POST">
                         <hr/>
                         <h3>Database setup</h3>
                         <div class="form-group">
                             <label class="control-label">Select database type</label>
-                            <select required class="form-control">
+                            <select name="dbtype" required class="form-control">
                                 <option value="json">JSON</option>
                             </select>
                         </div>
