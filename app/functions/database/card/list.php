@@ -1,16 +1,18 @@
 <?php
 
-function list_users(){
+define(JSONFILECARDS, "cards.json");
+
+function db_list_cards(){
     switch (DBTYPE){
         case "json" :
-            touch(JSONFILEUSERS);
+            touch(JSONFILECARDS);
             
-            $file = fopen(JSONFILEUSERS, "r");
+            $file = fopen(JSONFILECARDS, "r");
             if(!$file){
                 return false;
             }
             while (flock($file, LOCK_SH) === false);
-            $contents = fread($file, filesize(JSONFILEUSERS));
+            $contents = fread($file, filesize(JSONFILECARDS));
             
             $json = json_decode($contents, true);
             flock($file, LOCK_UN);
