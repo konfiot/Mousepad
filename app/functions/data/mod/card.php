@@ -11,8 +11,8 @@ include_once "../functions/diff_match_patch.php";
 
 function mod_card($data) {
     
-    $content = htmlspecialchars($data["content"], ENT_NOQUOTES);
-    $title = htmlspecialchars($data["title"]);
+    $content = (isset($data["content"]) ? htmlspecialchars($data["content"], ENT_NOQUOTES) : null);
+    $title = (isset($data["title"]) ? htmlspecialchars($data["title"]) : null);
     $tags = (isset($data["tags"]) ? $data["tags"] : null);
     $star = (isset($data["star"]) ? $data["star"] : null);
     $dir = (isset($data["dir"]) ? $data["dir"] : null);
