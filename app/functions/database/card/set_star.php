@@ -1,7 +1,5 @@
 <?php
 
-define(JSONFILECARDS, "cards.json");
-
 function db_set_star($id, $star){
     switch (DBTYPE){
         case "json" :

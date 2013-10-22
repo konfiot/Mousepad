@@ -1,7 +1,5 @@
 <?php
 
-define(JSONFILECARDS, "cards.json");
-
 function db_set_tags($id, $tags){
     switch (DBTYPE){
         case "json" :

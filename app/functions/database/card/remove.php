@@ -1,7 +1,5 @@
 <?php
 
-define(JSONFILECARDS, "cards.json");
-
 function db_remove_card($id, $tags){
     switch (DBTYPE){
         case "json" :

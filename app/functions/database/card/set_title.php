@@ -1,7 +1,5 @@
 <?php
 
-define(JSONFILECARDS, "cards.json");
-
 function db_set_title($id, $title){
     switch (DBTYPE){
         case "json" :

@@ -1,7 +1,5 @@
 <?php
 
-define(JSONFILECARDS, "cards.json");
-
 function db_set_dir($id, $dir){
     switch (DBTYPE){
         case "json" :

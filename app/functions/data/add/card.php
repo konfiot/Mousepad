@@ -7,8 +7,8 @@ include "../functions/diff_match_patch.php";
 function add_card($data) {
     $title = htmlspecialchars($data["title"]);
     $content = htmlspecialchars($data["content"], ENT_NOQUOTES);
-    $tags = $data["tags"];
-    $dir = $data["dir"];
+    $tags = (isset($data["tags"]) ? $data["tags"] : null);
+    $dir = (isset($data["dir"]) ? $data["dir"] : null);
     
     $patcher = new diff_match_patch();    
     

@@ -1,7 +1,5 @@
 <?php
 
-define(JSONFILECARDS, "cards.json");
-
 function db_touch($id){
     switch (DBTYPE){
         case "json" :

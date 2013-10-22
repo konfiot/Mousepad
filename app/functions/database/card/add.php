@@ -1,7 +1,5 @@
 <?php
 
-define(JSONFILECARDS, "cards.json");
-
 function db_add_card($type, $title, $tags, $dir){
     switch (DBTYPE){
         case "json" :

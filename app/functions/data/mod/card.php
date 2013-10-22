@@ -13,9 +13,9 @@ function mod_card($data) {
     
     $content = htmlspecialchars($data["content"], ENT_NOQUOTES);
     $title = htmlspecialchars($data["title"]);
-    $tags = $data["tags"];
-    $star = $data["star"];
-    $dir = $data["dir"];
+    $tags = (isset($data["tags"]) ? $data["tags"] : null);
+    $star = (isset($data["star"]) ? $data["star"] : null);
+    $dir = (isset($data["dir"]) ? $data["dir"] : null);
 
     if (isset($data["title"])){
         if(db_set_title($data["id"], $title) === false){
