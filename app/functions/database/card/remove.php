@@ -1,6 +1,6 @@
 <?php
 
-function db_remove_card($id, $tags){
+function db_remove_card($id){
     switch (DBTYPE){
         case "json" :
             touch(JSONFILECARDS);
