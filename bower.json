@@ -31,5 +31,6 @@
     "literallycanvas": "*",
     "typeahead.js": "*",
     "underscore": "*"
+    "bootstrap-tagsinput": "*"
   }
 }
