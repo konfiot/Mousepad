@@ -1,6 +1,12 @@
 <?php
 session_start();
 header("Content-Type: application/json");
+
+
+date_default_timezone_set("UTC");
+include "../defines/timezone.php";
+date_default_timezone_set(TIMEZONE);
+
 include '../defines/database.php';
 include '../functions/data/login.php';
 

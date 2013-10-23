@@ -1,7 +1,5 @@
 <?php
 
-define(JSONFILECARDS, "users.json");
-
 function db_add_user($username, $hash){
     switch (DBTYPE){
         case "json" :
