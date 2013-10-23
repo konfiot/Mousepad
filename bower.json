@@ -30,7 +30,7 @@
     "pen": "*",
     "literallycanvas": "*",
     "typeahead.js": "*",
-    "underscore": "*"
+    "underscore": "*",
     "bootstrap-tagsinput": "*"
   }
 }
