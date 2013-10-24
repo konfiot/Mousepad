@@ -33,6 +33,7 @@
     "underscore": "*",
     "bootstrap-tagsinput": "*",
     "zxcvbn" : "*",
-    "jsTimezoneDetect" : "*"
+    "jsTimezoneDetect" : "*",
+    "L.GeoSearch": "smeijer/L.GeoSearch"
   }
 }
