@@ -162,11 +162,10 @@
                         <div class="form-group">
                             <input type="text" class="form-control" placeholder="Search">
                         </div>
-                        <button type="submit" class="btn btn-default">Search</button>
                     </form>
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#"><i class="icon-cog"></i></a></li>
-                        <li><a href="#"><i class="icon-signout"></i></a></li>
+                        <li><a href="settings.html"><i class="icon-cog"></i></a></li>
+                        <li><a href="#" onclick="logout()"><i class="icon-signout"></i></a></li>
                     </ul>
                 </div>
                 <!-- /.nav-collapse -->
@@ -177,7 +176,7 @@
         <div class="container">
             <div class="row row-offcanvas row-offcanvas-right">
                 <div class="col-md-3 sidebar-offcanvas" role="navigation">
-                    <div class="well sidebar-nav">
+                    <div class="well">
                         <ul id="sidebar" class="nav nav-pills nav-stacked">
                             <li>Tags</li>
                             <li>
@@ -274,6 +273,12 @@
 
         <script src="../js/editors.js"></script>
         <script>
+            function logout(){
+                $.post("/app/api/logout.php", function(data){
+                    document.location.href = '/';
+                }, "json");
+            }
+        
             function getAnchor() {
                 var currentUrl = document.URL,
                     urlParts = currentUrl.split('#');
