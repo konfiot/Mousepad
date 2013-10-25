@@ -14,7 +14,7 @@ function db_set_tags($id, $tags){
             
             $json = json_decode($contents, true);
             
-            $json[$id]["tags"] = $tags;
+            $json[$username][$id]["tags"] = $tags;
 
             ftruncate($file, 0);
             fwrite($file, json_encode($json));

@@ -1,6 +1,6 @@
 <?php
 
-function db_add_diff($diff, $parent){
+function db_add_diff($diff, $parent, $username){
     switch (DBTYPE){
         case "json" :
             touch(JSONFILEDIFFS);
@@ -13,7 +13,7 @@ function db_add_diff($diff, $parent){
             $content = fread($file, filesize(JSONFILEDIFFS));
             $uuid = uniqid();
             $json = json_decode($content, true);
-            $json[$uuid] = array("content" => $diff, "parent" => $parent, "timestamp" => time());
+            $json[$username][$uuid] = array("content" => $diff, "parent" => $parent, "timestamp" => time());
             
             ftruncate($file, 0);
             fwrite($file, json_encode($json));

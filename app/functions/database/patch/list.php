@@ -1,6 +1,6 @@
 <?php
 
-function db_list_diffs($id){
+function db_list_diffs($id, $username){
     switch (DBTYPE){
         case "json" :
             touch(JSONFILEDIFFS);
@@ -18,7 +18,7 @@ function db_list_diffs($id){
             
             $json_out = array();
             
-            foreach ($json as $key => $value){
+            foreach ($json[$username] as $key => $value){
                 if ($value["parent"] ==  $id){
                     $json_out[$key] = $value;
                 }

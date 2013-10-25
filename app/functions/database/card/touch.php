@@ -1,6 +1,6 @@
 <?php
 
-function db_touch($id){
+function db_touch($id, $username){
     switch (DBTYPE){
         case "json" :
             touch(JSONFILECARDS);
@@ -14,8 +14,8 @@ function db_touch($id){
             
             $json = json_decode($contents, true);
             
-            $json[$id]["last_viewed"] = time();
-            (gettype($json[$id]["times_viewed"]) === "integer") ? $json[$id]["times_viewed"]++ : $json[$id]["times_viewed"] = 1;
+            $json[$username][$id]["last_viewed"] = time();
+            (gettype($json[$username][$id]["times_viewed"]) === "integer") ? $json[$username][$id]["times_viewed"]++ : $json[$username][$id]["times_viewed"] = 1;
 
             ftruncate($file, 0);
             fwrite($file, json_encode($json));

@@ -1,6 +1,6 @@
 <?php
 
-function db_set_star($id, $star){
+function db_set_star($id, $star, $username){
     switch (DBTYPE){
         case "json" :
             touch(JSONFILECARDS);
@@ -14,7 +14,7 @@ function db_set_star($id, $star){
             
             $json = json_decode($contents, true);
             
-            $json[$id]["star"] = $star;
+            $json[$username][$id]["star"] = $star;
 
             ftruncate($file, 0);
             fwrite($file, json_encode($json));

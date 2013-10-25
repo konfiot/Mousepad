@@ -1,6 +1,6 @@
 <?php
 
-function db_remove_card($id){
+function db_remove_card($id, $username){
     switch (DBTYPE){
         case "json" :
             touch(JSONFILECARDS);
@@ -14,7 +14,7 @@ function db_remove_card($id){
             
             $json = json_decode($contents, true);
             
-            unset($json[$id]);
+            unset($json[$username][$id]);
             ftruncate($file, 0);
             fwrite($file, json_encode($json));
             clearstatcache();

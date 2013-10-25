@@ -14,7 +14,7 @@ function db_set_title($id, $title){
             
             $json = json_decode($contents, true);
             
-            $json[$id]["title"] = $title;
+            $json[$username][$id]["title"] = $title;
 
             ftruncate($file, 0);
             fwrite($file, json_encode($json));

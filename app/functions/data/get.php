@@ -14,12 +14,16 @@ function cmp($c, $d)
     return ($a < $b) ? -1 : 1;
 }
 
-function get_card($data) {
-    $cards = db_get_card($data["id"]);
+function get_card($data, $username) {
+    $cards = db_get_card($data["id"], $username);
+    
+    //TODO Gerer le cas ou la carte existe pas
+    
     $json_out = array("meta" => $cards);
     
     
-    $patches = db_list_diffs($data["id"]);
+    $patches = db_list_diffs($data["id"], $username);
+    
     usort($patches, "cmp");
 
     $patcher = new diff_match_patch();
@@ -30,7 +34,7 @@ function get_card($data) {
         $tmp = $patcher->patch_apply($diff, $content);
         $content = $tmp[0];
     }
-    db_touch($data["id"]);
+    db_touch($data["id"], $username);
     $json_out["content"] = $content;
     return $json_out;
 }

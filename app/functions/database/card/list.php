@@ -1,6 +1,6 @@
 <?php
 
-function db_list_cards(){
+function db_list_cards($username){
     switch (DBTYPE){
         case "json" :
             touch(JSONFILECARDS);
@@ -16,7 +16,7 @@ function db_list_cards(){
             flock($file, LOCK_UN);
             fclose($file);
             
-            return $json;
+            return $json[$username];
 
         break;
         default :

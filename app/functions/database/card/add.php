@@ -1,6 +1,6 @@
 <?php
 
-function db_add_card($type, $title, $tags, $dir){
+function db_add_card($type, $title, $tags, $dir, $username){
     switch (DBTYPE){
         case "json" :
             touch(JSONFILECARDS);
@@ -14,7 +14,7 @@ function db_add_card($type, $title, $tags, $dir){
             
             $json = json_decode($contents, true);
             $uuid = uniqid();
-            $json[$uuid] = array("type" => $type, "title" => $title, "tags" => $tags, "dir" => $dir);
+            $json[$username][$uuid] = array("type" => $type, "title" => $title, "tags" => $tags, "dir" => $dir);
             
             ftruncate($file, 0);
             fwrite($file, json_encode($json));

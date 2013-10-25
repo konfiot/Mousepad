@@ -9,7 +9,7 @@ include_once "../functions/diff_match_patch.php";
 
 
 
-function mod_card($data) {
+function mod_card($data, $username) {
     
     $content = (isset($data["content"]) ? htmlspecialchars($data["content"], ENT_NOQUOTES) : null);
     $title = (isset($data["title"]) ? htmlspecialchars($data["title"]) : null);
@@ -18,32 +18,32 @@ function mod_card($data) {
     $dir = (isset($data["dir"]) ? $data["dir"] : null);
 
     if (isset($data["title"])){
-        if(db_set_title($data["id"], $title) === false){
+        if(db_set_title($data["id"], $title, $username) === false){
             return array("error" => "Database error" );
         }
     }
     
     if (isset($data["tags"])){
-        if(db_set_tags($data["id"], $tags) === false){
+        if(db_set_tags($data["id"], $tags, $username) === false){
             return array("error" => "Database error" );
         }
     }
     
     if (isset($data["dir"])){
-        if(db_set_dir($data["id"], $dir) === false){
+        if(db_set_dir($data["id"], $dir, $username) === false){
             return array("error" => "Database error" );
         }
     }
     
     if (isset($data["star"])){
-        if(db_set_star($data["id"], $star) === false){
+        if(db_set_star($data["id"], $star, $username) === false){
             return array("error" => "Database error");
         }
     }
 
 
     if (isset($data["content"])){
-        $old = get_card($data);
+        $old = get_card($data, $userame);
         
         if ($old["content"] === $content){
             return array("success" => "not modified" );
@@ -54,7 +54,7 @@ function mod_card($data) {
         $patch = $patcher->patch_make($old["content"], $content);
         $diff = $patcher->patch_toText($patch);
     
-        if (db_add_diff($diff, $data["id"]) === false){
+        if (db_add_diff($diff, $data["id"], $username) === false){
             return array("error" => "Database error" );
         }
     }

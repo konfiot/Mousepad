@@ -6,7 +6,7 @@ function check_login($user, $pwd){
     $users = list_users();
     $hash = crypt($pwd, $users[$user]["hash"]);
     if ($users[$user]["hash"] === $hash){
-        return true;
+        return $user;
     } else {
         return false;
     }
@@ -14,7 +14,7 @@ function check_login($user, $pwd){
 
 function is_logged(){
     if (isset($_SESSION["user"])){
-        return true;
+        return $_SESSION["user"];
     } else if (isset($_POST["user"], $_POST["password"])) {
         return check_login($_POST["user"], $_POST["password"]);
     } else {

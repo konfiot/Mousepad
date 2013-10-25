@@ -1,6 +1,6 @@
 <?php
 
-function db_set_dir($id, $dir){
+function db_set_dir($id, $dir, $username){
     switch (DBTYPE){
         case "json" :
             touch(JSONFILECARDS);
@@ -15,9 +15,9 @@ function db_set_dir($id, $dir){
             $json = json_decode($contents, true);
             
             if ($dir === ""){
-                unset($json[$id]["dir"]);
+                unset($json[$username][$id]["dir"]);
             } else {
-                $json[$id]["dir"] = $dir;
+                $json[$username][$id]["dir"] = $dir;
             }
 
             ftruncate($file, 0);

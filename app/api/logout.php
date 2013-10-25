@@ -10,7 +10,9 @@ date_default_timezone_set(TIMEZONE);
 include '../defines/database.php';
 include '../functions/data/login.php';
 
-if (!(is_logged())){
+$username = is_logged();
+
+if (!($username)){
     echo json_encode(array("error" => "Not logged in or bad credentials provided"));
 } else {
     session_destroy();

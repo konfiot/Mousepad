@@ -11,11 +11,12 @@ include '../defines/database.php';
 include '../functions/data/list.php';
 include '../functions/data/login.php';
 
+$username = is_logged();
 
-if (!(is_logged())){
+if (!($username)){
     echo json_encode(array("error" => "Not logged in or bad credentials provided"));
 } else {
-    @$result = list_cards($_POST["data"]);
+    $result = list_cards((isset($_POST["data"])) ? $_POST["data"] : null, $username);
     echo json_encode($result);
 }
 ?>
