@@ -14,7 +14,7 @@ function db_add_card($type, $title, $tags, $dir, $username){
             
             $json = json_decode($contents, true);
             $uuid = uniqid();
-            $json[$username][$uuid] = array("type" => $type, "title" => $title, "tags" => $tags, "dir" => $dir);
+            $json[$username][$uuid] = array("type" => $type, "title" => $title, "tags" => $tags, "dir" => $dir, "times_viewed" => "0", "last_viewed" => time());
             
             ftruncate($file, 0);
             fwrite($file, json_encode($json));
