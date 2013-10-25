@@ -13,7 +13,8 @@ function db_add_user($username, $hash){
             $contents = fread($file, filesize(JSONFILEUSERS));
             
             $json = json_decode($contents, true);
-            $json[$username] = array("hash" => $hash);
+            $uuid = uniqid();
+            $json[$uuid] = array("username" => $username, "hash" => $hash);
             
             ftruncate($file, 0);
             fwrite($file, json_encode($json));

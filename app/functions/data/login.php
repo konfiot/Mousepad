@@ -4,9 +4,21 @@ include "../functions/database/users/list.php";
 
 function check_login($user, $pwd){
     $users = list_users();
-    $hash = crypt($pwd, $users[$user]["hash"]);
-    if ($users[$user]["hash"] === $hash){
-        return $user;
+    $id = false;
+    
+    foreach ($users as $key => $value){
+        if ($value["username"] === $user){
+            $id = $key;
+        }
+    }
+    
+    if ($id === false){
+        return false;
+    }
+
+    $hash = crypt($pwd, $users[$id]["hash"]);
+    if ($users[$id]["hash"] === $hash){
+        return $id;
     } else {
         return false;
     }
