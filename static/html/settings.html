@@ -551,9 +551,13 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
+                                    <label for="locale">Language</label>
                                     <select id="locale" class="form-control">
                                         <option value="en">English</option>
                                     </select>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-default">Save</button>
                                 </div>
                             </form>
                         </div>
@@ -569,9 +573,9 @@
     <!-- Placed at the end of the document so the pages load faster -->
         <script src="../../bower_components/jquery/jquery.min.js"></script>
         <script src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-        <script src="../../bower_components/jquery-qrcode/jquery.qrcode.min.js"></script>
         <script src="../../bower_components/nprogress/nprogress.js"></script>
         <script src="../../bower_components/alertify.js/lib/alertify.min.js"></script>
+        <script src="../../bower_components/jsTimezoneDetect/jstz.min.js"></script>
 
         <script>
             var list;
@@ -629,7 +633,7 @@
             }
         
             
-                var list;
+            var list;
             function refresh_shortcuts(){
                 var max_keys = [], max_keys_last = [], max_val = 0, max_key, max_val_last = 0, max_key_last;
                 for (var i = 0 ; i < 5 ; i++){
@@ -675,6 +679,16 @@
                         list = data;
                         refresh_shortcuts();
                 }, "json");
+                var timezone = jstz.determine();
+                $("#timezone > optgroup > option[value='" + timezone.name() + "']").attr("selected", "selected");
+                console.log(timezone.name());
+                $("#form").submit(function(event){
+                    if($("#password").val() !== $("#password_confirm").val()){
+                        $("#password_confirm").parent().attr("class", "has-error");
+                        $("#password_confirm + span").html("<span class='help-block'>Passwords doesn't match</span>");
+                        event.preventDefault();
+                    }
+                });
             });
             
             function logout(){
