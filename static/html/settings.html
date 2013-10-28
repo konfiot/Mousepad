@@ -94,8 +94,8 @@
                 <!--/span-->
                 <div class="col-md-9">
                     <div class="tab-content">
-                        <div class="tab-pane active" id="profile">
-                            <form role="form">
+                        <form role="form">
+                            <div class="tab-pane active" id="profile">
                                 <div class="form-group">
                                     <label for="username">Username</label>
                                     <input type="text" class="form-control" id="username" placeholder="Enter username" required>
@@ -113,10 +113,8 @@
                                     <input type="password_confirm" class="form-control" id="password" placeholder="Password confirmation">
                                 </div>
                                 <button type="submit" class="btn btn-default">Save</button>
-                            </form>
-                        </div>
-                        <div class="tab-pane" id="locale">
-                            <form role="form">
+                            </div>
+                            <div class="tab-pane" id="locale">
                                 <div class="form-group">
                                     <label for="timezone" class="control-label">Timezone</label>
                                     <select class="form-control" name="timezone" id="timezone">
@@ -559,13 +557,11 @@
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-default">Save</button>
                                 </div>
-                            </form>
-                        </div>
-                        <div class="tab-pane fade" id="edition">
-                            <form role="form">
+                            </div>
+                            <div class="tab-pane fade" id="edition">
                                 
-                            </form>
-                        </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
                 <!--/span-->
@@ -628,6 +624,12 @@
                         list = data;
                         refresh_shortcuts();
                 }, "json");
+                $.post("/app/api/get_conf.php", function(data){
+                    for (i in data){
+                        $("#" + i).val(data[i]);
+                    }
+                }, "json");
+                
             });
             
             function logout(){

@@ -8,7 +8,7 @@ include "../defines/timezone.php";
 date_default_timezone_set(TIMEZONE);
 
 include '../defines/database.php';
-include '../functions/data/get.php';
+include '../functions/data/get/card.php';
 include '../functions/data/login.php';
 
 $username = is_logged();

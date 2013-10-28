@@ -12,8 +12,9 @@ include '../functions/data/login.php';
 if (isset($_POST["user"], $_POST["password"])){
     $user = $_POST["user"];
     $password = $_POST["password"];
-    if (check_login($user, $password)){
-        $_SESSION["user"] = $user;
+    $id = check_login($user, $password);
+    if ($id){
+        $_SESSION["user"] = $id;
         echo json_encode(array("success" => "Yaaay, successfully logged in"));
     } else {
         echo json_encode(array("error" => "Bad pwd, stop tryin to pwn me or just enter the good pwd"));

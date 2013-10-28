@@ -1,6 +1,6 @@
 <?php
 
-function list_users(){
+function list_users(){ // TODO : Refactorer le nom en db_list_users
     switch (DBTYPE){
         case "json" :
             touch(JSONFILEUSERS);
