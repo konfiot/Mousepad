@@ -93,8 +93,8 @@
                 </div>
                 <!--/span-->
                 <div class="col-md-9">
-                    <div class="tab-content">
-                        <form role="form">
+                    <form role="form">
+                        <div class="tab-content">
                             <div class="tab-pane active" id="profile">
                                 <div class="form-group">
                                     <label for="username">Username</label>
@@ -107,6 +107,7 @@
                                 <div class="form-group">
                                     <label for="password">Password</label>
                                     <input type="password" class="form-control" id="password" placeholder="Password">
+                                    <span class="help-block"></span>
                                 </div>
                                 <div class="form-group">
                                     <label for="password_confirm">Password Confirmation</label>
@@ -561,8 +562,8 @@
                             <div class="tab-pane fade" id="edition">
                                 
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
                 <!--/span-->
             </div>
@@ -576,6 +577,7 @@
         <script src="../../bower_components/nprogress/nprogress.js"></script>
         <script src="../../bower_components/alertify.js/lib/alertify.min.js"></script>
         <script src="../../bower_components/jsTimezoneDetect/jstz.min.js"></script>
+        <script src="../../bower_components/zxcvbn/zxcvbn-async.js"></script>
 
         <script>
             var list;
@@ -688,12 +690,15 @@
                 var timezone = jstz.determine();
                 $("#timezone > optgroup > option[value='" + timezone.name() + "']").attr("selected", "selected");
                 console.log(timezone.name());
-                $("#form").submit(function(event){
+                $("form").submit(function(event){
                     if($("#password").val() !== $("#password_confirm").val()){
                         $("#password_confirm").parent().attr("class", "has-error");
                         $("#password_confirm + span").html("<span class='help-block'>Passwords doesn't match</span>");
                         event.preventDefault();
                     }
+                });
+                $("#password").on("input", function(){
+                    $("#password + span").html("Even if we do our best to secure it, if someone gets access to your database, cracking this password would take " + zxcvbn($("#password").val(), ["mousepad", $("#username").val()]).crack_time_display);
                 });
             });
             
@@ -718,7 +723,7 @@
                     if (typeof(json["error"]) !== "undefined"){
                         alertify.error("Error : " + json["error"]);
                         document.location.href = '/';
-                        }
+                    }
             });
         </script>
     </body>
