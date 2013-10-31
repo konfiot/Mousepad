@@ -288,7 +288,7 @@
             $("#modal").modal("show");
             $("#qrcode").html("");
             $('#modal').on('shown.bs.modal', function () {
-                $('#qrcode').qrcode({text: "http://mousepad.konfiot.c9.io/static/html/edit.html#" + id, width: parseInt($("#modalcontent").width()-50), height: parseInt($("#modalcontent").width()-50)});
+                $('#qrcode').qrcode({text: document.location.href.replace(/list.html#(.*)$/, "edit.html#" + id), width: parseInt($("#modalcontent").width()-50), height: parseInt($("#modalcontent").width()-50)});
                 $("#modal").unbind('shown.bs.modal');
             });
         }
