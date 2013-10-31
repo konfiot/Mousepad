@@ -10,7 +10,7 @@ function db_add_user($username, $hash){
                 return false;
             }
             while (flock($file, LOCK_EX) === false);
-            $contents = fread($file, filesize(JSONFILEUSERS));
+            $contents = (filesize(JSONFILEUSERS) > 0) ? fread($file, filesize(JSONFILEUSERS)) : "{}";
             
             $json = json_decode($contents, true);
             $uuid = uniqid();

@@ -3,7 +3,7 @@ include "../functions/database/users/list.php";
 
 function db_get_user($username){
     $list = list_users();
-    return $list[$username];
+    return (isset($list[$username])) ? $list[$username] : array();
 
 }
 ?>

@@ -10,13 +10,13 @@ function db_list_cards($username){
                 return false;
             }
             while (flock($file, LOCK_SH) === false);
-            $contents = fread($file, filesize(JSONFILECARDS));
+            $contents = (filesize(JSONFILECARDS) > 0) ? fread($file, filesize(JSONFILECARDS)) : "{}";
             
             $json = json_decode($contents, true);
             flock($file, LOCK_UN);
             fclose($file);
             
-            return $json[$username];
+            return (isset($json[$username])) ? $json[$username] : array();
 
         break;
         default :

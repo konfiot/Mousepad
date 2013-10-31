@@ -10,7 +10,7 @@ function db_set_star($id, $star, $username){
                 return false;
             }
             while (flock($file, LOCK_EX) === false);
-            $contents = fread($file, filesize(JSONFILECARDS));
+            $contents = (filesize(JSONFILECARDS) > 0) ? fread($file, filesize(JSONFILECARDS)) : "{}";
             
             $json = json_decode($contents, true);
             

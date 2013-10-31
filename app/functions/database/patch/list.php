@@ -10,7 +10,7 @@ function db_list_diffs($id, $username){
                 return false;
             }
             while (flock($file, LOCK_SH) === false);
-            $contents = fread($file, filesize(JSONFILEDIFFS));
+            $contents = (filesize(JSONFILEDIFFS) > 0) ? fread($file, filesize(JSONFILEDIFFS)) : "{}";
             $json = json_decode($contents, true);
 
             flock($file, LOCK_UN);
@@ -18,7 +18,7 @@ function db_list_diffs($id, $username){
             
             $json_out = array();
             
-            foreach ($json[$username] as $key => $value){
+            foreach (((isset($json[$username])) ? $json[$username] : array()) as $key => $value){
                 if ($value["parent"] ==  $id){
                     $json_out[$key] = $value;
                 }

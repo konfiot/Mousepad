@@ -10,7 +10,7 @@ function list_users(){ // TODO : Refactorer le nom en db_list_users
                 return false;
             }
             while (flock($file, LOCK_SH) === false);
-            $contents = fread($file, filesize(JSONFILEUSERS));
+            $contents = (filesize(JSONFILEUSERS) > 0) ? fread($file, filesize(JSONFILEUSERS)) : "{}";
             
             $json = json_decode($contents, true);
             flock($file, LOCK_UN);

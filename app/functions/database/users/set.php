@@ -10,7 +10,7 @@ function db_set_user($data, $username){
                 return false;
             }
             while (flock($file, LOCK_EX) === false);
-            $contents = fread($file, filesize(JSONFILEUSERS));
+            $contents = (filesize(JSONFILEUSERS) > 0) ? fread($file, filesize(JSONFILEUSERS)) : "{}";
             
             $json = json_decode($contents, true);
             
