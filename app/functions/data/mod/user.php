@@ -8,7 +8,7 @@ function set_user($data, $username) {
     
     foreach ($data as $key => $value){
         if (array_search($key, $allowed_keys) !== false){
-            $out[$key] = strip_tags($value, ENT_NOQUOTES);
+            $out[$key] = strip_tags($value);
         }
     }
 
