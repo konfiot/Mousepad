@@ -10,7 +10,7 @@ function db_add_diff($diff, $parent, $username){
                 return false;
             }
             while (flock($file, LOCK_EX) === false);
-            $contents = (filesize(JSONFILEDIFFS) > 0) ? fread($file, filesize(JSONFILEDIFFS)) : "{}";
+            $content = (filesize(JSONFILEDIFFS) > 0) ? fread($file, filesize(JSONFILEDIFFS)) : "{}";
             $uuid = uniqid();
             $json = json_decode($content, true);
             $json[$username][$uuid] = array("content" => $diff, "parent" => $parent, "timestamp" => time());
