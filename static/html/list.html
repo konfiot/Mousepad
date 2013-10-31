@@ -282,7 +282,7 @@
         <script src="../../bower_components/alertify.js/lib/alertify.min.js"></script>
 
         <script>
-        var list, to_delete, list_all, to_create, to_change;
+        var list, to_delete, list_all = {}, to_create, to_change;
         
         function qrcode(id){
             $("#modal").modal("show");
@@ -540,8 +540,11 @@
         
         
         function init(){
-            $.post("/app/api/list.php", function(data){
-                list_all = data;
+            $.post("/app/api/list.php", {data : JSON.stringify({verbose: true})}, function(data){
+                for (var i in data){
+                    list_all[i] = data[i]["meta"];
+                }
+                console.log(list_all);
                 filter_dir();
                 refresh_shortcuts();
                 $("#search").bind("input", function(){
