@@ -17,8 +17,8 @@ if (!($username)){
 } else {
     if (isset($_POST["data"])){
         $data = json_decode($_POST["data"], true);
-
-        $result = set_conf($data, $username);
+        $result = set_user($data, $username);
+        
         echo json_encode($result);
     } else {
         echo json_encode(array("error" => "unset_data"));

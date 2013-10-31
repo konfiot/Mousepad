@@ -2,9 +2,9 @@
 
 include '../functions/database/users/set.php';
 
-function get_user($username, $data) {
+function set_user($data, $username) {
     $out = array();
-    $allowed_keys = array("username", "timezone", "locale");
+    $allowed_keys = array('username', 'timezone', 'locale', 'email');
     
     foreach ($data as $key => $value){
         if (array_search($key, $allowed_keys) !== false){
@@ -12,6 +12,6 @@ function get_user($username, $data) {
         }
     }
 
-    return db_set_user($username, $out);
+    return (db_set_user($out, $username)) ? array("success" => "User data successfully modified") : array("error" => "database error");
 }
 ?>

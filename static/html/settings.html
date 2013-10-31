@@ -54,21 +54,21 @@
                     </form>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
-                                <a id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="/page.html"><i class="icon-plus"></i></a>
-                                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                                    <li>
-                                        <a href="edit.html#note">Note</a>
-                                    </li>
-                                    <li>
-                                        <a href="edit.html#reminder">Reminder</a>
-                                    </li>
-                                    <li>
-                                        <a href="edit.html#checklist">Checklist</a>
-                                    </li>
-                                    <li>
-                                        <a href="edit.html#sketch">Sketch</a>
-                                    </li>
-                                </ul>
+                            <a id="Label" role="button" data-toggle="dropdown" data-target="#" href="/page.html"><i class="icon-plus"></i></a>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                <li>
+                                    <a href="edit.html#note">Note</a>
+                                </li>
+                                <li>
+                                    <a href="edit.html#reminder">Reminder</a>
+                                </li>
+                                <li>
+                                    <a href="edit.html#checklist">Checklist</a>
+                                </li>
+                                <li>
+                                    <a href="edit.html#sketch">Sketch</a>
+                                </li>
+                            </ul>
                         </li>
                         <li><a href="#"><i class="icon-cog"></i></a></li>
                         <li><a onclick="logout();" href="#"><i class="icon-signout"></i></a></li>
@@ -93,29 +93,32 @@
                 </div>
                 <!--/span-->
                 <div class="col-md-9">
-                    <form role="form">
-                        <div class="tab-content">
-                            <div class="tab-pane active" id="profile">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="profile">
+                            <form role="form">
                                 <div class="form-group">
                                     <label for="username">Username</label>
-                                    <input type="text" class="form-control" id="username" placeholder="Enter username" required>
+                                    <input type="text" class="form-control" id="username" name="username" placeholder="Enter username" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="mail">Email</label>
-                                    <input type="email" class="form-control" id="email" placeholder="Enter email" required>
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="password">Password</label>
-                                    <input type="password" class="form-control" id="password" placeholder="Password">
+                                    <input type="password" class="form-control" id="password" name="password" placeholder="Password">
                                     <span class="help-block"></span>
                                 </div>
                                 <div class="form-group">
                                     <label for="password_confirm">Password Confirmation</label>
-                                    <input type="password_confirm" class="form-control" id="password" placeholder="Password confirmation">
+                                    <input type="password" class="form-control" id="password_confirm" name="password_confirm" placeholder="Password confirmation">
+                                    <span class="help-block"></span>
                                 </div>
                                 <button type="submit" class="btn btn-default">Save</button>
-                            </div>
-                            <div class="tab-pane" id="locale">
+                            </form>
+                        </div>
+                        <div class="tab-pane" id="locale">
+                            <form role="form">
                                 <div class="form-group">
                                     <label for="timezone" class="control-label">Timezone</label>
                                     <select class="form-control" name="timezone" id="timezone">
@@ -549,21 +552,24 @@
                                         </optgroup>
                                     </select>
                                 </div>
+                            
                                 <div class="form-group">
                                     <label for="locale">Language</label>
-                                    <select id="locale" class="form-control">
+                                    <select id="locale" name="locale" class="form-control">
                                         <option value="en">English</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-default">Save</button>
                                 </div>
-                            </div>
-                            <div class="tab-pane fade" id="edition">
-                                
-                            </div>
+                            </form>
                         </div>
-                    </form>
+                        <div class="tab-pane fade" id="edition">
+                            <form role="form">
+                                
+                            </form>
+                        </div>
+                    </div>
                 </div>
                 <!--/span-->
             </div>
@@ -581,6 +587,7 @@
 
         <script>
             var list;
+            
             function refresh_shortcuts(){
                 var max_keys = [], max_keys_last = [], max_val = 0, max_key, max_val_last = 0, max_key_last;
                 for (var i = 0 ; i < 5 ; i++){
@@ -620,19 +627,6 @@
                 }
                 
             }
-            
-            $(function(){
-                $.post("/app/api/list.php", function(data){
-                        list = data;
-                        refresh_shortcuts();
-                }, "json");
-                $.post("/app/api/get_conf.php", function(data){
-                    for (i in data){
-                        $("#" + i).val(data[i]);
-                    }
-                }, "json");
-                
-            });
             
             function logout(){
                 $.post("/app/api/logout.php", function(data){
@@ -687,16 +681,31 @@
                         list = data;
                         refresh_shortcuts();
                 }, "json");
+                $.post("/app/api/get_conf.php", function(data){
+                    for (var i in data){
+                        $("#" + i).val(data[i]);
+                    }
+                }, "json");
                 var timezone = jstz.determine();
                 $("#timezone > optgroup > option[value='" + timezone.name() + "']").attr("selected", "selected");
-                console.log(timezone.name());
+
                 $("form").submit(function(event){
+                    event.preventDefault();
+                    var array = {};
+                    $($(this).find(":input:not(button)")).each(function(){
+                        array[$(this).attr("name")] = $(this).val();
+                    });
+                    console.log(array);
                     if($("#password").val() !== $("#password_confirm").val()){
                         $("#password_confirm").parent().attr("class", "has-error");
-                        $("#password_confirm + span").html("<span class='help-block'>Passwords doesn't match</span>");
-                        event.preventDefault();
+                        $("#password_confirm + span").text("Passwords doesn't match");
+                    } else {
+                        $.post("/app/api/set_conf.php", {data : JSON.stringify(array)}, function(data){
+                        }, "json");
+
                     }
                 });
+                
                 $("#password").on("input", function(){
                     $("#password + span").html("Even if we do our best to secure it, if someone gets access to your database, cracking this password would take " + zxcvbn($("#password").val(), ["mousepad", $("#username").val()]).crack_time_display);
                 });

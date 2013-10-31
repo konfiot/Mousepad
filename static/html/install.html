@@ -517,7 +517,7 @@
             $(function(){
                 var timezone = jstz.determine();
                 $("#timezone > optgroup > option[value='" + timezone.name() + "']").attr("selected", "selected");
-                console.log(timezone.name());
+
                 $("#form").submit(function(event){
                     if($("#password").val() !== $("#password_confirm").val()){
                         $("#password_confirm").parent().attr("class", "has-error");

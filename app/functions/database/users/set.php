@@ -1,6 +1,6 @@
 <?php
 
-function db_set_dir($username, $data){
+function db_set_user($data, $username){
     switch (DBTYPE){
         case "json" :
             touch(JSONFILEUSERS);
@@ -15,7 +15,7 @@ function db_set_dir($username, $data){
             $json = json_decode($contents, true);
             
             foreach ($data as $key => $value){
-                json[$username][$key] = $value;
+                $json[$username][$key] = $value;
             }
             
             ftruncate($file, 0);
