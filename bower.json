@@ -17,7 +17,7 @@
   ],
   "dependencies": {
     "bootstrap": "~3.0.0",
-    "font-awesome": "~3.2.1",
+    "font-awesome": "~4.0.1",
     "bootstrap3-datetimepicker": "~1.0.0",
     "html-md": "~3.0.1",
     "leaflet-dist": "~0.6.4",

@@ -59,7 +59,7 @@ function Reminder(selector){
 Reminder.prototype = Object.create(Editor.prototype);
 
 Reminder.prototype.init = function(){
-    $(this.selector).html('<div class="well"><form><div class="form-group"><label>Date</label><div class=\'input-group date\' id="datetimepicker1"><span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span><input id="calendar" type=\'text\' class="form-control" /></div></div><div class="form-group"><label>Additional Information</label><textarea id="addinfo" style="resize: vertical" class="form-control" rows="3"></textarea></div></form></div>');
+    $(this.selector).html('<div class="well"><form><div class="form-group"><label>Date</label><div class=\'input-group date\' id="datetimepicker1"><span class="input-group-addon"><span class="glyphicon glyphfa-calendar"></span></span><input id="calendar" type=\'text\' class="form-control" /></div></div><div class="form-group"><label>Additional Information</label><textarea id="addinfo" style="resize: vertical" class="form-control" rows="3"></textarea></div></form></div>');
     $('#datetimepicker1').datetimepicker({
         language: 'fr',
         pickSeconds: false,
