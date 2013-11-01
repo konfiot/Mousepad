@@ -12,11 +12,12 @@ function check_login($user, $pwd){
         }
     }
     
+    $hash = crypt($pwd, isset($users[$id]["hash"]) ? $users[$id]["hash"] : '$2y$12$'. substr(strtr(base64_encode(mcrypt_create_iv(16, MCRYPT_DEV_URANDOM)), '+', '.'), 0, 22));
+    
     if ($id === false){
         return false;
     }
 
-    $hash = crypt($pwd, $users[$id]["hash"]);
     if ($users[$id]["hash"] === $hash){
         return $id;
     } else {

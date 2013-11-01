@@ -1,1 +1,0 @@
-<?php define('DBTYPE', 'json');define('JSONFILECARDS', 'cards.json');define('JSONFILEDIFFS', 'diffs.json');define('JSONFILEUSERS', 'users.json');?>
