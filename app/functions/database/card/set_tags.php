@@ -1,6 +1,6 @@
 <?php
 
-function db_set_tags($id, $tags){
+function db_set_tags($id, $tags, $username){
     switch (DBTYPE){
         case "json" :
             touch(JSONFILECARDS);

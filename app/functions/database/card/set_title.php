@@ -1,6 +1,6 @@
 <?php
 
-function db_set_title($id, $title){
+function db_set_title($id, $title, $username){
     switch (DBTYPE){
         case "json" :
             touch(JSONFILECARDS);

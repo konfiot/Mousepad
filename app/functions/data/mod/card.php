@@ -1,5 +1,5 @@
 <?php
-include "../functions/data/get.php";
+include "../functions/data/get/card.php";
 include "../functions/database/patch/add.php";
 include "../functions/database/card/set_title.php";
 include "../functions/database/card/set_tags.php";
@@ -43,7 +43,7 @@ function mod_card($data, $username) {
 
 
     if (isset($data["content"])){
-        $old = get_card($data, $userame);
+        $old = get_card($data, $username);
         
         if ($old["content"] === $content){
             return array("success" => "not modified" );
