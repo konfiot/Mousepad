@@ -11,6 +11,9 @@ if (isset($_POST["username"], $_POST["password"], $_POST["password_confirm"], $_
             if (init($_POST["dbtype"], $_POST["timezone"])){
                 include '../defines/database.php';
                 db_add_user($username, $hash);
+                unlink("../functions/data/init.php");
+                unlink("../functions/database/init.php");
+                unlink("./install.php");
                 echo "Allright";
             } else {
                 echo "Prolem DB";
