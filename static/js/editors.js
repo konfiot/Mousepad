@@ -70,10 +70,17 @@ Reminder.prototype.init = function(){
 Reminder.prototype.setValue = function (value) {
     var data = JSON.parse(value);
     if (data["type"] === "Time"){
-        //this.switch("Time");
-        this.init();
+        this.switch("Time");
         $("#calendar").val(data["date"]);
         $("#addinfo").val(data["addinfo"]);
+    } else if (data["type"] === "Place") {
+        this.switch("Place");
+
+        if (typeof(this.marker) !== "undefined"){
+            this.map.removeLayer(this.marker);
+        }
+        this.marker = L.marker(data.coords, {draggable: true}).addTo(this.map);
+        this.map.setView(data.coords, 13);
     }
 }
 
@@ -84,6 +91,8 @@ Reminder.prototype.getValue = function () {
             date: $("#calendar").val(),
             addinfo: $("#addinfo").val()
         });
+    } else if (this.current_editor === "Place"){
+        return JSON.stringify({type: "Place", coords: this.marker.getLatLng()});
     }
 }
 
@@ -103,14 +112,23 @@ Reminder.prototype.switch = function (editor) {
             
             this.current_editor = "Place";
             $("#note").html("<div id='map' style='height: " +  height + "px'></div>");
-            var map = L.map('map').setView([51.505, - 0.09], 13);
+            
+            this.map = L.map('map').setView([51.505, - 0.09], 13);
             L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(map);
+            }).addTo(this.map);
             new L.Control.GeoSearch({
                 provider: new L.GeoSearch.Provider.OpenStreetMap(),
                 showMarker: false
-            }).addTo(map);
+            }).addTo(this.map)
+            
+            var that = this;
+            this.map.on('geosearch_foundlocations', function(location){
+                if (typeof(that.marker) !== "undefined"){
+                    that.map.removeLayer(that.marker);
+                }
+                that.marker = L.marker([location.Locations[0].Y, location.Locations[0].X], {draggable: true}).addTo(that.map);
+            });
         }
     }
 }
