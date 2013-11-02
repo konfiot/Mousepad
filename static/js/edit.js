@@ -108,6 +108,7 @@ function init(){
             })(),
         });
         $("#search").on("typeahead:selected", function (event, item) {
+            $("#search").val("");
             $(location).attr('href',"edit.html#" + item.name);
             location.reload();
         });
