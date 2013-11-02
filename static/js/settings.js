@@ -1,9 +1,9 @@
 $(function(){
-    $.post("/app/api/list.php", function(data){
+    $.post("../../app/api/list.php", function(data){
             list = data;
             refresh_shortcuts();
     }, "json");
-    $.post("/app/api/get_conf.php", function(data){
+    $.post("../../app/api/get_conf.php", function(data){
         for (var i in data){
             $("#" + i).val(data[i]);
         }
@@ -22,7 +22,7 @@ $(function(){
             $("#password_confirm").parent().attr("class", "has-error");
             $("#password_confirm + span").text("Passwords doesn't match");
         } else {
-            $.post("/app/api/set_conf.php", {data : JSON.stringify(array)}, function(data){
+            $.post("../../app/api/set_conf.php", {data : JSON.stringify(array)}, function(data){
             }, "json");
 
         }

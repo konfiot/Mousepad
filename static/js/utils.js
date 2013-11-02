@@ -43,7 +43,7 @@ function refresh_shortcuts(){
 }
 
 function logout(){
-    $.post("/app/api/logout.php", function(data){
+    $.post("../../app/api/logout.php", function(data){
         document.location.href = '/';
     }, "json");
 }
