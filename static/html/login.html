@@ -83,27 +83,7 @@
     <script src="../../bower_components/jquery/jquery.min.js"></script>
     <script src="../../bower_components/alertify.js/lib/alertify.min.js"></script>
     <script src="../../bower_components/nprogress/nprogress.js"></script>
-    <script>
-        $("#form").submit(function(event) {
-            $.post('../../app/api/login.php', $('#form').serialize(), function(data) {
-                if (typeof data['error'] === 'undefined') {
-                    alertify.success('Yaaaay, you logged in !');
-                    document.location.href = '/';
-                }
-                else {
-                    alertify.error('Bad password, try again');
-                }
-            }, 'json').fail(function() {
-                alertify.error('Server error');
-            })
-            event.preventDefault();
-        });
-        $(document).ajaxStart(function() {
-            NProgress.start();
-        });
-        $(document).ajaxStop(function() {
-            NProgress.done();
-        });
-    </script>
+    <script src="../js/feedback.js"></script>
+    <script src="../js/login.js"></script>
   </body>
 </html>

@@ -71,7 +71,7 @@
                             </ul>
                         </li>
                         <li><a href="#"><i class="fa fa-cog"></i></a></li>
-                        <li><a onclick="logout();" href="#"><i class="fa fa-signout"></i></a></li>
+                        <li><a onclick="logout();" href="#"><i class="fa fa-sign-out"></i></a></li>
                     </ul>
                 </div>
                 <!-- /.nav-collapse -->
@@ -584,157 +584,9 @@
         <script src="../../bower_components/alertify.js/lib/alertify.min.js"></script>
         <script src="../../bower_components/jsTimezoneDetect/jstz.min.js"></script>
         <script src="../../bower_components/zxcvbn/zxcvbn-async.js"></script>
-
-        <script>
-            var list;
-            
-            function refresh_shortcuts(){
-                var max_keys = [], max_keys_last = [], max_val = 0, max_key, max_val_last = 0, max_key_last;
-                for (var i = 0 ; i < 5 ; i++){
-                    for (var j in list){
-                        if ((list[j]["times_viewed"] > max_val) && (max_keys.indexOf(j) === -1)){
-                            max_key = j;
-                            max_val = list[j]["times_viewed"];
-                        }
-                        
-                        if ((list[j]["last_viewed"] > max_val_last) && (max_keys_last.indexOf(j) === -1)){
-                            max_key_last = j;
-                            max_val_last = list[j]["last_viewed"];
-                        }
-                    }
-                    
-                    if(max_key !== max_keys[max_keys.length-1]){
-                        max_keys.push(max_key);
-                    }
-                    max_val = 0;
-                    
-                    if(max_key_last !== max_keys_last[max_keys_last.length-1]){
-                        max_keys_last.push(max_key_last);
-                    }
-                    max_val_last = 0;
-                }
-                
-                $("#most_viewed").html("");
-                $("#last_viewed").html("");
-                
-                for (var i in max_keys){
-                    $("#most_viewed").append("<li><a href='edit.html#" + max_keys[i] + "'>" + list[max_keys[i]]["title"] + "</a></li>");
-                }
-                
-                
-                for (var i in max_keys_last){
-                    $("#last_viewed").append("<li><a href='edit.html#" + max_keys_last[i] + "'>" + list[max_keys_last[i]]["title"] + "</a></li>");
-                }
-                
-            }
-            
-            function logout(){
-                $.post("/app/api/logout.php", function(data){
-                    document.location.href = '/';
-                }, "json");
-            }
-        
-            
-            var list;
-            function refresh_shortcuts(){
-                var max_keys = [], max_keys_last = [], max_val = 0, max_key, max_val_last = 0, max_key_last;
-                for (var i = 0 ; i < 5 ; i++){
-                    for (var j in list){
-                        if ((list[j]["times_viewed"] > max_val) && (max_keys.indexOf(j) === -1)){
-                            max_key = j;
-                            max_val = list[j]["times_viewed"];
-                        }
-                        
-                        if ((list[j]["last_viewed"] > max_val_last) && (max_keys_last.indexOf(j) === -1)){
-                            max_key_last = j;
-                            max_val_last = list[j]["last_viewed"];
-                        }
-                    }
-                    
-                    if(max_key !== max_keys[max_keys.length-1]){
-                        max_keys.push(max_key);
-                    }
-                    max_val = 0;
-                    
-                    if(max_key_last !== max_keys_last[max_keys_last.length-1]){
-                        max_keys_last.push(max_key_last);
-                    }
-                    max_val_last = 0;
-                }
-                
-                $("#most_viewed").html("");
-                $("#last_viewed").html("");
-                
-                for (var i in max_keys){
-                    $("#most_viewed").append("<li><a href='edit.html#" + max_keys[i] + "'>" + list[max_keys[i]]["title"] + "</a></li>");
-                }
-                
-                
-                for (var i in max_keys_last){
-                    $("#last_viewed").append("<li><a href='edit.html#" + max_keys_last[i] + "'>" + list[max_keys_last[i]]["title"] + "</a></li>");
-                }
-                
-            }
-            
-            $(function(){
-                $.post("/app/api/list.php", function(data){
-                        list = data;
-                        refresh_shortcuts();
-                }, "json");
-                $.post("/app/api/get_conf.php", function(data){
-                    for (var i in data){
-                        $("#" + i).val(data[i]);
-                    }
-                }, "json");
-                var timezone = jstz.determine();
-                $("#timezone > optgroup > option[value='" + timezone.name() + "']").attr("selected", "selected");
-
-                $("form").submit(function(event){
-                    event.preventDefault();
-                    var array = {};
-                    $($(this).find(":input:not(button)")).each(function(){
-                        array[$(this).attr("name")] = $(this).val();
-                    });
-                    console.log(array);
-                    if($("#password").val() !== $("#password_confirm").val()){
-                        $("#password_confirm").parent().attr("class", "has-error");
-                        $("#password_confirm + span").text("Passwords doesn't match");
-                    } else {
-                        $.post("/app/api/set_conf.php", {data : JSON.stringify(array)}, function(data){
-                        }, "json");
-
-                    }
-                });
-                
-                $("#password").on("input", function(){
-                    $("#password + span").html("Even if we do our best to secure it, if someone gets access to your database, cracking this password would take " + zxcvbn($("#password").val(), ["mousepad", $("#username").val()]).crack_time_display);
-                });
-            });
-            
-            function logout(){
-                $.post("/app/api/logout.php", function(data){
-                    document.location.href = '/';
-                }, "json");
-            }
-        
-            
-            $(document).ajaxStart(function() {
-                    NProgress.start();
-                });
-                $(document).ajaxStop(function() {
-                    NProgress.done();
-                    });
-            $(document).ajaxError(function() {
-                    alertify.error("Server error, try again or report it");
-                });
-                $(document).ajaxSuccess(function(event, xhr) {
-                    var json = JSON.parse(xhr.responseText);
-                    if (typeof(json["error"]) !== "undefined"){
-                        alertify.error("Error : " + json["error"]);
-                        document.location.href = '/';
-                    }
-            });
-        </script>
+        <script src="../js/feedback.js"></script>
+        <script src="../js/utils.js"></script>
+        <script src="../js/settings.js"></script>
     </body>
 
 </html>
