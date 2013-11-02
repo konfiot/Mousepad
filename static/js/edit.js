@@ -95,6 +95,23 @@ function init(){
                 }
             }
         }
+        
+        $("#search").typeahead({
+            local: (function(){
+                var array = [];
+                for (var i in list){
+                    if (list[i]['type'] !== "directory") {
+                        array.push({name: i, value: list[i]["title"]});
+                    }
+                }
+                return array;
+            })(),
+        });
+        $("#search").on("typeahead:selected", function (event, item) {
+            $(location).attr('href',"edit.html#" + item.name);
+            location.reload();
+        });
+        
         $("#tags").tagsinput('input').typeahead({
             name: 'Tags',
             local: tags
