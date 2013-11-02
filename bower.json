@@ -26,7 +26,7 @@
     "marked": "~0.2.9",
     "nprogress": "*",
     "alertify.js": "*",
-    "pen": "*",
+    "pen": "https://github.com/sofish/pen/archive/master.zip",
     "literallycanvas": "*",
     "typeahead.js": "*",
     "underscore": "*",

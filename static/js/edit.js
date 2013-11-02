@@ -3,11 +3,13 @@ function getAnchor() {
         urlParts = currentUrl.split('#');
     return (urlParts.length > 1) ? urlParts[1] : undefined;
 }
+
 var anchor, type, id;
 var editor;
 var mode = "WYSIWYG";
 var to_delete;
 var types = ["note", "reminder", "checklist", "sketch"];
+
 $(function(){
     anchor = getAnchor();
     if ((typeof(anchor) === "string") && (anchor !== "") && (types.indexOf(anchor) === -1)){
