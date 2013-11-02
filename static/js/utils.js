@@ -44,6 +44,6 @@ function refresh_shortcuts(){
 
 function logout(){
     $.post("../../app/api/logout.php", function(data){
-        document.location.href = '/';
+        document.location.href = '../../';
     }, "json");
 }
