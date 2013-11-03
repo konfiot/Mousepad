@@ -275,7 +275,8 @@ function init(){
 }
 
 function list_append(id, item){
-    $("#list").append('<div class="col-md-4"><div class="panel panel-default"><div class="panel-heading"><a href="edit.html#' + id + '" class=""><h4 style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden" >' + item["title"] + '</h4></a></div><div class="panel-body" style="padding: 0; padding-bottom: 100%; height: 0; overflow: hidden; ">' + get_preview(list_all[id], list_content[id]) + '</div><div class="panel-footer" style="margin: 0; padding: 0px ;"><p class="btn-group btn-group-justified" style="margin: 0; border-left: none ; border-bottom: none;"><a class="btn btn-default btn-warning actionbar" href="#" onclick="toogle_star(\'' + id + '\')"><i id="star' + id + '" class="fa fa-star" style="color: ' + ((item["star"]) ? "grey" : "white")  + '"></i></a><a class="btn btn-default btn-info actionbar" onclick="qrcode(\''+id+'\')" href="#"><i class="fa fa-qrcode"></i></a><a class="btn btn-primary btn-default actionbar" onclick="pop_change_dir_modal(\'' + id + '\')" href="#"><i class="fa fa-folder"></i></a><a onclick="pop_confirmation_modal(\'' + id + '\')" class="btn btn-default btn-danger actionbar" ><i class="fa fa-times"></i></a> <a class="btn btn-default btn-success actionbar" href="#"><i class="fa fa-plus"></i></a></p></div></div></div>');
+    $("#list").append('<div class="col-md-4"><div class="panel panel-default"><div class="panel-heading"><a href="edit.html#' + id + '" class=""><h4 style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden" >' + item["title"] + '</h4></a></div><div class="panel-body" style="padding: 0; overflow: hidden;"><div class="box"><div class="content" id="' + id + '"></div></div></div><div class="panel-footer" style="margin: 0; padding: 0px ;"><p class="btn-group btn-group-justified" style="margin: 0; border-left: none ; border-bottom: none;"><a class="btn btn-default btn-warning actionbar" href="#" onclick="toogle_star(\'' + id + '\')"><i id="star' + id + '" class="fa fa-star" style="color: ' + ((item["star"]) ? "grey" : "white")  + '"></i></a><a class="btn btn-default btn-info actionbar" onclick="qrcode(\''+id+'\')" href="#"><i class="fa fa-qrcode"></i></a><a class="btn btn-primary btn-default actionbar" onclick="pop_change_dir_modal(\'' + id + '\')" href="#"><i class="fa fa-folder"></i></a><a onclick="pop_confirmation_modal(\'' + id + '\')" class="btn btn-default btn-danger actionbar" ><i class="fa fa-times"></i></a> <a class="btn btn-default btn-success actionbar" href="#"><i class="fa fa-plus"></i></a></p></div></div></div>');
+    get_preview(list_all[id], list_content[id], id)
 }
 
 function trash(){
@@ -293,13 +294,13 @@ function create_dir(){
     to_create = "";
 }
 
-function get_preview (meta, content){
+function get_preview (meta, content, id){
     switch (meta.type) {
         case 'note' : 
-            return "<p style='margin: 10px'>" + content + "</p>";
+            $("#" + id).html("<p style='margin: 10px'>" + content + "</p>");
         break;
         case 'sketch' :
-            return "<img src='" + content + "' />";
+            $("#" + id).html("<img src='" + content + "' />");
         break;
         case 'checklist' : 
             var json = JSON.parse(content);
@@ -307,12 +308,18 @@ function get_preview (meta, content){
             for (var i in json){
                 form += "<div class='input-group'><span style='border-radius: 0 ; border-top: none; border-left: none' class='input-group-addon'><input type='checkbox' "  + (json[i].done ? "checked" : "") + "></span><input style='border-radius: 0 ; border-top: none ; border-right: none' type='text' class='form-control' value='" + json[i].value + "'></div>";
             }
-            return form + "</form>";
+            $("#" + id).html(form + "</form>");
         break;
         case 'reminder' :
             var json = JSON.parse(content);
             if (json["type"] === "Time"){
-                return "<div style='margin: 10px;'><div class='well well-sm'><i class='fa fa-calendar'></i>  " + json["date"] + "</div><p>" + json["addinfo"] + "</p></div>";
+                $("#" + id).html("<div style='margin: 10px;'><div class='well well-sm'><i class='fa fa-calendar'></i>  " + json["date"] + "</div><p>" + json["addinfo"] + "</p></div>");
+            } else if (json["type"] === "Place"){
+                var map = L.map(id).setView(json.coords, 13);
+                L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
+                L.marker(json.coords).addTo(map);
             }
         break;
     }

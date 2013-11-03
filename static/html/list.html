@@ -13,6 +13,7 @@
         <link href="../../bower_components/nprogress/nprogress.css" rel="stylesheet" />
         <link href="../../bower_components/alertify.js/themes/alertify.default.css" rel="stylesheet">
         <link href="../../bower_components/alertify.js/themes/alertify.core.css" rel="stylesheet">
+        <link href="../../bower_components/leaflet-dist/leaflet.css" rel="stylesheet" />
 
         <!-- Custom styles for this template -->
         <style>
@@ -119,6 +120,26 @@
             img {
                 width: 100%;
             }
+            
+        .box{
+			display: inline-block;
+			position:  relative;
+			width: 100%;
+			margin: 0;
+			float: left;
+		}
+		.box:before{
+			content: "";
+			display: block;
+			padding-top: 100%; /* initial ratio of 1:1*/
+		}
+				.content{
+			position:  absolute;
+			top: 0;
+			left: 0;
+			bottom: 0;
+			right: 0;
+}
             
         </style>
     </head>
@@ -280,6 +301,7 @@
         <script src="../../bower_components/jquery-qrcode/jquery.qrcode.min.js"></script>
         <script src="../../bower_components/nprogress/nprogress.js"></script>
         <script src="../../bower_components/alertify.js/lib/alertify.min.js"></script>
+        <script src="../../bower_components/leaflet-dist/leaflet.js"></script>
         <script src="../js/feedback.js"></script>
         <script src="../js/utils.js"></script>
         <script src="../js/list.js"></script>
