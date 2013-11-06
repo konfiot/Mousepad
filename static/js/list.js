@@ -306,7 +306,7 @@ function get_preview (meta, content, id){
             var json = JSON.parse(content);
             var form = "<form id='checklist'>";
             for (var i in json){
-                form += "<div class='input-group'><span style='border-radius: 0 ; border-top: none; border-left: none' class='input-group-addon'><input type='checkbox' "  + (json[i].done ? "checked" : "") + "></span><input style='border-radius: 0 ; border-top: none ; border-right: none' type='text' class='form-control' value='" + json[i].value + "'></div>";
+                form += "<div class='input-group'><span style='border-radius: 0 ; border-top: none; border-left: none' class='input-group-addon'><input class='checkbox_checklist' type='checkbox' "  + (json[i].done ? "checked" : "") + "></span><input style='border-radius: 0 ; border-top: none ; border-right: none' type='text' class='form-control' value='" + json[i].value + "'></div>";
             }
             $("#" + id).html(form + "</form>");
         break;
@@ -319,7 +319,9 @@ function get_preview (meta, content, id){
                 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 }).addTo(map);
-                L.marker(json.coords).addTo(map);
+                L.marker(json.coords, {draggable: true}).addTo(map).on("dragend", function(){
+                    $.post("../../app/api/mod.php", {data: JSON.stringify({id: id, content: JSON.stringify({type: "Place", coords: this.getLatLng()}), title: $("#title").html(), tags: $("#tags").val().split(",")})}, function(data){}, "json");
+                });
             }
         break;
     }
