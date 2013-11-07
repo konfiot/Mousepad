@@ -142,7 +142,7 @@ function Checklist(selector){
 Checklist.prototype = Object.create(Editor.prototype);
 
 Checklist.prototype.init = function () {
-    $(this.selector).html("<form id='checklist'><div class='input-group'><span style='border-radius: 0' class='input-group-addon'><input type='checkbox'></span><input style='border-radius: 0' type='text' class='form-control'></div><!-- /input-group --></form>");
+    $(this.selector).html("<form id='checklist'><div class='input-group'><span style='border-radius: 0' class='input-group-addon'><input type='checkbox'></span><input style='border-radius: 0' type='text' class='form-control'><span style='border-radius: 0 ; border-top: none' class='input-group-btn'><button style='border-radius: 0 ; border-top: none'  class='btn btn-default' type='button'><i class='fa fa-times'></i></button></span></div><!-- /input-group --></form>");
     bind();
 }
 
@@ -151,20 +151,24 @@ function bind(){
         if ($("#checklist > .input-group:last > input").val() !== ""){
             $("#checklist > .input-group:last > input").unbind();
             $("#checklist > .input-group:last").css('opacity', '1.0');
-            $("#checklist").append("<div style='opacity: 0.5;' class='input-group'><span style='border-radius: 0 ; border-top: none' class='input-group-addon'><input type='checkbox'></span><input style='border-radius: 0 ; border-top: none' type='text' class='form-control'></div><!-- /input-group -->");
+            $("#checklist > .input-group:last").attr('class', 'input-group');
+            $("#checklist").append("<div style='opacity: 0.5;' class='hid input-group'><span style='border-radius: 0 ; border-top: none' class='input-group-addon'><input type='checkbox'></span><input style='border-radius: 0 ; border-top: none' type='text' class='form-control'><span style='border-radius: 0 ; border-top: none' class='input-group-btn'><button style='border-radius: 0 ; border-top: none'  class='btn btn-default' type='button'><i class='fa fa-times'></i></button></span></div><!-- /input-group -->");
             bind();
         }
         
-    });    
+    });
+    $("#checklist > .input-group :not(.hid) > .input-group-btn > button").bind("click", function () {
+        $(this).parent().parent().remove();
+    });
 }
 
 Checklist.prototype.getValue = function () {
     var json = [];
     for (var i in $("#checklist > .input-group > input")){
-        if(($("#checklist > .input-group > input")[i].value !== "") && (typeof($("#checklist > .input-group > input")[i].value) !== "undefined")){
+        if(($("#checklist > .input-group :not(.hid) > input")[i].value !== "") && (typeof($("#checklist > .input-group :not(.hid) > input")[i].value) !== "undefined")){
             json.push({
-                value: $("#checklist > .input-group > input")[i].value,
-                done: $("#checklist > .input-group > .input-group-addon > input")[i].checked
+                value: $("#checklist > .input-group :not(.hid) > input")[i].value,
+                done: $("#checklist > .input-group :not(.hid) > .input-group-addon > input")[i].checked
             });
         }
     }
@@ -176,9 +180,10 @@ Checklist.prototype.setValue = function (value) {
     $(this.selector).html("<form id='checklist'></form>");
     var first = true;
     for (var i in json){
-        $("#checklist").append("<div class='input-group'><span style='border-radius: 0 ; " + ((!(first)) ? "border-top: none" : "") + "' class='input-group-addon'><input type='checkbox' "  + (json[i].done ? "checked" : "") + "></span><input style='border-radius: 0 ; " + ((!(first)) ? "border-top: none" : "") + "' type='text' class='form-control' value='" + json[i].value + "'></div><!-- /input-group -->");
+        $("#checklist").append("<div class='input-group'><span style='border-radius: 0 ; " + ((!(first)) ? "border-top: none" : "") + "' class='input-group-addon'><input type='checkbox' "  + (json[i].done ? "checked" : "") + "></span><input style='border-radius: 0 ; " + ((!(first)) ? "border-top: none" : "") + "' type='text' class='form-control' value='" + json[i].value + "'><span style='border-radius: 0 ; " + ((!(first)) ? "border-top: none" : "") + "' class='input-group-btn'><button style='border-radius: 0 ; " + ((!(first)) ? "border-top: none" : "") + "'  class='btn btn-default' type='button'><i class='fa fa-times'></i></button></span></div><!-- /input-group -->");
         first = false;
     }
+    bind();
 }
 
 
