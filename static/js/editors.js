@@ -164,7 +164,7 @@ function bind(){
 
 Checklist.prototype.getValue = function () {
     var json = [];
-    for (var i in $("#checklist > .input-group > input")){
+    for (var i in $("#checklist > .input-group :not(.hid) > input")){
         if(($("#checklist > .input-group :not(.hid) > input")[i].value !== "") && (typeof($("#checklist > .input-group :not(.hid) > input")[i].value) !== "undefined")){
             json.push({
                 value: $("#checklist > .input-group :not(.hid) > input")[i].value,
