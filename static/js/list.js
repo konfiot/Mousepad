@@ -1,4 +1,4 @@
-var to_delete, list_all = {}, to_create, to_change, list_content = {};
+var to_delete, list_all = {}, to_create, to_change, list_content = {}, list;
 
 function qrcode(id){
     $("#modal").modal("show");
@@ -294,7 +294,7 @@ function create_dir(){
     to_create = "";
 }
 
-function get_preview (meta, content, id){
+function get_preview(meta, content, id){
     switch (meta.type) {
         case 'note' : 
             $("#" + id).html("<p style='margin: 10px'>" + content + "</p>");
@@ -304,11 +304,25 @@ function get_preview (meta, content, id){
         break;
         case 'checklist' : 
             var json = JSON.parse(content);
-            var form = "<form id='checklist'>";
+            var form = "<form >";
             for (var i in json){
-                form += "<div class='input-group'><span style='border-radius: 0 ; border-top: none; border-left: none' class='input-group-addon'><input class='checkbox_checklist' type='checkbox' "  + (json[i].done ? "checked" : "") + "></span><input style='border-radius: 0 ; border-top: none ; border-right: none' type='text' class='form-control checkbox_checklist' value='" + json[i].value + "'></div>";
+                form += "<div class='input-group'><span style='border-radius: 0 ; border-top: none; border-left: none' class='input-group-addon'><input class='checkbox_checklist' type='checkbox' "  + (json[i].done ? "checked" : "") + "></span><input style='border-radius: 0 ; border-top: none ; border-right: none' type='text' class='form-control checkbox_checklist' value='" + json[i].value + "'><span style='border-radius: 0 ; border-top: none' class='input-group-btn'><button style='border-radius: 0 ; border-top: none'  class='btn btn-default' type='button'><i class='fa fa-times'></i></button></span></div>";
             }
             $("#" + id).html(form + "</form>");
+            $("#" + id + " > form > .input-group > .input-group-btn > button").bind("click", function () {
+                $(this).parent().parent().remove();
+                var json = [];
+                for (var i in $("#" + id + " > form > .input-group > input")){
+                    if(($("#" + id + " > form > .input-group > input")[i].value !== "") && (typeof($("#" + id + " > form > .input-group > input")[i].value) !== "undefined")){
+                        json.push({
+                            value: $("#" + id + " > form > .input-group > input")[i].value,
+                            done: $("#" + id + " > form > .input-group > .input-group-addon > input")[i].checked
+                        });
+                    }
+                }
+                $.post("../../app/api/mod.php", {data: JSON.stringify({id: id, content: JSON.stringify(json)})}, function(data){}, "json");
+
+            });
             $(".checkbox_checklist").on("change", function(){
                 var json = [];
                 for (var i in $("#" + id + " > form > .input-group > input")){

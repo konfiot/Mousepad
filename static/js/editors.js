@@ -157,18 +157,18 @@ function bind(){
         }
         
     });
-    $("#checklist > .input-group :not(.hid) > .input-group-btn > button").bind("click", function () {
+    $("#checklist > .input-group:not(.hid) > .input-group-btn > button").bind("click", function () {
         $(this).parent().parent().remove();
     });
 }
 
 Checklist.prototype.getValue = function () {
     var json = [];
-    for (var i in $("#checklist > .input-group :not(.hid) > input")){
-        if(($("#checklist > .input-group :not(.hid) > input")[i].value !== "") && (typeof($("#checklist > .input-group :not(.hid) > input")[i].value) !== "undefined")){
+    for (var i in $("#checklist > .input-group:not(.hid) > input")){
+        if(($("#checklist > .input-group:not(.hid) > input")[i].value !== "") && (typeof($("#checklist > .input-group:not(.hid) > input")[i].value) !== "undefined")){
             json.push({
-                value: $("#checklist > .input-group :not(.hid) > input")[i].value,
-                done: $("#checklist > .input-group :not(.hid) > .input-group-addon > input")[i].checked
+                value: $("#checklist > .input-group:not(.hid) > input")[i].value,
+                done: $("#checklist > .input-group:not(.hid) > .input-group-addon > input")[i].checked
             });
         }
     }
