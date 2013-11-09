@@ -33,6 +33,7 @@
     "bootstrap-tagsinput": "*",
     "zxcvbn" : "*",
     "jsTimezoneDetect" : "*",
-    "L.GeoSearch": "smeijer/L.GeoSearch"
+    "L.GeoSearch": "smeijer/L.GeoSearch",
+    "hogan": "~3.0.0"
   }
 }
