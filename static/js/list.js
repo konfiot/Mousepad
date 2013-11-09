@@ -302,18 +302,17 @@ function create_dir(){
 function get_preview(meta, content, id){
     switch (meta.type) {
         case 'note' : 
-            $("#" + id).html("<p style='margin: 10px'>" + content + "</p>");
+            var template = Hogan.compile("<p style='margin: 10px'>{{content}}</p>")
+            $("#" + id).html(template.render({content: content}));
         break;
         case 'sketch' :
-            $("#" + id).html("<img src='" + content + "' />");
+            var template = Hogan.compile("<img src='{{content}}' />")
+            $("#" + id).html(template.render({content: content}));
         break;
         case 'checklist' : 
             var json = JSON.parse(content);
-            var form = "<form >";
-            for (var i in json){
-                form += "<div class='input-group'><span style='border-radius: 0 ; border-top: none; border-left: none' class='input-group-addon'><input class='checkbox_checklist' type='checkbox' "  + (json[i].done ? "checked" : "") + "></span><input style='border-radius: 0 ; border-top: none ; border-right: none' type='text' class='form-control checkbox_checklist' value='" + json[i].value + "'><span style='border-radius: 0 ; border-top: none' class='input-group-btn'><button style='border-radius: 0 ; border-top: none'  class='btn btn-default' type='button'><i class='fa fa-times'></i></button></span></div>";
-            }
-            $("#" + id).html(form + "</form>");
+            var template = Hogan.compile("<form>{{#values}}<div class='input-group'><span style='border-radius: 0 ; border-top: none; border-left: none' class='input-group-addon'><input class='checkbox_checklist' type='checkbox' {{#done}} checked {{/done}}></span><input style='border-radius: 0 ; border-top: none ; border-right: none' type='text' class='form-control checkbox_checklist' value='{{value}}'><span style='border-radius: 0 ; border-top: none' class='input-group-btn'><button style='border-radius: 0 ; border-top: none'  class='btn btn-default' type='button'><i class='fa fa-times'></i></button></span></div>{{/values}}</form>");
+            $("#" + id).html(template.render({values: json}));
             $("#" + id + " > form > .input-group > .input-group-btn > button").bind("click", function () {
                 $(this).parent().parent().remove();
                 var json = [];
@@ -328,10 +327,10 @@ function get_preview(meta, content, id){
                 $.post("../../app/api/mod.php", {data: JSON.stringify({id: id, content: JSON.stringify(json)})}, function(data){}, "json");
 
             });
-            $(".checkbox_checklist").on("change", function(){
+            $("#" + id +" * .checkbox_checklist").on("change", function(){
                 var json = [];
                 for (var i in $("#" + id + " > form > .input-group > input")){
-                    if(($("#" + id + " > form > .input-group > input")[i].value !== "") && (typeof($("#checklist > .input-group > input")[i].value) !== "undefined")){
+                    if(($("#" + id + " > form > .input-group > input")[i].value !== "") && (typeof($("#" + id + " > form > .input-group > input")[i].value) !== "undefined")){
                         json.push({
                             value: $("#" + id + " > form > .input-group > input")[i].value,
                             done: $("#" + id + " > form > .input-group > .input-group-addon > input")[i].checked
@@ -339,13 +338,13 @@ function get_preview(meta, content, id){
                     }
                 }
                 $.post("../../app/api/mod.php", {data: JSON.stringify({id: id, content: JSON.stringify(json)})}, function(data){}, "json");
-
             });
         break;
         case 'reminder' :
             var json = JSON.parse(content);
             if (json["type"] === "Time"){
-                $("#" + id).html("<div style='margin: 10px;'><div class='well well-sm'><i class='fa fa-calendar'></i>  " + json["date"] + "</div><p>" + json["addinfo"] + "</p></div>");
+                var template = Hogan.compile("<div style='margin: 10px;'><div class='well well-sm'><i class='fa fa-calendar'></i>  {{date}}</div><p>{{addinfo}}</p></div>")
+                $("#" + id).html(template.render({date: json.date, addinfo: json.addinfo}));
             } else if (json["type"] === "Place"){
                 var map = L.map(id).setView(json.coords, 13);
                 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
