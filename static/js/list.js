@@ -27,55 +27,26 @@ function refresh_filters(){
     
     for (var i in list){
         if (list[i]["last_viewed"] - Math.round(new Date().getTime() / 1000) >= Math.round(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).getTime() / 1000) - Math.round(new Date().getTime() / 1000)){
-            dates_to_display[0] = true;
+            dates_to_display[0] = {display: true, value: 0, text: "Today"};
         } else if (list[i]["last_viewed"] - (Math.round(new Date().getTime() / 1000)) >= Math.round(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()-1).getTime() / 1000) - Math.round(new Date().getTime() / 1000)){
-            dates_to_display[1] = true;
+            dates_to_display[1] = {display: true, value: 1, text: "Yesterday"};
         } else if (list[i]["last_viewed"] - (Math.round(new Date().getTime() / 1000)) >= Math.round(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()- new Date().getDay()).getTime() / 1000) - Math.round(new Date().getTime() / 1000)){
-            dates_to_display[2] = true;
+            dates_to_display[2] = {display: true, value: 2, text: "Last Week"};
         } else if (list[i]["last_viewed"] - (Math.round(new Date().getTime() / 1000)) >= Math.round(new Date(new Date().getFullYear(), new Date().getMonth(), 0).getTime() / 1000) - Math.round(new Date().getTime() / 1000)){
-            dates_to_display[3] = true;
+            dates_to_display[3] = {display: true, value: 3, text: "Last Month"};
         } else if (list[i]["last_viewed"] - (Math.round(new Date().getTime() / 1000)) < Math.round(new Date(new Date().getFullYear(), new Date().getMonth(), 0).getTime() / 1000) - Math.round(new Date().getTime() / 1000)){
-            dates_to_display[4] = true;
+            dates_to_display[4] = {display: true, value: 4, text: "More than a month ago"};
         }
     }
     
-    $("#tags").html("");
-    $("#tags").append("<li><a href='#' onclick='filter_tags(\"\")'>All</a></li><li>Tags</li>");
-    for (var i in tags){
-        $("#tags").append("<li><a href='#' onclick=\"filter_tags('" + tags[i] + "')\">" + tags[i] + "</a></li>");
-    }
     
-    $("#tags").append("<li>Last edited</li>");
-    
-    for (var i in dates_to_display){
-        if (dates_to_display[i]){
-            var date;
-            switch (i){
-                case '0' :
-                    date = "Today";
-                break;
-                case '1' :
-                    date = "Yesterday";
-                break;
-                case '2' :
-                    date = "Last Week";
-                break;
-                case '3' :
-                    date = "Last Month";
-                break;
-                case '4' :
-                    date = "More than one month ago";
-                break;
-            }
-            $("#tags").append("<li><a href='#' onclick=\"filter_date(" + i + ")\">" + date + "</a></li>");
-        }
-    }
-    
-    $("#tags").append("<li>Type</li>");
-    
-    for (var i in types){
-        $("#tags").append("<li style='text-transform: capitalize'><a href='#' onclick=\"filter_types('" + types[i] + "')\">" + types[i] + "</a></li>");
-    }
+    var template = Hogan.compile("<li><a href='#' onclick='filter_tags(\"\")'>All</a></li><li>Tags</li>{{#tags}}<li><a href='#' onclick=\"filter_tags('{{.}}')\">{{.}}</a></li>{{/tags}}<li>Last edited</li>{{#dates}}{{#display}}<li><a href='#' onclick=\"filter_date({{value}})\">{{text}}</a></li>{{/display}}{{/dates}}<li>Type</li>{{#types}}<li style='text-transform: capitalize'><a href='#' onclick=\"filter_types('{{.}}')\">{{.}}</a></li>{{/types}}")
+    console.log (types);
+    $("#tags").html(template.render({
+        tags: tags,
+        dates: dates_to_display,
+        types: types
+    }));
 }
 
 function filter_tags(tag){
