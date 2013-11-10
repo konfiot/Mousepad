@@ -39,9 +39,7 @@ function refresh_filters(){
         }
     }
     
-    
     var template = Hogan.compile("<li><a href='#' onclick='filter_tags(\"\")'>All</a></li><li>Tags</li>{{#tags}}<li><a href='#' onclick=\"filter_tags('{{.}}')\">{{.}}</a></li>{{/tags}}<li>Last edited</li>{{#dates}}{{#display}}<li><a href='#' onclick=\"filter_date({{value}})\">{{text}}</a></li>{{/display}}{{/dates}}<li>Type</li>{{#types}}<li style='text-transform: capitalize'><a href='#' onclick=\"filter_types('{{.}}')\">{{.}}</a></li>{{/types}}")
-    console.log (types);
     $("#tags").html(template.render({
         tags: tags,
         dates: dates_to_display,
@@ -99,6 +97,9 @@ function filter_date(date){
 }
 
 function filter_dir(dir){
+    if(dir === ""){
+        dir = undefined;
+    }
     var old_list = list_all;
     list = {};
     for (var i in old_list){
@@ -125,25 +126,25 @@ function filter_dir(dir){
         }
     }
     var current_dir = (typeof(dir) === "undefined") ? undefined : dir;
-    $("#path").html("");
-    var finished;
+    var template = Hogan.compile('{{#folders}}<li class="active dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">{{name}}</a><b class="caret"></b><ul  class="dropdown-menu"><li><a tabindex="-1" onclick="filter_dir(\'{{id}}\')" href="#{{id}}">Roll Back to this directory</a></li>{{#childs}}<li><a tabindex="-1" onclick="filter_dir(\'{{id}}\')" href="#{{id}}">{{name}}</a></li>{{/childs}}<li><a tabindex="-1" onclick="pop_creation_dir_modal(\'{{id}}\')" href="#">Add a new directory</a></li></ul></li>{{/folders}}')
+    var finished, folders = [];
     do {
         finished = (typeof(current_dir) === "undefined") ? true : false;
-        var output = '<li class="active dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">' + ((typeof(current_dir) === "undefined") ? "Home" : list_all[current_dir]["title"]) + '</a><b class="caret"></b><ul  class="dropdown-menu">';
-        output += '<li><a tabindex="-1" onclick="filter_dir(' + ((typeof(current_dir) === "undefined") ? '' : "\'" + current_dir + "\'") + ')" href="#' + i + '">Roll Back to this directory</a></li>';
+        folders.unshift({id: ((typeof(current_dir) === "undefined") ? '' : current_dir), name: ((typeof(current_dir) === "undefined") ? "Home" : list_all[current_dir]["title"]), childs: []})
         for (var i in list_all){
             if(list_all[i].dir === null) list_all[i].dir = undefined;
             if ((list_all[i].type === "directory") && (list_all[i].dir === current_dir)){
-                output += '<li><a tabindex="-1" onclick="filter_dir(\'' + i + '\')" href="#' + i + '">' + list_all[i].title + '</a></li>';
+                folders[0].childs.push({id: i, name: list_all[i].title})
             }
+            
         }
-        output += '<li><a tabindex="-1" onclick="pop_creation_dir_modal(\'' +  ((typeof(current_dir) === "undefined") ? "" :  current_dir) + '\')" href="#">Add a new directory</a></li>';
-        output += '</ul></li>';
-        $("#path").prepend(output);
         if (typeof(current_dir) !== "undefined"){
             current_dir = (typeof(list_all[current_dir]["dir"]) === "undefined") ? undefined : list_all[current_dir]["dir"];
         }
     } while (!finished);
+    $("#path").html(template.render({
+        folders: folders
+    }));
     refresh_filters();
     filter_tags("");
 }
