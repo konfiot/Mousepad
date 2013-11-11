@@ -156,33 +156,31 @@ function pop_creation_dir_modal(id){
 
 function pop_change_dir_modal(id){
     $("#cd").modal('show');
-    var tree = "";
-    tree = (function(id){
+    
+    var template = Hogan.compile("{{#data}}{{> tree}}{{/data}}");
+    var template_partial = Hogan.compile('{{#root}}<div class="tree"><ul role="tree"><li class="parent_li" role="treeitem"><label><input style="display: none" type="radio" value="undefined" name="radio_dir"/><span>Home</span></label>{{/root}}<ul role="group">{{#childrens}}<li {{^root}}style="display: none;"{{/root}} class="parent_li" role="treeitem"><label><input style="display: none" type="radio" value="{{id}}" name="radio_dir"/><span>{{name}}</span></label>{{> tree}}</li>{{/childrens}}</ul>{{#root}}</li></ul></div>{{/root}}');
+    
+    var tree = (function(id){
+        var tree = {};
         var array = [];
-        var tree = ((typeof(id) === "undefined") ? '<div class="tree"><ul role="tree"><li class="parent_li" role="treeitem"><label><input style="display: none" type="radio" value="undefined" name="radio_dir"/><span>Home</span></label><ul role="group">' : '<ul role="group">');
+        tree.childrens = [];
+        tree.id = id;
+        tree.name = ((typeof(id) === "undefined") ? "Home" : list_all[id].title);
+        tree.root = ((typeof(id) === "undefined") ? true : false);
         for (var i in list_all){
             if(list_all[i].type === "directory"){
                 if ((typeof (list_all[i].dir) === "undefined") && (typeof(id) === "undefined")){
-                    tree += '<li ' + ((typeof(id) !== "undefined") ? 'style="display: none;"' : '') + ' class="parent_li" role="treeitem"><label><input style="display: none" type="radio" value="' + i + '" name="radio_dir"/><span>' + list_all[i].title + '</span></label>';
-                    tree += arguments.callee(i);
-                    tree += '</li>';
+                    tree.childrens.push(arguments.callee(i));
                     array.push(i);
                 } else if (list_all[i].dir === id){
-                    tree += '<li ' + ((typeof(id) !== "undefined") ? 'style="display: none;"' : '') + ' class="parent_li" role="treeitem"><label><input style="display: none" type="radio" value="' + i + '" name="radio_dir"/><span>' + list_all[i].title + '</span></label>';
-                    tree += arguments.callee(i);
-                    tree += '</li>';
+                    tree.childrens.push(arguments.callee(i));
                     array.push(i);
                 }
             }
         }
-        tree += ((typeof(id) === "undefined") ? '</ul></li></ul></div>' : '</ul>');
-        if(array.join("") === ""){
-            return "";
-        } else {
-            return tree;
-        }
+        return tree;
     })();
-    $("#cdlist").html(tree);
+    $("#cdlist").html(template.render({data: tree}, {tree: template_partial}));
     $('.tree li:has(ul)').addClass('parent_li').find(' > span').attr('title', 'Collapse this branch');
     $('.tree li.parent_li > label > span').on('click', function(e) {
         var children = $(this).parent().parent('li.parent_li').find(' > ul > li');
