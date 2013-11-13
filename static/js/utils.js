@@ -28,18 +28,31 @@ function refresh_shortcuts(){
         max_val_last = 0;
     }
     
-    $("#most_viewed").html("");
-    $("#last_viewed").html("");
     
+    var template = Hogan.compile("{{#list}}<li><a href='edit.html#{{id}}'>{{title}}</a></li>{{/list}}")
+    
+    var list_max = [];
     for (i in max_keys){
-        $("#most_viewed").append("<li><a href='edit.html#" + max_keys[i] + "'>" + list[max_keys[i]]["title"] + "</a></li>");
+        list_max.push({
+            title: list[max_keys[i]]["title"],
+            id: max_keys[i]
+        });
     }
     
     
+    
+    var list_last = [];
     for (i in max_keys_last){
-        $("#last_viewed").append("<li><a href='edit.html#" + max_keys_last[i] + "'>" + list[max_keys_last[i]]["title"] + "</a></li>");
+        list_last.push({
+            title: list[max_keys_last[i]]["title"],
+            id: max_keys_last[i]
+        });
     }
     
+    console.log(list_last);
+    
+    $("#most_viewed").html(template.render({list: list_max}));
+    $("#last_viewed").html(template.render({list: list_last}));
 }
 
 function logout(){
