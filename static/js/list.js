@@ -199,7 +199,7 @@ function pop_change_dir_modal(id){
 
 function change_dir(){
     var val = (($("input:radio[name='radio_dir']:checked").val() === "undefined") ? "" : $("input:radio[name='radio_dir']:checked").val());
-    $.post("../../app/api/mod.php", {data: JSON.stringify({id: to_change, dir: val})}, function(data){}, "json");
+    $.post("../../../app/api/mod.php", {data: JSON.stringify({id: to_change, dir: val})}, function(data){}, "json");
     to_change="";
     init();
 }
@@ -215,7 +215,7 @@ function toogle_star(id){
         star = true;
         $("#star" + id).css("color", "grey");
     }
-    $.post("../../app/api/mod.php", {data: JSON.stringify({id: id, star: star})}, function(data){}, "json");
+    $.post("../../../app/api/mod.php", {data: JSON.stringify({id: id, star: star})}, function(data){}, "json");
 
 }
 
@@ -226,7 +226,7 @@ function pop_confirmation_modal(id){
 
 
 function init(){
-    $.post("../../app/api/list.php", {data : JSON.stringify({verbose: true})}, function(data){
+    $.post("../../../app/api/list.php", {data : JSON.stringify({verbose: true})}, function(data){
         for (var i in data){
             list_all[i] = data[i]["meta"];
             list_content[i] = data[i]["content"];
@@ -255,14 +255,14 @@ function list_append(id, item){
 }
 
 function trash(){
-    $.post("../../app/api/remove.php", {data: JSON.stringify({id: to_delete})}, function(data){
+    $.post("../../../app/api/remove.php", {data: JSON.stringify({id: to_delete})}, function(data){
         init();
     }, "json");
     to_delete = "";
 }
 
 function create_dir(){
-    $.post("../../app/api/add.php", {data: JSON.stringify({type: "directory", dir: ((to_create === '') ? undefined : to_create), title: $("#dirname").val()})}, function(data){
+    $.post("../../../app/api/add.php", {data: JSON.stringify({type: "directory", dir: ((to_create === '') ? undefined : to_create), title: $("#dirname").val()})}, function(data){
         init();
     }, "json");
     ("#dirname").val("");
@@ -294,7 +294,7 @@ function get_preview(meta, content, id){
                         });
                     }
                 }
-                $.post("../../app/api/mod.php", {data: JSON.stringify({id: id, content: JSON.stringify(json)})}, function(data){}, "json");
+                $.post("../../../app/api/mod.php", {data: JSON.stringify({id: id, content: JSON.stringify(json)})}, function(data){}, "json");
 
             });
             $("#" + id +" * .checkbox_checklist").on("change", function(){
@@ -307,7 +307,7 @@ function get_preview(meta, content, id){
                         });
                     }
                 }
-                $.post("../../app/api/mod.php", {data: JSON.stringify({id: id, content: JSON.stringify(json)})}, function(data){}, "json");
+                $.post("../../../app/api/mod.php", {data: JSON.stringify({id: id, content: JSON.stringify(json)})}, function(data){}, "json");
             });
         break;
         case 'reminder' :
@@ -321,7 +321,7 @@ function get_preview(meta, content, id){
                     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 }).addTo(map);
                 L.marker(json.coords, {draggable: true}).addTo(map).on("dragend", function(){
-                    $.post("../../app/api/mod.php", {data: JSON.stringify({id: id, content: JSON.stringify({type: "Place", coords: this.getLatLng()})})}, function(data){}, "json");
+                    $.post("../../../app/api/mod.php", {data: JSON.stringify({id: id, content: JSON.stringify({type: "Place", coords: this.getLatLng()})})}, function(data){}, "json");
                 });
             }
         break;

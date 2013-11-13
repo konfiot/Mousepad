@@ -11,10 +11,10 @@ function is_logged(){
 }
 
 if (!(file_exists('app/defines/database.php'))){
-    header("Location: static/html/install.html");
+    header("Location: static/templates/default/install.html");
 } else if (is_logged()){
-    header("Location: static/html/list.html");
+    header("Location: static/templates/default/list.html");
 } else {
-    header("Location: static/html/login.html");
+    header("Location: static/templates/default/login.html");
 }
 ?>

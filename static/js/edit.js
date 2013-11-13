@@ -14,7 +14,7 @@ $(function(){
     anchor = getAnchor();
     if ((typeof(anchor) === "string") && (anchor !== "") && (types.indexOf(anchor) === -1)){
         id = anchor;
-        $.post("../../app/api/get.php", {data: JSON.stringify({id: id})}, function(data){
+        $.post("../../../app/api/get.php", {data: JSON.stringify({id: id})}, function(data){
             type = data["meta"]["type"];
             switch (data["meta"]["type"]){
                 case "note" : 
@@ -68,23 +68,23 @@ $(function(){
 
 function save(){
     if ((typeof(id) === "string") && (id !== "") && (types.indexOf(id) === -1)){
-        $.post("../../app/api/mod.php", {data: JSON.stringify({id: id, content: editor.getValue(), title: $("#title").html(), tags: $("#tags").val().split(",")})}, function(data){}, "json");
+        $.post("../../../app/api/mod.php", {data: JSON.stringify({id: id, content: editor.getValue(), title: $("#title").html(), tags: $("#tags").val().split(",")})}, function(data){}, "json");
     } else {
-        $.post("../../app/api/add.php", {data: JSON.stringify({type: type, content: editor.getValue(), title: $("#title").html(), tags: $("#tags").val().split(",")})}, function(data){
+        $.post("../../../app/api/add.php", {data: JSON.stringify({type: type, content: editor.getValue(), title: $("#title").html(), tags: $("#tags").val().split(",")})}, function(data){
             id = data["id"];
         }, "json");
     }
 }
 
 function trash(){
-    $.post("../../app/api/remove.php", {data: JSON.stringify({id: id})}, function(data){
+    $.post("../../../app/api/remove.php", {data: JSON.stringify({id: id})}, function(data){
         editor.destroy();
         $(location).attr('href',"list.html");
     }, "json");
 }
 
 function init(){
-    $.post("../../app/api/list.php", function(data){
+    $.post("../../../app/api/list.php", function(data){
         list = data;
         refresh_shortcuts();
         var tags = [];
@@ -123,7 +123,7 @@ function init(){
         
         $("#tags").change(function(){
             if ((typeof(id) === "string") && (id !== "") && (types.indexOf(id) === -1)){
-                $.post("../../app/api/mod.php", {data: JSON.stringify({id: id, tags: $("#tags").val().split(",")})}, function(data){console.log(data)}, "json");
+                $.post("../../../app/api/mod.php", {data: JSON.stringify({id: id, tags: $("#tags").val().split(",")})}, function(data){console.log(data)}, "json");
             }
         });
         
@@ -131,9 +131,6 @@ function init(){
     var modes = editor.getModes();
     if (modes.length >1){
         var template = Hogan.compile("<li>Edit With</li>{{#modes}}<li id='mode_{{.}}' class='mode'><a href='#' onclick='editor.switch(\"{{.}}\");$(\".mode\").attr(\"class\", \"mode\");$(\"#mode_{{.}}\").attr(\"class\", \"mode active\");'>{{.}}</a></li>{{/modes}}");
-        for (var i in modes){
-            //$("#sidebar").prepend("<li id='mode_" + modes[i] + "' class='mode " + ((i == (modes.length-1)) ? "active" : "") + "'><a href='#' onclick='editor.switch(\""  + modes[i] + "\");$(\".mode\").attr(\"class\", \"mode\");$(\"#mode_"+ modes[i] + "\").attr(\"class\", \"mode active\");'>" + modes[i] + "</a></li>");
-        }
         $("#sidebar").prepend(template.render({modes: modes}));
         $("#mode_" + modes[0]).attr("class", "mode active");
     }
