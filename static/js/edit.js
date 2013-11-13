@@ -130,9 +130,11 @@ function init(){
     }, "json");
     var modes = editor.getModes();
     if (modes.length >1){
+        var template = Hogan.compile("<li>Edit With</li>{{#modes}}<li id='mode_{{.}}' class='mode'><a href='#' onclick='editor.switch(\"{{.}}\");$(\".mode\").attr(\"class\", \"mode\");$(\"#mode_{{.}}\").attr(\"class\", \"mode active\");'>{{.}}</a></li>{{/modes}}");
         for (var i in modes){
-            $("#sidebar").prepend("<li id='mode_" + modes[i] + "' class='mode " + ((i == (modes.length-1)) ? "active" : "") + "'><a href='#' onclick='editor.switch(\""  + modes[i] + "\");$(\".mode\").attr(\"class\", \"mode\");$(\"#mode_"+ modes[i] + "\").attr(\"class\", \"mode active\");'>" + modes[i] + "</a></li>");
+            //$("#sidebar").prepend("<li id='mode_" + modes[i] + "' class='mode " + ((i == (modes.length-1)) ? "active" : "") + "'><a href='#' onclick='editor.switch(\""  + modes[i] + "\");$(\".mode\").attr(\"class\", \"mode\");$(\"#mode_"+ modes[i] + "\").attr(\"class\", \"mode active\");'>" + modes[i] + "</a></li>");
         }
-        $("#sidebar").prepend("<li>Edit With</li>");
+        $("#sidebar").prepend(template.render({modes: modes}));
+        $("#mode_" + modes[0]).attr("class", "mode active");
     }
 }

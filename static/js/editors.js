@@ -8,7 +8,7 @@ Editor.prototype.getModes = function(){
 
 function Note(selector){
     this.selector = selector;
-    this.modes = ["Classic", "WYSIWYG"];
+    this.modes = ["WYSIWYG", "Classic"];
     this.current_editor = "WYSIWYG";
 }
 
@@ -52,7 +52,7 @@ Note.prototype.init = function () {
 
 function Reminder(selector){
     this.selector = selector;
-    this.modes = ["Place", "Time"];
+    this.modes = ["Time", "Place"];
     this.current_editor = "Time";
 }
 
