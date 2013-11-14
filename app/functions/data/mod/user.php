@@ -4,7 +4,7 @@ include '../functions/database/users/set.php';
 
 function set_user($data, $username) {
     $out = array();
-    $allowed_keys = array('username', 'timezone', 'locale', 'email');
+    $allowed_keys = array('username', 'timezone', 'locale', 'email', 'theme');
     
     foreach ($data as $key => $value){
         if (array_search($key, $allowed_keys) !== false){

@@ -3,13 +3,13 @@ $(function(){
             list = data;
             refresh_shortcuts();
     }, "json");
+    var timezone = jstz.determine();
+    $("#timezone > optgroup > option[value='" + timezone.name() + "']").attr("selected", "selected");
     $.post("../../../app/api/get_conf.php", function(data){
         for (var i in data){
             $("#" + i).val(data[i]);
         }
     }, "json");
-    var timezone = jstz.determine();
-    $("#timezone > optgroup > option[value='" + timezone.name() + "']").attr("selected", "selected");
 
     $("form").submit(function(event){
         event.preventDefault();
@@ -17,7 +17,6 @@ $(function(){
         $($(this).find(":input:not(button)")).each(function(){
             array[$(this).attr("name")] = $(this).val();
         });
-        console.log(array);
         if($("#password").val() !== $("#password_confirm").val()){
             $("#password_confirm").parent().attr("class", "has-error");
             $("#password_confirm + span").text("Passwords doesn't match");
