@@ -1,7 +1,7 @@
 <?php 
-include "../functions/database/card/add.php";
-include "../functions/database/patch/add.php";
-include "../functions/diff_match_patch.php";
+include INCPATH."/app/functions/database/card/add.php";
+include INCPATH."/app/functions/database/patch/add.php";
+include INCPATH."/app/functions/diff_match_patch.php";
 
 
 function add_card($data, $username) {

@@ -6,6 +6,7 @@ date_default_timezone_set("UTC");
 include "../defines/timezone.php";
 date_default_timezone_set(TIMEZONE);
 
+include '../defines/misc.php';
 include '../defines/database.php';
 include '../functions/data/mod/user.php';
 include '../functions/data/login.php';

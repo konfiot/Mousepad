@@ -1,7 +1,7 @@
 <?php 
-include "../functions/database/card/list.php";
-include "../functions/data/get/card.php";
-include "../functions/database/patch/list.php";
+include INCPATH.'/app/functions/database/card/list.php';
+include INCPATH.'/app/functions/data/get/card.php';
+include INCPATH.'/app/functions/database/patch/list.php';
 
 
 function list_cards($data, $username) {

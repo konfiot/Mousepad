@@ -1,6 +1,6 @@
 <?php
 
-include '../functions/database/users/set.php';
+include INCPATH.'/app/functions/database/users/set.php';
 
 function set_user($data, $username) {
     $out = array();

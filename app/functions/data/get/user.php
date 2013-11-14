@@ -1,6 +1,6 @@
 <?php
 
-include '../functions/database/users/get.php';
+include INCPATH.'/app/functions/database/users/get.php';
 
 function get_user($username) {
     $user = db_get_user($username);

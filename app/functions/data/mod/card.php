@@ -1,11 +1,11 @@
 <?php
-include "../functions/data/get/card.php";
-include "../functions/database/patch/add.php";
-include "../functions/database/card/set_title.php";
-include "../functions/database/card/set_tags.php";
-include "../functions/database/card/set_star.php";
-include "../functions/database/card/set_dir.php";
-include_once "../functions/diff_match_patch.php";
+include INCPATH.'/app/functions/data/get/card.php';
+include INCPATH.'/app/functions/database/patch/add.php';
+include INCPATH.'/app/functions/database/card/set_title.php';
+include INCPATH.'/app/functions/database/card/set_tags.php';
+include INCPATH.'/app/functions/database/card/set_star.php';
+include INCPATH.'/app/functions/database/card/set_dir.php';
+include_once INCPATH.'/app/functions/diff_match_patch.php';
 
 
 

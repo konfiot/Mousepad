@@ -1,8 +1,8 @@
 <?php 
-include "../functions/database/card/get.php";
-include "../functions/database/card/touch.php";
-include "../functions/database/patch/list.php";
-include "../functions/diff_match_patch.php";
+include INCPATH.'/app/functions/database/card/get.php';
+include INCPATH.'/app/functions/database/card/touch.php';
+include INCPATH.'/app/functions/database/patch/list.php';
+include INCPATH.'/app/functions/diff_match_patch.php';
 
 function cmp($c, $d)
 {

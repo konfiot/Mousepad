@@ -1,6 +1,6 @@
 <?php
 
-include "../functions/database/users/list.php";
+include INCPATH.'/app/functions/database/users/list.php';
 
 function check_login($user, $pwd){
     $users = list_users();

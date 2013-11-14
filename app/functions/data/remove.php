@@ -1,6 +1,6 @@
 <?php 
-include "../functions/database/card/get.php";
-include "../functions/database/card/remove.php";
+include INCPATH.'/app/functions/database/card/get.php';
+include INCPATH.'/app/functions/database/card/remove.php';
 
 
 function remove_card($data, $username) {

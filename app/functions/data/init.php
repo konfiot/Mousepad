@@ -1,10 +1,10 @@
 <?php
-include '../functions/database/init.php';
+include INCPATH.'/app/functions/database/init.php';
 
 function init($dbtype, $timezone){
     if(!(db_init($dbtype))){
         return false;
     }
-    return ((bool) file_put_contents("../defines/timezone.php", "<?php define('TIMEZONE', '" . $timezone . "');?>"));
+    return ((bool) file_put_contents(INCPATH.'/app/defines/timezone.php', '<?php define(\'TIMEZONE\', \'' . $timezone . '\');?>'));
 }
 ?>
