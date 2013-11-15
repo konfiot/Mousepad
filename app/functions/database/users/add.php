@@ -14,14 +14,14 @@ function db_add_user($username, $hash){
             
             $json = json_decode($contents, true);
             $uuid = uniqid();
-            $json[$uuid] = array("username" => $username, "hash" => $hash);
+            $json[$uuid] = array("username" => $username, "hash" => $hash, "theme" => "default");
             
             ftruncate($file, 0);
             fwrite($file, json_encode($json));
             flock($file, LOCK_UN);
             fclose($file);
             
-            return true;
+            return $uuid;
 
         break;
         default :

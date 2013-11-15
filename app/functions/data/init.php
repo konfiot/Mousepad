@@ -2,7 +2,7 @@
 include '../defines/misc.php';
 include INCPATH.'/app/functions/database/init.php';
 
-function init($dbtype, $timezone, $admin){
+function init($dbtype, $timezone){
     if(!(db_init($dbtype))){
         return false;
     }
