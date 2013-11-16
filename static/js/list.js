@@ -39,8 +39,7 @@ function refresh_filters(){
         }
     }
     
-    var template = Hogan.compile("<li><a href='#' onclick='filter_tags(\"\")'>All</a></li><li>Tags</li>{{#tags}}<li><a href='#' onclick=\"filter_tags('{{.}}')\">{{.}}</a></li>{{/tags}}<li>Last edited</li>{{#dates}}{{#display}}<li><a href='#' onclick=\"filter_date({{value}})\">{{text}}</a></li>{{/display}}{{/dates}}<li>Type</li>{{#types}}<li style='text-transform: capitalize'><a href='#' onclick=\"filter_types('{{.}}')\">{{.}}</a></li>{{/types}}")
-    $("#tags").html(template.render({
+    $("#tags").html(templates["filters"].render({
         tags: tags,
         dates: dates_to_display,
         types: types
@@ -126,7 +125,6 @@ function filter_dir(dir){
         }
     }
     var current_dir = (typeof(dir) === "undefined") ? undefined : dir;
-    var template = Hogan.compile('{{#folders}}<li class="active dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">{{name}}</a><b class="caret"></b><ul  class="dropdown-menu"><li><a tabindex="-1" onclick="filter_dir(\'{{id}}\')" href="#{{id}}">Roll Back to this directory</a></li>{{#childs}}<li><a tabindex="-1" onclick="filter_dir(\'{{id}}\')" href="#{{id}}">{{name}}</a></li>{{/childs}}<li><a tabindex="-1" onclick="pop_creation_dir_modal(\'{{id}}\')" href="#">Add a new directory</a></li></ul></li>{{/folders}}')
     var finished, folders = [];
     do {
         finished = (typeof(current_dir) === "undefined") ? true : false;
@@ -142,7 +140,7 @@ function filter_dir(dir){
             current_dir = (typeof(list_all[current_dir]["dir"]) === "undefined") ? undefined : list_all[current_dir]["dir"];
         }
     } while (!finished);
-    $("#path").html(template.render({
+    $("#path").html(templates["breadcumb"].render({
         folders: folders
     }));
     refresh_filters();
@@ -156,9 +154,6 @@ function pop_creation_dir_modal(id){
 
 function pop_change_dir_modal(id){
     $("#cd").modal('show');
-    
-    var template = Hogan.compile("{{#data}}{{> tree}}{{/data}}");
-    var template_partial = Hogan.compile('{{#root}}<div class="tree"><ul role="tree"><li class="parent_li" role="treeitem"><label><input style="display: none" type="radio" value="undefined" name="radio_dir"/><span>Home</span></label>{{/root}}<ul role="group">{{#childrens}}<li {{^root}}style="display: none;"{{/root}} class="parent_li" role="treeitem"><label><input style="display: none" type="radio" value="{{id}}" name="radio_dir"/><span>{{name}}</span></label>{{> tree}}</li>{{/childrens}}</ul>{{#root}}</li></ul></div>{{/root}}');
     
     var tree = (function(id){
         var tree = {};
@@ -180,7 +175,7 @@ function pop_change_dir_modal(id){
         }
         return tree;
     })();
-    $("#cdlist").html(template.render({data: tree}, {tree: template_partial}));
+    $("#cdlist").html(templates["tree"].render({data: tree}, {tree: templates["tree_partial"]}));
     $('.tree li:has(ul)').addClass('parent_li').find(' > span').attr('title', 'Collapse this branch');
     $('.tree li.parent_li > label > span').on('click', function(e) {
         var children = $(this).parent().parent('li.parent_li').find(' > ul > li');
@@ -245,8 +240,7 @@ function init(){
 }
 
 function list_append(id, item){
-    var template = Hogan.compile('<div class="col-md-4"><div class="panel panel-default"><div class="panel-heading"><a href="edit.html#{{id}}" class=""><h4 style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden" >{{title}}</h4></a></div><div class="panel-body" style="padding: 0; overflow: hidden;"><div class="box"><div class="content" id="{{id}}"></div></div></div><div class="panel-footer" style="margin: 0; padding: 0px ;"><p class="btn-group btn-group-justified" style="margin: 0; border-left: none ; border-bottom: none;"><a class="btn btn-default btn-warning actionbar" href="#" onclick="toogle_star(\'{{id}}\')"><i id="star{{id}}" class="fa fa-star" style="color: {{#star}} grey {{/star}} {{^star}} "white" {{/star}})"></i></a><a class="btn btn-default btn-info actionbar" onclick="qrcode(\'{{id}}\')" href="#"><i class="fa fa-qrcode"></i></a><a class="btn btn-primary btn-default actionbar" onclick="pop_change_dir_modal(\'{{id}}\')" href="#"><i class="fa fa-folder"></i></a><a onclick="pop_confirmation_modal(\'{{id}}\')" class="btn btn-default btn-danger actionbar" ><i class="fa fa-times"></i></a> <a class="btn btn-default btn-success actionbar" href="#"><i class="fa fa-plus"></i></a></p></div></div></div>');
-    $("#list").append(template.render({
+    $("#list").append(templates["item"].render({
         id: id,
         star: item["star"],
         title: item["title"]
@@ -272,17 +266,14 @@ function create_dir(){
 function get_preview(meta, content, id){
     switch (meta.type) {
         case 'note' : 
-            var template = Hogan.compile("<p style='margin: 10px'>{{content}}</p>")
-            $("#" + id).html(template.render({content: content}));
+            $("#" + id).html(templates["preview_note"]({content: content}));
         break;
         case 'sketch' :
-            var template = Hogan.compile("<img src='{{content}}' />")
-            $("#" + id).html(template.render({content: content}));
+            $("#" + id).html(template["preview_sketch"].render({content: content}));
         break;
         case 'checklist' : 
             var json = JSON.parse(content);
-            var template = Hogan.compile("<form>{{#values}}<div class='input-group'><span style='border-radius: 0 ; border-top: none; border-left: none' class='input-group-addon'><input class='checkbox_checklist' type='checkbox' {{#done}} checked {{/done}}></span><input style='border-radius: 0 ; border-top: none ; border-right: none' type='text' class='form-control checkbox_checklist' value='{{value}}'><span style='border-radius: 0 ; border-top: none' class='input-group-btn'><button style='border-radius: 0 ; border-top: none'  class='btn btn-default' type='button'><i class='fa fa-times'></i></button></span></div>{{/values}}</form>");
-            $("#" + id).html(template.render({values: json}));
+            $("#" + id).html(templates["preview_checklist"].render({values: json}));
             $("#" + id + " > form > .input-group > .input-group-btn > button").bind("click", function () {
                 $(this).parent().parent().remove();
                 var json = [];
@@ -313,8 +304,7 @@ function get_preview(meta, content, id){
         case 'reminder' :
             var json = JSON.parse(content);
             if (json["type"] === "Time"){
-                var template = Hogan.compile("<div style='margin: 10px;'><div class='well well-sm'><i class='fa fa-calendar'></i>  {{date}}</div><p>{{addinfo}}</p></div>")
-                $("#" + id).html(template.render({date: json.date, addinfo: json.addinfo}));
+                $("#" + id).html(templates["preview_reminder"].render({date: json.date, addinfo: json.addinfo}));
             } else if (json["type"] === "Place"){
                 var map = L.map(id).setView(json.coords, 13);
                 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {

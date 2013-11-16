@@ -1,0 +1,19 @@
+{{#root}}
+<div class="tree">
+    <ul role="tree">
+        <li class="parent_li" role="treeitem">
+            <label>
+                <input style="display: none" type="radio" value="undefined" name="radio_dir"
+                />
+                <span>Home</span>
+            </label>{{/root}}
+            <ul role="group">{{#childrens}}
+                <li {{^root}}style="display: none;" {{/root}} class="parent_li"
+                role="treeitem">
+                    <label>
+                        <input style="display: none" type="radio" value="{{id}}" name="radio_dir"
+                        />
+                        <span>{{name}}</span>
+                    </label>{{> tree}}</li>{{/childrens}}</ul>{{#root}}</li>
+    </ul>
+</div>{{/root}}

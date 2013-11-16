@@ -1,0 +1,15 @@
+<form>{{#values}}
+    <div class='input-group'>
+        <span style='border-radius: 0 ; border-top: none; border-left: none' class='input-group-addon'>
+            <input class='checkbox_checklist' type='checkbox' {{#done}} checked {{/done}}>
+        </span>
+        <input style='border-radius: 0 ; border-top: none ; border-right: none'
+        type='text' class='form-control checkbox_checklist' value='{{value}}'>
+        <span style='border-radius: 0 ; border-top: none' class='input-group-btn'>
+            <button style='border-radius: 0 ; border-top: none' class='btn btn-default'
+            type='button'>
+                <i class='fa fa-times'></i>
+            </button>
+        </span>
+    </div>{{/values}}
+</form>

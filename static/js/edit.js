@@ -130,8 +130,7 @@ function init(){
     }, "json");
     var modes = editor.getModes();
     if (modes.length >1){
-        var template = Hogan.compile("<li>Edit With</li>{{#modes}}<li id='mode_{{.}}' class='mode'><a href='#' onclick='editor.switch(\"{{.}}\");$(\".mode\").attr(\"class\", \"mode\");$(\"#mode_{{.}}\").attr(\"class\", \"mode active\");'>{{.}}</a></li>{{/modes}}");
-        $("#sidebar").prepend(template.render({modes: modes}));
+        $("#sidebar").prepend(templates["editors_list"].render({modes: modes}));
         $("#mode_" + modes[0]).attr("class", "mode active");
     }
 }

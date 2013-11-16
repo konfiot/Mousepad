@@ -5,3 +5,5 @@ php.ini
 *.log
 *.json
 app/defines/*.php
+template.js
+dist/
