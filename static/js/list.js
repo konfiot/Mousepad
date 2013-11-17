@@ -25,7 +25,7 @@ function refresh_filters(){
         }
     }
     
-    for (var i in list){
+    for (i in list){
         if (list[i]["last_viewed"] - Math.round(new Date().getTime() / 1000) >= Math.round(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).getTime() / 1000) - Math.round(new Date().getTime() / 1000)){
             dates_to_display[0] = {display: true, value: 0, text: "Today"};
         } else if (list[i]["last_viewed"] - (Math.round(new Date().getTime() / 1000)) >= Math.round(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()-1).getTime() / 1000) - Math.round(new Date().getTime() / 1000)){
@@ -39,7 +39,7 @@ function refresh_filters(){
         }
     }
     
-    $("#tags").html(templates["filters"].render({
+    $("#tags").html(window.templates["filters"].render({
         tags: tags,
         dates: dates_to_display,
         types: types
@@ -140,7 +140,7 @@ function filter_dir(dir){
             current_dir = (typeof(list_all[current_dir]["dir"]) === "undefined") ? undefined : list_all[current_dir]["dir"];
         }
     } while (!finished);
-    $("#path").html(templates["breadcumb"].render({
+    $("#path").html(window.templates["breadcumb"].render({
         folders: folders
     }));
     refresh_filters();
@@ -175,7 +175,7 @@ function pop_change_dir_modal(id){
         }
         return tree;
     })();
-    $("#cdlist").html(templates["tree"].render({data: tree}, {tree: templates["tree_partial"]}));
+    $("#cdlist").html(window.templates["tree"].render({data: tree}, {tree: templates["tree_partial"]}));
     $('.tree li:has(ul)').addClass('parent_li').find(' > span').attr('title', 'Collapse this branch');
     $('.tree li.parent_li > label > span').on('click', function(e) {
         var children = $(this).parent().parent('li.parent_li').find(' > ul > li');
@@ -240,7 +240,7 @@ function init(){
 }
 
 function list_append(id, item){
-    $("#list").append(templates["item"].render({
+    $("#list").append(window.templates["item"].render({
         id: id,
         star: item["star"],
         title: item["title"]
@@ -266,14 +266,14 @@ function create_dir(){
 function get_preview(meta, content, id){
     switch (meta.type) {
         case 'note' : 
-            $("#" + id).html(templates["preview_note"]({content: content}));
+            $("#" + id).html(window.templates.preview_note.render({content: content}));
         break;
         case 'sketch' :
-            $("#" + id).html(template["preview_sketch"].render({content: content}));
+            $("#" + id).html(window.template.preview_sketch.render({content: content}));
         break;
         case 'checklist' : 
             var json = JSON.parse(content);
-            $("#" + id).html(templates["preview_checklist"].render({values: json}));
+            $("#" + id).html(window.templates.preview_checklist.render({values: json}));
             $("#" + id + " > form > .input-group > .input-group-btn > button").bind("click", function () {
                 $(this).parent().parent().remove();
                 var json = [];
@@ -304,7 +304,7 @@ function get_preview(meta, content, id){
         case 'reminder' :
             var json = JSON.parse(content);
             if (json["type"] === "Time"){
-                $("#" + id).html(templates["preview_reminder"].render({date: json.date, addinfo: json.addinfo}));
+                $("#" + id).html(window.templates.preview_reminder.render({date: json.date, addinfo: json.addinfo}));
             } else if (json["type"] === "Place"){
                 var map = L.map(id).setView(json.coords, 13);
                 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {

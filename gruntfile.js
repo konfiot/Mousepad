@@ -22,28 +22,34 @@ module.exports = function(grunt){
                 dest: "dist/edit.js"
             },
             list: {
-                src: ["static/js/list.js", "static/js/feedback.js", "static/js/utils.js"],
+                src: ["bower_components/jquery/jquery.js", "bower_components/bootstrap/dist/js/bootstrap.js", "bower_components/jquery-qrcode/jquery.qrcode.min.js", "bower_components/nprogress/nprogress.js", "bower_components/alertify.js/lib/alertify.js", "bower_components/leaflet-dist/leaflet.js", "bower_components/hogan/web/builds/2.0.0/hogan-2.0.0.js", "static/js/list.js", "static/js/feedback.js", "static/js/utils.js"],
                 dest: "dist/list.js"
             },
             install: {
-                src: ["static/js/install.js"],
+                src: ["bower_components/jquery/jquery.js", "bower_components/bootstrap/dist/js/bootstrap.js", "bower_components/jsTimezoneDetect/jstz.js", "bower_components/zxcvbn/zxcvbn-async.js", "static/js/install.js"],
                 dest: "dist/install.js"
             },
             login: {
-                src: ["static/js/login.js", "static/js/feedback.js"],
+                src: ["bower_components/jquery/jquery.js", "bower_components/nprogress/nprogress.js", "bower_components/alertify.js/lib/alertify.js", "static/js/login.js", "static/js/feedback.js"],
                 dest: "dist/login.js"
             },
             settings: {
-                src: ["static/js/settings.js", "static/js/feedback.js"],
+                src: ["bower_components/jquery/jquery.js", "bower_components/bootstrap/dist/js/bootstrap.js", "bower_components/nprogress/nprogress.js", "bower_components/alertify.js/lib/alertify.js", "bower_components/jsTimezoneDetect/jstz.js", "bower_components/zxcvbn/zxcvbn-async.js", "bower_components/hogan/web/builds/2.0.0/hogan-2.0.0.js", "static/js/settings.js", "static/js/feedback.js"],
                 dest: "dist/settings.js"
             }
 		},
 		uglify : { 
-            target : {
+            main : {
                 expand: true,
                 cwd: "dist",
                 src : "*.js",
-                dest: "dist/min"
+                dest: "dist",
+            },
+            templates : {
+                expand: true,
+                cwd: "static/themes/",
+                src : "*/*.js",
+                dest: "static/themes/",
             }
 		}
 	});
@@ -53,4 +59,5 @@ module.exports = function(grunt){
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	
 	grunt.registerTask('default', ['hogan', 'concat', 'uglify']);
+	grunt.registerTask('dev', ['hogan', 'concat'])
 };
