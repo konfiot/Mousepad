@@ -1,3 +1,2 @@
 language: node_js
-script: bower install
-before_install : npm install -g bower
+script: npm install && bower install && grunt
