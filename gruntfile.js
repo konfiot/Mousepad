@@ -1,5 +1,3 @@
-var hogan = require("hogan.js");
-var glob = require("glob");
 var fs = require("fs");
 
 module.exports = function(grunt){
@@ -36,6 +34,22 @@ module.exports = function(grunt){
             settings: {
                 src: ["bower_components/jquery/jquery.js", "bower_components/bootstrap/dist/js/bootstrap.js", "bower_components/nprogress/nprogress.js", "bower_components/alertify.js/lib/alertify.js", "bower_components/jsTimezoneDetect/jstz.js", "bower_components/zxcvbn/zxcvbn-async.js", "bower_components/hogan/web/builds/2.0.0/hogan-2.0.0.js", "static/js/settings.js", "static/js/feedback.js"],
                 dest: "dist/settings.js"
+            },
+            list_css : {
+                src: ["bower_components/bootstrap/dist/css/bootstrap.min.css", "bower_components/font-awesome/css/font-awesome.min.css", "bower_components/nprogress/nprogress.css", "bower_components/alertify.js/themes/alertify.default.css", "bower_components/alertify.js/themes/alertify.core.css", "bower_components/leaflet-dist/leaflet.css"],
+                dest: "dist/list.css"
+            },
+            install_css : {
+                src: ["bower_components/bootstrap/dist/css/bootstrap.min.css"],
+                dest: "dist/install.css"
+            },
+            login_css : {
+                src: ["bower_components/bootstrap/dist/css/bootstrap.min.css", "bower_components/nprogress/nprogress.css", "bower_components/alertify.js/themes/alertify.default.css", "bower_components/alertify.js/themes/alertify.core.css"],
+                dest: "dist/login.css"
+            },
+            settings_css : {
+                src: ["bower_components/bootstrap/dist/css/bootstrap.min.css", "bower_components/font-awesome/css/font-awesome.min.css", "bower_components/nprogress/nprogress.css", "bower_components/alertify.js/themes/alertify.default.css", "bower_components/alertify.js/themes/alertify.core.css"],
+                dest: "dist/settings.css"
             }
 		},
 		uglify : { 
@@ -51,13 +65,13 @@ module.exports = function(grunt){
                 src : "*/*.js",
                 dest: "static/themes/",
             }
-		}
+		},
 	});
 	
 	grunt.loadNpmTasks('grunt-hogan');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
-	
+
 	grunt.registerTask('default', ['hogan', 'concat', 'uglify']);
 	grunt.registerTask('dev', ['hogan', 'concat'])
 };
