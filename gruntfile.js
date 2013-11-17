@@ -36,19 +36,19 @@ module.exports = function(grunt){
                 dest: "dist/settings.js"
             },
             list_css : {
-                src: ["bower_components/bootstrap/dist/css/bootstrap.min.css", "bower_components/font-awesome/css/font-awesome.min.css", "bower_components/nprogress/nprogress.css", "bower_components/alertify.js/themes/alertify.default.css", "bower_components/alertify.js/themes/alertify.core.css", "bower_components/leaflet-dist/leaflet.css"],
+                src: ["bower_components/nprogress/nprogress.css", "bower_components/alertify.js/themes/alertify.default.css", "bower_components/alertify.js/themes/alertify.core.css", "bower_components/leaflet-dist/leaflet.css"],
                 dest: "dist/list.css"
             },
             install_css : {
-                src: ["bower_components/bootstrap/dist/css/bootstrap.min.css"],
+                src: [],
                 dest: "dist/install.css"
             },
             login_css : {
-                src: ["bower_components/bootstrap/dist/css/bootstrap.min.css", "bower_components/nprogress/nprogress.css", "bower_components/alertify.js/themes/alertify.default.css", "bower_components/alertify.js/themes/alertify.core.css"],
+                src: ["bower_components/nprogress/nprogress.css", "bower_components/alertify.js/themes/alertify.default.css", "bower_components/alertify.js/themes/alertify.core.css"],
                 dest: "dist/login.css"
             },
             settings_css : {
-                src: ["bower_components/bootstrap/dist/css/bootstrap.min.css", "bower_components/font-awesome/css/font-awesome.min.css", "bower_components/nprogress/nprogress.css", "bower_components/alertify.js/themes/alertify.default.css", "bower_components/alertify.js/themes/alertify.core.css"],
+                src: ["bower_components/nprogress/nprogress.css", "bower_components/alertify.js/themes/alertify.default.css", "bower_components/alertify.js/themes/alertify.core.css"],
                 dest: "dist/settings.css"
             }
 		},
@@ -73,5 +73,5 @@ module.exports = function(grunt){
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 
 	grunt.registerTask('default', ['hogan', 'concat', 'uglify']);
-	grunt.registerTask('dev', ['hogan', 'concat'])
+	grunt.registerTask('dev', ['hogan', 'concat']);
 };

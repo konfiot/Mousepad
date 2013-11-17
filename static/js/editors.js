@@ -202,12 +202,12 @@ Sketch.prototype.init = function () {
     else if (document.documentElement && document.documentElement.clientHeight) height = document.documentElement.clientHeight;
     height -= 250;
     
-    $(this.selector).html("<div id='sketch' style='height: " +  height + "px'><canvas id='canvas'></canvas></div>");
+    $(this.selector).html("<div id='sketch' style='height: " +  height + "px; width: 100%'><canvas style='width: 100%' id='canvas'></canvas></div>");
 
-    $("#sketch").literallycanvas({
+    /*$("#sketch").literallycanvas({
         imageURLPrefix : "../../../bower_components/literallycanvas/lib/img/",
         preserveCanvasContents: true
-    });
+    });*/
 }
 
 Sketch.prototype.getValue = function () {
@@ -217,9 +217,16 @@ Sketch.prototype.getValue = function () {
 Sketch.prototype.setValue = function (value){
     var canvas = document.getElementById('canvas');
     var ctx = canvas.getContext('2d');
-    var img = new Image;
+    var img = new Image();
     img.onload = function() {
         ctx.drawImage(img, 0, 0); // Or at whatever offset you like
+        /*$("#sketch").literallycanvas({
+            imageURLPrefix : "../../../bower_components/literallycanvas/lib/img/",
+            preserveCanvasContents: true
+        });*/
     };
     img.src = value;
+    setTimeout(function(){
+        
+    }, 100);
 }

@@ -269,7 +269,7 @@ function get_preview(meta, content, id){
             $("#" + id).html(window.templates.preview_note.render({content: content}));
         break;
         case 'sketch' :
-            $("#" + id).html(window.template.preview_sketch.render({content: content}));
+            $("#" + id).html(window.templates.preview_sketch.render({content: content}));
         break;
         case 'checklist' : 
             var json = JSON.parse(content);
