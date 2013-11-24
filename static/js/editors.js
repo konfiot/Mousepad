@@ -233,7 +233,7 @@ Sketch.prototype.setValue = function (value){
 
 function Snippet(selector){
     this.selector = selector;
-    this.modes = ["Normal", "Emacs", "Vim"];
+    this.modes = ["default", "emacs", "vim"];
     this.current_editor = "Normal";
     window.CodeMirror.defaults.lineNumbers = true;
     window.CodeMirror.defaults.indentWithTabs = true;
@@ -251,4 +251,8 @@ Snippet.prototype.getValue = function () {
 
 Snippet.prototype.setValue = function (value){
     this.editor.setValue(value); 
+}
+
+Snippet.prototype.switch = function (editor){
+    this.editor.setOption("keyMap", editor);
 }
