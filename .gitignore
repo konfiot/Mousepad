@@ -3,7 +3,7 @@ bower_components
 .c9revisions
 php.ini
 *.log
-*.json
+data/*.json
 app/defines/*.php
 template.js
 dist/
