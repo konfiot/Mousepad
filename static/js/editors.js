@@ -230,3 +230,25 @@ Sketch.prototype.setValue = function (value){
         
     }, 100);
 }
+
+function Snippet(selector){
+    this.selector = selector;
+    this.modes = ["Normal", "Emacs", "Vim"];
+    this.current_editor = "Normal";
+    window.CodeMirror.defaults.lineNumbers = true;
+    window.CodeMirror.defaults.indentWithTabs = true;
+}
+
+Snippet.prototype = Object.create(Editor.prototype);
+
+Snippet.prototype.init = function () {
+    this.editor = window.CodeMirror($(this.selector)[0]);
+}
+
+Snippet.prototype.getValue = function () {
+    return this.editor.getValue();
+}
+
+Snippet.prototype.setValue = function (value){
+    this.editor.setValue(value); 
+}

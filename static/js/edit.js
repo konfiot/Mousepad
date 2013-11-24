@@ -8,7 +8,7 @@ var anchor, type, id;
 var editor;
 var mode = "WYSIWYG";
 var to_delete;
-var types = ["note", "reminder", "checklist", "sketch"];
+var types = ["note", "reminder", "checklist", "sketch", "snippet"];
 
 $(function(){
     anchor = getAnchor();
@@ -28,6 +28,9 @@ $(function(){
                 break;
                 case "sketch" :
                     editor = new Sketch("#note");
+                break;
+                case "snippet" :
+                    editor = new Snippet("#note");
                 break;
             }
             editor.init();
@@ -52,6 +55,9 @@ $(function(){
             break;
             case "sketch" :
                 editor = new Sketch("#note");
+            break;
+            case "snippet" :
+                editor = new Snippet("#note");
             break;
         }
         $("#title").html("Title");
