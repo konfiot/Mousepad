@@ -49,8 +49,6 @@ function refresh_shortcuts(){
         });
     }
     
-    console.log(list_last);
-    
     $("#most_viewed").html(template.render({list: list_max}));
     $("#last_viewed").html(template.render({list: list_last}));
 }
