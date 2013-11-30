@@ -16,7 +16,7 @@ module.exports = function(grunt){
 		hogan: themes,
 		concat: {
             edit: {
-                src: ["static/js/editors.js", "static/js/edit.js", "static/js/feedback.js", "static/js/utils.js"],
+                src: ["bower_components/jquery/jquery.js", "bower_components/bootstrap/dist/js/bootstrap.js", "bower_components/nprogress/nprogress.js",  "bower_components/typeahead.js/dist/typeahead.js", "bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.js", "bower_components/alertify.js/lib/alertify.js", "bower_components/hogan/web/builds/2.0.0/hogan-2.0.0.js", "static/js/editors.js", "static/js/edit.js", "static/js/feedback.js", "static/js/utils.js"],
                 dest: "dist/edit.js"
             },
             list: {
