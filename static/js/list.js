@@ -4,7 +4,7 @@ function qrcode(id){
     $("#modal").modal("show");
     $("#qrcode").html("");
     $('#modal').on('shown.bs.modal', function () {
-        $('#qrcode').qrcode({text: document.location.href.replace(/list.html#(.*)$/, "edit.html#" + id), width: parseInt($("#modalcontent").width()-50), height: parseInt($("#modalcontent").width()-50)});
+        $('#qrcode').qrcode({text: document.location.href.replace(/list.html#(.*)$/, "edit.html#" + id), width: parseInt($("#modalcontent").width()-50, 10), height: parseInt($("#modalcontent").width()-50, 10)});
         $("#modal").unbind('shown.bs.modal');
     });
 }
@@ -13,15 +13,15 @@ function refresh_filters(){
     var tags = [], types = [], timestamps = [], dates_to_display = [false, false, false, false, false];
     
     for (var i in list){
-        timestamps.push(list[i]["last_viewed"]);
-        for (var j in list[i]["tags"]){
-            if ((tags.indexOf(list[i]["tags"][j]) === -1) && (list[i]["tags"][j] !== "")){
-                tags.push(list[i]["tags"][j]);
+        timestamps.push(list[i].last_viewed);
+        for (var j in list[i].tags){
+            if ((tags.indexOf(list[i].tags[j]) === -1) && (list[i].tags[j] !== "")){
+                tags.push(list[i].tags[j]);
             }
         }
         
-        if ((types.indexOf(list[i]["type"]) === -1) && (list[i]["type"] !== "")){
-                types.push(list[i]["type"]);
+        if ((types.indexOf(list[i].type) === -1) && (list[i].type !== "")){
+                types.push(list[i].type);
         }
     }
     
@@ -175,7 +175,7 @@ function pop_change_dir_modal(id){
         }
         return tree;
     })();
-    $("#cdlist").html(window.templates["tree"].render({data: tree}, {tree: window.templates.tree_partial}));
+    $("#cdlist").html(window.templates.tree.render({data: tree}, {tree: window.templates.tree_partial}));
     $('.tree li:has(ul)').addClass('parent_li').find(' > span').attr('title', 'Collapse this branch');
     $('.tree li.parent_li > label > span').on('click', function(e) {
         var children = $(this).parent().parent('li.parent_li').find(' > ul > li');

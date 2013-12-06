@@ -1,9 +1,9 @@
 $(function(){
     $.post("../../../app/api/list.php", function(data){
-            list = data;
+            window.list = data;
             refresh_shortcuts();
     }, "json");
-    var timezone = jstz.determine();
+    var timezone = window.jstz.determine();
     $("#timezone > optgroup > option[value='" + timezone.name() + "']").attr("selected", "selected");
     $.post("../../../app/api/get_conf.php", function(data){
         for (var i in data){
@@ -28,6 +28,6 @@ $(function(){
     });
     
     $("#password").on("input", function(){
-        $("#password + span").html("Even if we do our best to secure it, if someone gets access to your database, cracking this password would take " + zxcvbn($("#password").val(), ["mousepad", $("#username").val()]).crack_time_display);
+        $("#password + span").html("Even if we do our best to secure it, if someone gets access to your database, cracking this password would take " + window.zxcvbn($("#password").val(), ["mousepad", $("#username").val()]).crack_time_display);
     });
 });

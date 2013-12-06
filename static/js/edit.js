@@ -15,29 +15,29 @@ $(function(){
     if ((typeof(anchor) === "string") && (anchor !== "") && (types.indexOf(anchor) === -1)){
         id = anchor;
         $.post("../../../app/api/get.php", {data: JSON.stringify({id: id})}, function(data){
-            type = data["meta"]["type"];
-            switch (data["meta"]["type"]){
+            type = data.meta.type;
+            switch (data.meta.type){
                 case "note" : 
-                    editor = new Note("#note");
+                    editor = new window.Note("#note");
                 break;
                 case "reminder" :
-                    editor = new Reminder("#note");
+                    editor = new window.Reminder("#note");
                 break;
                 case "checklist" :
-                    editor = new Checklist("#note");
+                    editor = new window.Checklist("#note");
                 break;
                 case "sketch" :
-                    editor = new Sketch("#note");
+                    editor = new window.Sketch("#note");
                 break;
                 case "snippet" :
-                    editor = new Snippet("#note");
+                    editor = new window.Snippet("#note");
                 break;
             }
             editor.init();
-            editor.setValue(data["content"]);
-            $("#title").html(data["meta"]["title"]);
-            for (i in data["meta"]["tags"]){
-                $('#tags').tagsinput('add', data["meta"]["tags"][i]);
+            editor.setValue(data.scontent);
+            $("#title").html(data.meta.title);
+            for (var i in data.meta.tags){
+                $('#tags').tagsinput('add', data.meta.tags[i]);
             }
             init();
         }, "json");
@@ -45,19 +45,19 @@ $(function(){
         type = anchor;
         switch (type){
             case "note" : 
-                editor = new Note("#note");
+                editor = new window.Note("#note");
             break;
             case "reminder" :
-                editor = new Reminder("#note");
+                editor = new window.Reminder("#note");
             break;
             case "checklist" :
-                editor = new Checklist("#note");
+                editor = new window.Checklist("#note");
             break;
             case "sketch" :
-                editor = new Sketch("#note");
+                editor = new window.Sketch("#note");
             break;
             case "snippet" :
-                editor = new Snippet("#note");
+                editor = new window.Snippet("#note");
             break;
         }
         $("#title").html("Title");
@@ -65,7 +65,7 @@ $(function(){
         init();
     } else {
         type = "note";
-        editor = new Note("#note");
+        editor = new window.Note("#note");
         $("#title").html("Title");
         editor.init();
         init();
@@ -77,7 +77,7 @@ function save(){
         $.post("../../../app/api/mod.php", {data: JSON.stringify({id: id, content: editor.getValue(), title: $("#title").html(), tags: $("#tags").val().split(",")})}, function(data){}, "json");
     } else {
         $.post("../../../app/api/add.php", {data: JSON.stringify({type: type, content: editor.getValue(), title: $("#title").html(), tags: $("#tags").val().split(",")})}, function(data){
-            id = data["id"];
+            id = data.id;
         }, "json");
     }
 }
@@ -91,13 +91,13 @@ function trash(){
 
 function init(){
     $.post("../../../app/api/list.php", function(data){
-        list = data;
+        window.list = data;
         refresh_shortcuts();
         var tags = [];
-        for (var i in list) {
-            for (var j in list[i]["tags"]) {
-                if ((tags.indexOf(list[i]["tags"][j]) === -1) && (list[i]["tags"][j] !== "")) {
-                    tags.push(list[i]["tags"][j]);
+        for (var i in window.list) {
+            for (var j in window.list[i].tags) {
+                if ((tags.indexOf(window.list[i].tags[j]) === -1) && (window.list[i].tags[j] !== "")) {
+                    tags.push(window.list[i].tags[j]);
                 }
             }
         }
@@ -105,9 +105,9 @@ function init(){
         $("#search").typeahead({
             local: (function(){
                 var array = [];
-                for (var i in list){
-                    if (list[i]['type'] !== "directory") {
-                        array.push({name: i, value: list[i]["title"]});
+                for (var i in window.list){
+                    if (window.list[i]['type'] !== "directory") {
+                        array.push({name: i, value: window.list[i].title});
                     }
                 }
                 return array;

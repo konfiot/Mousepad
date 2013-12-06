@@ -4,7 +4,7 @@ function Editor(selector){
 
 Editor.prototype.getModes = function(){
     return this.modes;
-}
+};
 
 function Note(selector){
     this.selector = selector;
@@ -15,26 +15,27 @@ function Note(selector){
 Note.prototype = Object.create(Editor.prototype);
 
 Note.prototype.setValue = function (value) {
-    (this.current_editor === "WYSIWYG") ? $(this.selector).html(marked(value)) : $("#input").val(value);
-}
+    (this.current_editor === "WYSIWYG") ? $(this.selector).html(window.marked(value)) : $("#input").val(value);
+};
 
 Note.prototype.getValue = function(){
-    return (this.current_editor === "WYSIWYG") ? md($(this.selector).html()) : $("#input").val();
-}
+    return (this.current_editor === "WYSIWYG") ? window.md($(this.selector).html()) : $("#input").val();
+};
 
 Note.prototype.switch = function (editor){
+    var content;
     if (editor === "WYSIWYG"){
         if (this.current_editor === "Classic"){
             this.current_editor = "WYSIWYG";
             $("#input").unbind();
-            var content = marked($("#input").val());
+            content = window.marked($("#input").val());
             $(this.selector).html(content);
             this.editor.rebuild();
         }
     } else if (editor === "Classic"){
         if (this.current_editor === "WYSIWYG"){
             this.current_editor = "Classic";
-            content = md($(this.selector).html());
+            content = window.md($(this.selector).html());
             this.editor.destroy();
             $(this.selector).html("<textarea id='input' rows='" + content.split(/\r\n|\r|\n/).length + "'>" + content + "</textarea>");
             $(this.selector).css("height", "100%");
@@ -43,12 +44,12 @@ Note.prototype.switch = function (editor){
             });
         }
     }
-}
+};
 
 Note.prototype.init = function () {
-    this.editor = new Pen(this.selector);
+    this.editor = new window.Pen(this.selector);
     $(this.selector).html("Content");
-}
+};
 
 function Reminder(selector){
     this.selector = selector;
@@ -65,24 +66,24 @@ Reminder.prototype.init = function(){
         pickSeconds: false,
         maskInput: false
     });
-}
+};
 
 Reminder.prototype.setValue = function (value) {
     var data = JSON.parse(value);
-    if (data["type"] === "Time"){
+    if (data.type === "Time"){
         this.switch("Time");
-        $("#calendar").val(data["date"]);
-        $("#addinfo").val(data["addinfo"]);
-    } else if (data["type"] === "Place") {
+        $("#calendar").val(data.date);
+        $("#addinfo").val(data.addinfo);
+    } else if (data.type === "Place") {
         this.switch("Place");
 
         if (typeof(this.marker) !== "undefined"){
             this.map.removeLayer(this.marker);
         }
-        this.marker = L.marker(data.coords, {draggable: true}).addTo(this.map);
+        this.marker = window.L.marker(data.coords, {draggable: true}).addTo(this.map);
         this.map.setView(data.coords, 13);
     }
-}
+};
 
 Reminder.prototype.getValue = function () {
     if (this.current_editor === "Time") {
@@ -94,7 +95,7 @@ Reminder.prototype.getValue = function () {
     } else if (this.current_editor === "Place"){
         return JSON.stringify({type: "Place", coords: this.marker.getLatLng()});
     }
-}
+};
 
 Reminder.prototype.switch = function (editor) {
     if (editor === "Time"){
@@ -113,25 +114,25 @@ Reminder.prototype.switch = function (editor) {
             this.current_editor = "Place";
             $("#note").html("<div id='map' style='height: " +  height + "px'></div>");
             
-            this.map = L.map('map').setView([51.505, - 0.09], 13);
-            L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            this.map = window.L.map('map').setView([51.505, - 0.09], 13);
+            window.L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             }).addTo(this.map);
-            new L.Control.GeoSearch({
-                provider: new L.GeoSearch.Provider.OpenStreetMap(),
+            new window.L.Control.GeoSearch({
+                provider: new window.L.GeoSearch.Provider.OpenStreetMap(),
                 showMarker: false
-            }).addTo(this.map)
+            }).addTo(this.map);
             
             var that = this;
             this.map.on('geosearch_foundlocations', function(location){
                 if (typeof(that.marker) !== "undefined"){
                     that.map.removeLayer(that.marker);
                 }
-                that.marker = L.marker([location.Locations[0].Y, location.Locations[0].X], {draggable: true}).addTo(that.map);
+                that.marker = window.L.marker([location.Locations[0].Y, location.Locations[0].X], {draggable: true}).addTo(that.map);
             });
         }
     }
-}
+};
 
 function Checklist(selector){
     this.selector = selector;
@@ -144,7 +145,7 @@ Checklist.prototype = Object.create(Editor.prototype);
 Checklist.prototype.init = function () {
     $(this.selector).html("<form id='checklist'><div class='input-group'><span style='border-radius: 0' class='input-group-addon'><input type='checkbox'></span><input style='border-radius: 0' type='text' class='form-control'><span style='border-radius: 0 ; border-top: none' class='input-group-btn'><button style='border-radius: 0 ; border-top: none'  class='btn btn-default' type='button'><i class='fa fa-times'></i></button></span></div><!-- /input-group --></form>");
     bind();
-}
+};
 
 function bind(){
     $("#checklist > .input-group:last > input").bind("input", function (data) {
@@ -173,7 +174,7 @@ Checklist.prototype.getValue = function () {
         }
     }
     return JSON.stringify(json);
-}
+};
 
 Checklist.prototype.setValue = function (value) {
     var json = JSON.parse(value);
@@ -184,7 +185,7 @@ Checklist.prototype.setValue = function (value) {
         first = false;
     }
     bind();
-}
+};
 
 
 function Sketch(selector){
@@ -207,11 +208,11 @@ Sketch.prototype.init = function () {
         imageURLPrefix : "../../../bower_components/literallycanvas/lib/img/",
         preserveCanvasContents: true
     });*/
-}
+};
 
 Sketch.prototype.getValue = function () {
     return $('#sketch').canvasForExport().toDataURL();
-}
+};
 
 Sketch.prototype.setValue = function (value){
     var img = new Image();
@@ -231,7 +232,7 @@ Sketch.prototype.setValue = function (value){
     setTimeout(function(){
         
     }, 100);
-}
+};
 
 function Snippet(selector){
     this.selector = selector;
@@ -245,16 +246,16 @@ Snippet.prototype = Object.create(Editor.prototype);
 
 Snippet.prototype.init = function () {
     this.editor = window.CodeMirror($(this.selector)[0]);
-}
+};
 
 Snippet.prototype.getValue = function () {
     return this.editor.getValue();
-}
+};
 
 Snippet.prototype.setValue = function (value){
     this.editor.setValue(value); 
-}
+};
 
 Snippet.prototype.switch = function (editor){
     this.editor.setOption("keyMap", editor);
-}
+};

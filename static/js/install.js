@@ -1,5 +1,5 @@
 $(function(){
-    var timezone = jstz.determine();
+    var timezone = window.jstz.determine();
     $("#timezone > optgroup > option[value='" + timezone.name() + "']").attr("selected", "selected");
 
     $("#form").submit(function(event){
@@ -10,7 +10,7 @@ $(function(){
         }
     });
     $("#password").on("input", function(){
-        $("#password + span").html("Even if we do our best to secure it, if someone gets access to your database, cracking this password would take " + zxcvbn($("#password").val(), ["mousepad", $("#username").val()]).crack_time_display);
+        $("#password + span").html("Even if we do our best to secure it, if someone gets access to your database, cracking this password would take " + window.zxcvbn($("#password").val(), ["mousepad", $("#username").val()]).crack_time_display);
     });
     $("#password_confirm").on("change", function(){
         if($("#password").val() !== $("#password_confirm").val()){
