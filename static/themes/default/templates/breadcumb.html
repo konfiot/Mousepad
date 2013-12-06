@@ -4,13 +4,13 @@
     <b class="caret"></b>
     <ul class="dropdown-menu">
         <li>
-            <a tabindex="-1" onclick="filter_dir(\'{{id}}\')" href="#{{id}}">Roll Back to this directory</a>
+            <a tabindex="-1" onclick="filter_dir('{{id}}')" href="#{{id}}">Roll Back to this directory</a>
         </li>{{#childs}}
         <li>
-            <a tabindex="-1" onclick="filter_dir(\'{{id}}\')" href="#{{id}}">{{name}}</a>
+            <a tabindex="-1" onclick="filter_dir('{{id}}')" href="#{{id}}">{{name}}</a>
         </li>{{/childs}}
         <li>
-            <a tabindex="-1" onclick="pop_creation_dir_modal(\'{{id}}\')" href="#">Add a new directory</a>
+            <a tabindex="-1" onclick="pop_creation_dir_modal('{{id}}')" href="#">Add a new directory</a>
         </li>
     </ul>
 </li>{{/folders}}

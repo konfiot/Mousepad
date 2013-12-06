@@ -106,7 +106,7 @@ function init(){
             local: (function(){
                 var array = [];
                 for (var i in window.list){
-                    if (window.list[i]['type'] !== "directory") {
+                    if (window.list[i].type !== "directory") {
                         array.push({name: i, value: window.list[i].title});
                     }
                 }
@@ -136,7 +136,7 @@ function init(){
     }, "json");
     var modes = editor.getModes();
     if (modes.length >1){
-        $("#sidebar").prepend(templates["editors_list"].render({modes: modes}));
+        $("#sidebar").prepend(window.templates.editors_list.render({modes: modes}));
         $("#mode_" + modes[0]).attr("class", "mode active");
     }
 }

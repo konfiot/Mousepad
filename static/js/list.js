@@ -177,15 +177,16 @@ function pop_change_dir_modal(id){
     })();
     $("#cdlist").html(window.templates.tree.render({data: tree}, {tree: window.templates.tree_partial}));
     $('.tree li:has(ul)').addClass('parent_li').find(' > span').attr('title', 'Collapse this branch');
+    var self = $('.tree li.parent_li > label > span');
     $('.tree li.parent_li > label > span').on('click', function(e) {
-        var children = $(this).parent().parent('li.parent_li').find(' > ul > li');
+        var children = self.parent().parent('li.parent_li').find(' > ul > li');
         if (children.is(":visible")) {
             children.hide('fast');
-            $(this).attr('title', 'Expand this branch').find(' > i').addClass('fa fa-plus-sign').removeClass('fa fa-minus-sign');
+            self.attr('title', 'Expand this branch').find(' > i').addClass('fa fa-plus-sign').removeClass('fa fa-minus-sign');
         }
         else {
             children.show('fast');
-            $(this).attr('title', 'Collapse this branch').find(' > i').addClass('fa fa-minus-sign').removeClass('fa fa-plus-sign');
+            self.attr('title', 'Collapse this branch').find(' > i').addClass('fa fa-minus-sign').removeClass('fa fa-plus-sign');
         }
         e.stopPropagation();
     });
@@ -310,8 +311,8 @@ function get_preview(meta, content, id){
                 window.L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 }).addTo(map);
-                window.L.marker(json.coords, {draggable: true}).addTo(map).on("dragend", function(){
-                    $.post("../../../app/api/mod.php", {data: JSON.stringify({id: id, content: JSON.stringify({type: "Place", coords: this.getLatLng()})})}, function(data){}, "json");
+                var self = window.L.marker(json.coords, {draggable: true}).addTo(map).on("dragend", function(){
+                    $.post("../../../app/api/mod.php", {data: JSON.stringify({id: id, content: JSON.stringify({type: "Place", coords: self.getLatLng()})})}, function(data){}, "json");
                 });
             }
         break;
