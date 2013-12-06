@@ -26,20 +26,20 @@ function refresh_filters(){
     }
     
     for (i in list){
-        if (list[i]["last_viewed"] - Math.round(new Date().getTime() / 1000) >= Math.round(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).getTime() / 1000) - Math.round(new Date().getTime() / 1000)){
+        if (list[i].last_viewed - Math.round(new Date().getTime() / 1000) >= Math.round(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).getTime() / 1000) - Math.round(new Date().getTime() / 1000)){
             dates_to_display[0] = {display: true, value: 0, text: "Today"};
-        } else if (list[i]["last_viewed"] - (Math.round(new Date().getTime() / 1000)) >= Math.round(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()-1).getTime() / 1000) - Math.round(new Date().getTime() / 1000)){
+        } else if (list[i].last_viewed - (Math.round(new Date().getTime() / 1000)) >= Math.round(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()-1).getTime() / 1000) - Math.round(new Date().getTime() / 1000)){
             dates_to_display[1] = {display: true, value: 1, text: "Yesterday"};
-        } else if (list[i]["last_viewed"] - (Math.round(new Date().getTime() / 1000)) >= Math.round(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()- new Date().getDay()).getTime() / 1000) - Math.round(new Date().getTime() / 1000)){
+        } else if (list[i].last_viewed - (Math.round(new Date().getTime() / 1000)) >= Math.round(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()- new Date().getDay()).getTime() / 1000) - Math.round(new Date().getTime() / 1000)){
             dates_to_display[2] = {display: true, value: 2, text: "Last Week"};
-        } else if (list[i]["last_viewed"] - (Math.round(new Date().getTime() / 1000)) >= Math.round(new Date(new Date().getFullYear(), new Date().getMonth(), 0).getTime() / 1000) - Math.round(new Date().getTime() / 1000)){
+        } else if (list[i].last_viewed - (Math.round(new Date().getTime() / 1000)) >= Math.round(new Date(new Date().getFullYear(), new Date().getMonth(), 0).getTime() / 1000) - Math.round(new Date().getTime() / 1000)){
             dates_to_display[3] = {display: true, value: 3, text: "Last Month"};
-        } else if (list[i]["last_viewed"] - (Math.round(new Date().getTime() / 1000)) < Math.round(new Date(new Date().getFullYear(), new Date().getMonth(), 0).getTime() / 1000) - Math.round(new Date().getTime() / 1000)){
+        } else if (list[i].last_viewed - (Math.round(new Date().getTime() / 1000)) < Math.round(new Date(new Date().getFullYear(), new Date().getMonth(), 0).getTime() / 1000) - Math.round(new Date().getTime() / 1000)){
             dates_to_display[4] = {display: true, value: 4, text: "More than a month ago"};
         }
     }
     
-    $("#tags").html(window.templates["filters"].render({
+    $("#tags").html(window.templates.filters.render({
         tags: tags,
         dates: dates_to_display,
         types: types
@@ -50,12 +50,12 @@ function filter_tags(tag){
     $("#list").html("");
     var data = list;
     for (var i in data){
-        if (data[i]["type"] !== "directory"){
-            if (typeof(data[i]["tags"]) === "undefined"){
+        if (data[i].type !== "directory"){
+            if (typeof(data[i].tags) === "undefined"){
                 if(tag === ""){
                     list_append(i, data[i]);
                 }
-            } else  if ((data[i]["tags"].indexOf(tag) !== -1) || (tag === "")){
+            } else  if ((data[i].tags.indexOf(tag) !== -1) || (tag === "")){
                 list_append(i, data[i]);
             }
         }
@@ -66,7 +66,7 @@ function filter_types(type){
     $("#list").html("");
     var data = list;
     for (var i in data){
-        if ((data[i]["type"] === type) || (type === "")){
+        if ((data[i].type === type) || (type === "")){
             list_append(i, data[i]);
         }
     }
@@ -77,15 +77,15 @@ function filter_date(date){
     var data = list;
     for (var i in data){
         var cat = -1;
-        if (data[i]["last_viewed"] - Math.round(new Date().getTime() / 1000) >= Math.round(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).getTime() / 1000) - Math.round(new Date().getTime() / 1000)){
+        if (data[i].last_viewed - Math.round(new Date().getTime() / 1000) >= Math.round(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).getTime() / 1000) - Math.round(new Date().getTime() / 1000)){
             cat = 0;
-        } else if (data[i]["last_viewed"] - Math.round(new Date().getTime() / 1000) >= Math.round(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()-1).getTime() / 1000) - Math.round(new Date().getTime() / 1000)){
+        } else if (data[i].last_viewed - Math.round(new Date().getTime() / 1000) >= Math.round(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()-1).getTime() / 1000) - Math.round(new Date().getTime() / 1000)){
             cat = 1;
-        } else if (data[i]["last_viewed"] - Math.round(new Date().getTime() / 1000) >= Math.round(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()- new Date().getDay()).getTime() / 1000) - Math.round(new Date().getTime() / 1000)){
+        } else if (data[i].last_viewed - Math.round(new Date().getTime() / 1000) >= Math.round(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()- new Date().getDay()).getTime() / 1000) - Math.round(new Date().getTime() / 1000)){
             cat = 2;
-        } else if (data[i]["last_viewed"] - Math.round(new Date().getTime() / 1000) >= Math.round(new Date(new Date().getFullYear(), new Date().getMonth(), 0).getTime() / 1000) - Math.round(new Date().getTime() / 1000)){
+        } else if (data[i].last_viewed - Math.round(new Date().getTime() / 1000) >= Math.round(new Date(new Date().getFullYear(), new Date().getMonth(), 0).getTime() / 1000) - Math.round(new Date().getTime() / 1000)){
             cat = 3;
-        } else if (data[i]["last_viewed"] - Math.round(new Date().getTime() / 1000) < Math.round(new Date(new Date().getFullYear(), new Date().getMonth(), 0).getTime() / 1000) - Math.round(new Date().getTime() / 1000)){
+        } else if (data[i].last_viewed - Math.round(new Date().getTime() / 1000) < Math.round(new Date(new Date().getFullYear(), new Date().getMonth(), 0).getTime() / 1000) - Math.round(new Date().getTime() / 1000)){
             cat = 4;
         } 
         
@@ -128,19 +128,19 @@ function filter_dir(dir){
     var finished, folders = [];
     do {
         finished = (typeof(current_dir) === "undefined") ? true : false;
-        folders.unshift({id: ((typeof(current_dir) === "undefined") ? '' : current_dir), name: ((typeof(current_dir) === "undefined") ? "Home" : list_all[current_dir]["title"]), childs: []})
-        for (var i in list_all){
+        folders.unshift({id: ((typeof(current_dir) === "undefined") ? '' : current_dir), name: ((typeof(current_dir) === "undefined") ? "Home" : list_all[current_dir].title), childs: []});
+        for (i in list_all){
             if(list_all[i].dir === null) list_all[i].dir = undefined;
             if ((list_all[i].type === "directory") && (list_all[i].dir === current_dir)){
-                folders[0].childs.push({id: i, name: list_all[i].title})
+                folders[0].childs.push({id: i, name: list_all[i].title});
             }
             
         }
         if (typeof(current_dir) !== "undefined"){
-            current_dir = (typeof(list_all[current_dir]["dir"]) === "undefined") ? undefined : list_all[current_dir]["dir"];
+            current_dir = (typeof(list_all[current_dir].dir) === "undefined") ? undefined : list_all[current_dir].dir;
         }
     } while (!finished);
-    $("#path").html(window.templates["breadcumb"].render({
+    $("#path").html(window.templates.breadcumb.render({
         folders: folders
     }));
     refresh_filters();
@@ -175,7 +175,7 @@ function pop_change_dir_modal(id){
         }
         return tree;
     })();
-    $("#cdlist").html(window.templates["tree"].render({data: tree}, {tree: templates["tree_partial"]}));
+    $("#cdlist").html(window.templates["tree"].render({data: tree}, {tree: window.templates.tree_partial}));
     $('.tree li:has(ul)').addClass('parent_li').find(' > span').attr('title', 'Collapse this branch');
     $('.tree li.parent_li > label > span').on('click', function(e) {
         var children = $(this).parent().parent('li.parent_li').find(' > ul > li');
@@ -201,12 +201,12 @@ function change_dir(){
 
 function toogle_star(id){
     var star;
-    if (list[id]["star"] === true){
-        list[id]["star"] = false;
+    if (list[id].star === true){
+        list[id].star = false;
         star = false;
         $("#star" + id).css("color", "white");
     } else {
-        list[id]["star"] = true;
+        list[id].star = true;
         star = true;
         $("#star" + id).css("color", "grey");
     }
@@ -223,15 +223,15 @@ function pop_confirmation_modal(id){
 function init(){
     $.post("../../../app/api/list.php", {data : JSON.stringify({verbose: true})}, function(data){
         for (var i in data){
-            list_all[i] = data[i]["meta"];
-            list_content[i] = data[i]["content"];
+            list_all[i] = data[i].meta;
+            list_content[i] = data[i].content;
         }
         filter_dir();
         refresh_shortcuts();
         $("#search").bind("input", function(){
             $("#list").html("");
             for (var i in list){
-                if (list[i]["title"].search($("#search").val()) !== -1){
+                if (list[i].title.search($("#search").val()) !== -1){
                     list_append(i, list[i]);
                 }
             }
@@ -240,12 +240,12 @@ function init(){
 }
 
 function list_append(id, item){
-    $("#list").append(window.templates["item"].render({
+    $("#list").append(window.templates.item.render({
         id: id,
-        star: item["star"],
-        title: item["title"]
+        star: item.star,
+        title: item.title
     }));
-    get_preview(list_all[id], list_content[id], id)
+    get_preview(list_all[id], list_content[id], id);
 }
 
 function trash(){
@@ -302,15 +302,15 @@ function get_preview(meta, content, id){
             });
         break;
         case 'reminder' :
-            var json = JSON.parse(content);
-            if (json["type"] === "Time"){
+            json = JSON.parse(content);
+            if (json.type === "Time"){
                 $("#" + id).html(window.templates.preview_reminder.render({date: json.date, addinfo: json.addinfo}));
-            } else if (json["type"] === "Place"){
-                var map = L.map(id).setView(json.coords, 13);
-                L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            } else if (json.type === "Place"){
+                var map = window.L.map(id).setView(json.coords, 13);
+                window.L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 }).addTo(map);
-                L.marker(json.coords, {draggable: true}).addTo(map).on("dragend", function(){
+                window.L.marker(json.coords, {draggable: true}).addTo(map).on("dragend", function(){
                     $.post("../../../app/api/mod.php", {data: JSON.stringify({id: id, content: JSON.stringify({type: "Place", coords: this.getLatLng()})})}, function(data){}, "json");
                 });
             }
