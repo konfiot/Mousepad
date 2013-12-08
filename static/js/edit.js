@@ -34,7 +34,7 @@ $(function(){
                 break;
             }
             editor.init();
-            editor.setValue(data.scontent);
+            editor.setValue(data.content);
             $("#title").html(data.meta.title);
             for (var i in data.meta.tags){
                 $('#tags').tagsinput('add', data.meta.tags[i]);
