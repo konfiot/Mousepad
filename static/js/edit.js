@@ -4,7 +4,7 @@ function getAnchor() {
     return (urlParts.length > 1) ? urlParts[1] : undefined;
 }
 
-var anchor, type, id;
+var anchor, type, id, title;
 var editor;
 var mode = "WYSIWYG";
 var to_delete;
@@ -14,62 +14,70 @@ $(function(){
     anchor = getAnchor();
     if ((typeof(anchor) === "string") && (anchor !== "") && (types.indexOf(anchor) === -1)){
         id = anchor;
-        $.post("../../../app/api/get.php", {data: JSON.stringify({id: id})}, function(data){
-            type = data.meta.type;
-            switch (data.meta.type){
+        $.ajax({
+            url: "../../../app/api/get.php",
+            method: "POST",
+            data: {
+                data: JSON.stringify({
+                    id: id
+                })
+            },
+            success: function(data) {
+                window.type = data.meta.type;
+                window.title = data.meta.title;
+                window.content = data.content;
+            },
+            dataType: "json",
+            async: false
+        });
+    } else if (types.indexOf(anchor) !== -1){
+        type = anchor;
+        title = "Title";
+        /*    switch (type){
                 case "note" : 
-                    editor = new window.Note("#note");
+                    window.require(["pen"], function (Pen) {
+                        editor = new window.Note("#note");
+                    })
                 break;
                 case "reminder" :
-                    editor = new window.Reminder("#note");
+                    window.require(["datetime", "leaflet"], function (L) {
+                        editor = new window.Reminder("#note");
+                    })                
                 break;
                 case "checklist" :
                     editor = new window.Checklist("#note");
                 break;
                 case "sketch" :
-                    editor = new window.Sketch("#note");
-                break;
+                    window.require(["literallycanvas"], function () {
+                        editor = new window.Sketch("#note");
+                    })                
+                    break;
                 case "snippet" :
-                    editor = new window.Snippet("#note");
-                break;
+                    window.require(["codemirror"], function (CodeMirror) {
+                        editor = new window.Snippet("#note");
+                    })
+                    break;
             }
-            editor.init();
-            editor.setValue(data.content);
-            $("#title").html(data.meta.title);
-            for (var i in data.meta.tags){
-                $('#tags').tagsinput('add', data.meta.tags[i]);
-            }
-            init();
-        }, "json");
-    } else if (types.indexOf(anchor) !== -1){
-        type = anchor;
-        switch (type){
-            case "note" : 
-                editor = new window.Note("#note");
-            break;
-            case "reminder" :
-                editor = new window.Reminder("#note");
-            break;
-            case "checklist" :
-                editor = new window.Checklist("#note");
-            break;
-            case "sketch" :
-                editor = new window.Sketch("#note");
-            break;
-            case "snippet" :
-                editor = new window.Snippet("#note");
-            break;
-        }
         $("#title").html("Title");
         editor.init();
-        init();
+        init();*/
     } else {
         type = "note";
-        editor = new window.Note("#note");
+        title = "Title"
+        /*editor = new window.Note("#note");
         $("#title").html("Title");
         editor.init();
-        init();
+        init();*/
     }
+    require([type], function(Editor){
+        editor = new Editor("#note");
+        $("#title").html("Title");
+        editor.init();
+        if (typeof window.content !== "undefined") {
+            editor.setValue(window.content);
+        } 
+        init();
+    });
 });
 
 function save(){

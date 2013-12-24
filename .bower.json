@@ -36,7 +36,8 @@
     "jsTimezoneDetect": "*",
     "L.GeoSearch": "smeijer/L.GeoSearch",
     "hogan": "~3.0.0",
-    "codemirror": "~3.19.0"
+    "codemirror": "~3.19.0",
+    "requirejs" : "2.1.9"
   },
   "resolutions": {
     "jquery": "~2.0.3"
