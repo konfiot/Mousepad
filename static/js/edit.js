@@ -33,41 +33,9 @@ $(function(){
     } else if (types.indexOf(anchor) !== -1){
         type = anchor;
         title = "Title";
-        /*    switch (type){
-                case "note" : 
-                    window.require(["pen"], function (Pen) {
-                        editor = new window.Note("#note");
-                    })
-                break;
-                case "reminder" :
-                    window.require(["datetime", "leaflet"], function (L) {
-                        editor = new window.Reminder("#note");
-                    })                
-                break;
-                case "checklist" :
-                    editor = new window.Checklist("#note");
-                break;
-                case "sketch" :
-                    window.require(["literallycanvas"], function () {
-                        editor = new window.Sketch("#note");
-                    })                
-                    break;
-                case "snippet" :
-                    window.require(["codemirror"], function (CodeMirror) {
-                        editor = new window.Snippet("#note");
-                    })
-                    break;
-            }
-        $("#title").html("Title");
-        editor.init();
-        init();*/
     } else {
         type = "note";
         title = "Title"
-        /*editor = new window.Note("#note");
-        $("#title").html("Title");
-        editor.init();
-        init();*/
     }
     require([type], function(Editor){
         editor = new Editor("#note");
