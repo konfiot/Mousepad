@@ -8,3 +8,7 @@ footer {
 html {
     overflow-y: scroll;
 }
+#search_group {
+    border-radius: 4px;
+    background-color: white;
+}

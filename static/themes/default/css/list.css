@@ -121,3 +121,57 @@ img {
 	bottom: 0;
 	right: 0;
 }
+#qrcode {
+    text-align:center;
+}
+#changedir_modal_body {
+    padding-bottom: 0;
+}
+.item_title {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.item_body {
+    padding: 0;
+    overflow: hidden;
+}
+.item_footer {
+    margin: 0; 
+    padding: 0;
+}
+.item_actionbar {
+    margin: 0;
+    border-left: none;
+    border-bottom: none;
+}
+.checklist_item > .input-group-addon {
+    border-radius: 0;
+     border-top: none;
+     border-left: none;
+}
+.checklist_item > .checkbox_checklist {
+    border-radius: 0;
+     border-top: none;
+     border-right: none;
+}
+.checklist_item > .input-group-btn {
+    border-radius: 0;
+     border-top: none;
+}
+.checklist_item > .input-group-btn > button .btn .btn-default {
+    border-radius: 0;
+     border-top: none;
+}
+.note_preview {
+    margin: 10px;
+}
+.reminder_preview {
+    margin: 10px;
+}
+#tree-root {
+    display: none;
+}
+.radio_dir {
+    display: none;
+}

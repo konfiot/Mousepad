@@ -51,6 +51,10 @@ module.exports = function(grunt){
                 src: ["bower_components/nprogress/nprogress.css", "bower_components/alertify.js/themes/alertify.default.css", "bower_components/alertify.js/themes/alertify.core.css"],
                 dest: "dist/settings.css"
             },
+            edit_css : {
+                src: ["bower_components/nprogress/nprogress.css", "bower_components/alertify.js/themes/alertify.default.css", "bower_components/alertify.js/themes/alertify.core.css"],
+                dest: "dist/edit.css"
+            },
             pen : {
                 src : ["bower_components/pen/src/pen.js", "bower_components/pen/src/markdown.js"],
                 dest: "dist/vendor/pen.js"

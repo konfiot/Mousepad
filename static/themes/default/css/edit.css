@@ -81,3 +81,11 @@ footer {
   overflow-y: hidden;
   overflow-x: auto;
 }
+#search_group {
+    border-radius: 4px; 
+    background-color: white;
+}
+
+#search {
+    background-color: white;
+}
