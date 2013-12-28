@@ -234,17 +234,15 @@ define("sketch", ["editor", "literallycanvas"], function (Editor) {
     Sketch.prototype = Object.create(Editor.prototype);
     
     Sketch.prototype.init = function () {
-        var height;
-        
-        if (typeof(window.innerHeight) == 'number') height = window.innerHeight;
-        else if (document.documentElement && document.documentElement.clientHeight) height = document.documentElement.clientHeight;
-        height -= 250;
-        $(this.selector).html("<div id='sketch' style='height: " +  height + "px;width: 100%'><canvas id='canvas' style='width: 100%'></canvas></div>");
+        if (typeof(window.innerHeight) == 'number') this.height = window.innerHeight;
+        else if (document.documentElement && document.documentElement.clientHeight) this.height = document.documentElement.clientHeight;
+        this.height -= 250;
+        $(this.selector).html("<div id='sketch' style='height: " +  this.height + "px;width: 100%'><canvas id='canvas' style='width: 100%'></canvas></div>");
     
-        /*$("#sketch").literallycanvas({
+        $("#sketch").literallycanvas({
             imageURLPrefix : "../../../bower_components/literallycanvas/lib/img/",
             preserveCanvasContents: true
-        });*/
+        });
     };
     
     Sketch.prototype.getValue = function () {
@@ -253,8 +251,9 @@ define("sketch", ["editor", "literallycanvas"], function (Editor) {
     
     Sketch.prototype.setValue = function (value){
         var img = new Image();
-        img.src = value;
         var canvas = document.getElementById('canvas');
+        $(this.selector).html("<div id='sketch' style='height: " +  this.height + "px;width: 100%'><canvas id='canvas' style='width: 100%'></canvas></div>");
+        img.src = value;
         canvas.width = img.width;
         canvas.height = img.height;
         
