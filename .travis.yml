@@ -1,9 +1,10 @@
 language: node_js
-script: sudo apt-get install ftp && npm install && node_modules/.bin/bower install && npm test && rm -r bower_components node_modules && tar -zcf c.tar.gz . --exclude *.tar.gz --exclude .git/ && echo "USER $username $password 
-  put c.tar.gz
-  bye" | ftp -n $address
+script: sudo apt-get install ftp && npm install && node_modules/.bin/bower install
+  && npm test && rm -r bower_components node_modules && tar -zcf c.tar.gz . --exclude
+  *.tar.gz --exclude .git/ && echo "USER $username $password put c.tar.gz bye" | ftp
+  -n $address > /dev/null 2>&1
 env:
   global:
   - secure: DyHLtEIWN4QbUZK6Bv4RLOU47kIamZ9tFnjOm9eIP3UKYrQRhxWy1FlXP4n5u+eBguqW8Lkx1fvPf7M1pCHT+F537dLesRF7zpKxnRsdR2XF/faTsg5TO3+e66ruz2bKRIhojvwiIRVDxecs9VZszV5AovtQOXciM7EbTMKOPrI=
   - secure: DGlqxrRJdOrpCsI+OzpH8f6hEN9rheXZqQNIkt1J/SWY/4fRYBIh3ggHkoJPH8B8FZK5euMq2Agk2MWXsps/dMuJx/XTW1KqnAnyMzKaUATNTR1vYE2hIWGK43cDICEGmgtLQSFmj5hzMXRF++TwrLmLl5VvhK4pAeudzLPLqrI=
-  - secure: gB2xfSuwPE0x+FGH7uxS97x2w4GmqB2teoQ55TobOH2XBjdceyby5NQVblJcDbzYyYOQ1dotf7Q/ONfdS8wYlG7+S6WymhyQM+1eCZ1Pxkb7mEQj/nwSC5+i/7jpGObIRqFlbS3rqDhThGGdDclrH1yBCJXb4Kkh2NCGZeJXWXQ=
+  - secure: NXxqteko6mKZopXLJ+bxIq0H5E//QNUiXZ4JxbuNOiHYud4GDIj5qfU3f00LLbuz31BzrRIeZVZlWzbwouFRhYj3DaEnTT2MUAPWUxVvtckhOjO9C7GPosCf1vKH6u4UFdNLZzOUq6wdgTWn8fuuM5+JaL7A4d9+cFnYSbZhQOs=
