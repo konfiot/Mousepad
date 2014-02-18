@@ -1,2 +1,8 @@
 language: node_js
-script: npm install && node_modules/.bin/bower install && npm test
+script: npm install && node_modules/.bin/bower install && npm test && echo "USER $username
+  $password put $1 bye" | ftp -n $address > /dev/null 2>&1
+env:
+  global:
+  - secure: DyHLtEIWN4QbUZK6Bv4RLOU47kIamZ9tFnjOm9eIP3UKYrQRhxWy1FlXP4n5u+eBguqW8Lkx1fvPf7M1pCHT+F537dLesRF7zpKxnRsdR2XF/faTsg5TO3+e66ruz2bKRIhojvwiIRVDxecs9VZszV5AovtQOXciM7EbTMKOPrI=
+  - secure: DGlqxrRJdOrpCsI+OzpH8f6hEN9rheXZqQNIkt1J/SWY/4fRYBIh3ggHkoJPH8B8FZK5euMq2Agk2MWXsps/dMuJx/XTW1KqnAnyMzKaUATNTR1vYE2hIWGK43cDICEGmgtLQSFmj5hzMXRF++TwrLmLl5VvhK4pAeudzLPLqrI=
+  - secure: gB2xfSuwPE0x+FGH7uxS97x2w4GmqB2teoQ55TobOH2XBjdceyby5NQVblJcDbzYyYOQ1dotf7Q/ONfdS8wYlG7+S6WymhyQM+1eCZ1Pxkb7mEQj/nwSC5+i/7jpGObIRqFlbS3rqDhThGGdDclrH1yBCJXb4Kkh2NCGZeJXWXQ=
