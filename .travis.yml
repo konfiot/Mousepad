@@ -1,5 +1,5 @@
 language: node_js
-script: npm install && node_modules/.bin/bower install && npm test && rm -r bower_components node_modules && tar -zcf c.tar.gz . --exclude *.tar.gz && echo "USER $username $password 
+script: sudo apt-get install ftp && npm install && node_modules/.bin/bower install && npm test && rm -r bower_components node_modules && tar -zcf c.tar.gz . --exclude *.tar.gz && echo "USER $username $password 
   put c.tar.gz
   bye" | ftp -n $address
 env:
