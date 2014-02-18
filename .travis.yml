@@ -4,7 +4,7 @@ script: |
     put c.tar.gz
     bye" | ftp -n $address > /dev/null 2>&1env:
 
-  global:
-  - secure: DyHLtEIWN4QbUZK6Bv4RLOU47kIamZ9tFnjOm9eIP3UKYrQRhxWy1FlXP4n5u+eBguqW8Lkx1fvPf7M1pCHT+F537dLesRF7zpKxnRsdR2XF/faTsg5TO3+e66ruz2bKRIhojvwiIRVDxecs9VZszV5AovtQOXciM7EbTMKOPrI=
-  - secure: DGlqxrRJdOrpCsI+OzpH8f6hEN9rheXZqQNIkt1J/SWY/4fRYBIh3ggHkoJPH8B8FZK5euMq2Agk2MWXsps/dMuJx/XTW1KqnAnyMzKaUATNTR1vYE2hIWGK43cDICEGmgtLQSFmj5hzMXRF++TwrLmLl5VvhK4pAeudzLPLqrI=
-  - secure: NXxqteko6mKZopXLJ+bxIq0H5E//QNUiXZ4JxbuNOiHYud4GDIj5qfU3f00LLbuz31BzrRIeZVZlWzbwouFRhYj3DaEnTT2MUAPWUxVvtckhOjO9C7GPosCf1vKH6u4UFdNLZzOUq6wdgTWn8fuuM5+JaL7A4d9+cFnYSbZhQOs=
+global:
+    - secure: DyHLtEIWN4QbUZK6Bv4RLOU47kIamZ9tFnjOm9eIP3UKYrQRhxWy1FlXP4n5u+eBguqW8Lkx1fvPf7M1pCHT+F537dLesRF7zpKxnRsdR2XF/faTsg5TO3+e66ruz2bKRIhojvwiIRVDxecs9VZszV5AovtQOXciM7EbTMKOPrI=
+    - secure: DGlqxrRJdOrpCsI+OzpH8f6hEN9rheXZqQNIkt1J/SWY/4fRYBIh3ggHkoJPH8B8FZK5euMq2Agk2MWXsps/dMuJx/XTW1KqnAnyMzKaUATNTR1vYE2hIWGK43cDICEGmgtLQSFmj5hzMXRF++TwrLmLl5VvhK4pAeudzLPLqrI=
+    - secure: NXxqteko6mKZopXLJ+bxIq0H5E//QNUiXZ4JxbuNOiHYud4GDIj5qfU3f00LLbuz31BzrRIeZVZlWzbwouFRhYj3DaEnTT2MUAPWUxVvtckhOjO9C7GPosCf1vKH6u4UFdNLZzOUq6wdgTWn8fuuM5+JaL7A4d9+cFnYSbZhQOs=
