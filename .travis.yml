@@ -1,6 +1,6 @@
 language: node_js
 script: | 
-    sudo apt-get install ftp && npm install && node_modules/.bin/bower install && npm test && rm -r bower_components node_modules && tar -zcf c.tar.gz . --exclude *.tar.gz --exclude .git/ && echo "user $username $password
+    sudo apt-get install ftp && npm install && node_modules/.bin/bower install && npm test && rm -r bower_components node_modules && sync && tar -zcf c.tar.gz . --exclude *.tar.gz --exclude .git/ && echo "user $username $password
     pasv
     binary
     mput c.tar.gz
