@@ -1,10 +1,9 @@
 language: node_js
 script: | 
     sudo apt-get install ftp && npm install && node_modules/.bin/bower install && npm test && rm -r bower_components node_modules && tar -zcf c.tar.gz . --exclude *.tar.gz --exclude .git/ && echo "user $username $password
-    pasv
     binary
     put c.tar.gz
-    bye" | ftp -n $address
+    bye" | ftp -pn $address
 
 env:
   global:
