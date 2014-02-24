@@ -4,7 +4,7 @@ function getAnchor() {
     return (urlParts.length > 1) ? urlParts[1] : undefined;
 }
 
-var anchor, type, id, title;
+var anchor, id;
 var editor;
 var mode = "WYSIWYG";
 var to_delete;
@@ -31,15 +31,15 @@ $(function(){
             async: false
         });
     } else if (types.indexOf(anchor) !== -1){
-        type = anchor;
-        title = "Title";
+        window.type = anchor;
+        window.title = "Title";
     } else {
-        type = "note";
-        title = "Title"
+        window.type = "note";
+        window.title = "Title"
     }
-    require([type], function(Editor){
+    require([window.type], function(Editor){
         editor = new Editor("#note");
-        $("#title").html("Title");
+        $("#title").html(window.title);
         editor.init();
         if (typeof window.content !== "undefined") {
             editor.setValue(window.content);
