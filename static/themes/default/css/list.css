@@ -175,3 +175,6 @@ img {
 .radio_dir {
     display: none;
 }
+.filter_type {
+    text-transform: capitalize;
+}

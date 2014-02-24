@@ -265,9 +265,6 @@ define("sketch", ["editor", "literallycanvas"], function (Editor) {
                 preserveCanvasContents: true
             });
         };
-        setTimeout(function(){
-            
-        }, 100);
     };
     return Sketch;
 });

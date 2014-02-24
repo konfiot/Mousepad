@@ -36,23 +36,23 @@ module.exports = function(grunt){
                 dest: "dist/settings.js"
             },
             list_css : {
-                src: ["bower_components/nprogress/nprogress.css", "bower_components/alertify.js/themes/alertify.default.css", "bower_components/alertify.js/themes/alertify.core.css", "bower_components/leaflet-dist/leaflet.css"],
+                src: ["bower_components/font-awesome/css/font-awesome.min.css", "bower_components/bootstrap/dist/css/bootstrap.min.css", "bower_components/nprogress/nprogress.css", "bower_components/alertify.js/themes/alertify.default.css", "bower_components/alertify.js/themes/alertify.core.css", "bower_components/leaflet-dist/leaflet.css"],
                 dest: "dist/list.css"
             },
             install_css : {
-                src: [],
+                src: ["bower_components/font-awesome/css/font-awesome.min.css", "bower_components/bootstrap/dist/css/bootstrap.min.css"],
                 dest: "dist/install.css"
             },
             login_css : {
-                src: ["bower_components/nprogress/nprogress.css", "bower_components/alertify.js/themes/alertify.default.css", "bower_components/alertify.js/themes/alertify.core.css"],
+                src: ["bower_components/font-awesome/css/font-awesome.min.css", "bower_components/bootstrap/dist/css/bootstrap.min.css", "bower_components/nprogress/nprogress.css", "bower_components/alertify.js/themes/alertify.default.css", "bower_components/alertify.js/themes/alertify.core.css"],
                 dest: "dist/login.css"
             },
             settings_css : {
-                src: ["bower_components/nprogress/nprogress.css", "bower_components/alertify.js/themes/alertify.default.css", "bower_components/alertify.js/themes/alertify.core.css"],
+                src: ["bower_components/font-awesome/css/font-awesome.min.css", "bower_components/bootstrap/dist/css/bootstrap.min.css", "bower_components/nprogress/nprogress.css", "bower_components/alertify.js/themes/alertify.default.css", "bower_components/alertify.js/themes/alertify.core.css"],
                 dest: "dist/settings.css"
             },
             edit_css : {
-                src: ["bower_components/nprogress/nprogress.css", "bower_components/alertify.js/themes/alertify.default.css", "bower_components/alertify.js/themes/alertify.core.css"],
+                src: ["bower_components/font-awesome/css/font-awesome.min.css", "bower_components/bootstrap/dist/css/bootstrap.min.css", "bower_components/nprogress/nprogress.css", "bower_components/alertify.js/themes/alertify.default.css", "bower_components/alertify.js/themes/alertify.core.css"],
                 dest: "dist/edit.css"
             },
             pen : {

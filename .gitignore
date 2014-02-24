@@ -6,5 +6,6 @@ php.ini
 data/*.json
 app/defines/admin.php
 app/defines/timezone.php
+app/defines/database.php
 template.js
 dist/
