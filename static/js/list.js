@@ -228,7 +228,7 @@ function init(){
             list_content[i] = data[i].content;
         }
         filter_dir();
-        refresh_shortcuts();
+        window.refresh_shortcuts();
         $("#search").bind("input", function(){
             $("#list").html("");
             for (var i in list){

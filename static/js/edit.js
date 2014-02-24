@@ -69,7 +69,7 @@ function trash(){
 function init(){
     $.post("../../../app/api/list.php", function(data){
         window.list = data;
-        refresh_shortcuts();
+        window.refresh_shortcuts();
         var tags = [];
         for (var i in window.list) {
             for (var j in window.list[i].tags) {
