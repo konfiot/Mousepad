@@ -4,13 +4,11 @@ function getAnchor() {
     return (urlParts.length > 1) ? urlParts[1] : undefined;
 }
 
-var anchor, id;
-var editor;
-var mode = "WYSIWYG";
-var to_delete;
+var editor, id;
 var types = ["note", "reminder", "checklist", "sketch", "snippet"];
 
 $(function(){
+    var anchor;
     anchor = getAnchor();
     if ((typeof(anchor) === "string") && (anchor !== "") && (types.indexOf(anchor) === -1)){
         id = anchor;
@@ -35,7 +33,7 @@ $(function(){
         window.title = "Title";
     } else {
         window.type = "note";
-        window.title = "Title"
+        window.title = "Title";
     }
     require([window.type], function(Editor){
         editor = new Editor("#note");
@@ -50,10 +48,13 @@ $(function(){
 
 function save(){
     if ((typeof(id) === "string") && (id !== "") && (types.indexOf(id) === -1)){
-        $.post("../../../app/api/mod.php", {data: JSON.stringify({id: id, content: editor.getValue(), title: $("#title").html(), tags: $("#tags").val().split(",")})}, function(data){}, "json");
+        $.post("../../../app/api/mod.php", {data: JSON.stringify({id: id, content: editor.getValue(), title: $("#title").html(), tags: $("#tags").val().split(",")})}, function(data){
+            window.alertify.success("Saved");
+        }, "json");
     } else {
-        $.post("../../../app/api/add.php", {data: JSON.stringify({type: type, content: editor.getValue(), title: $("#title").html(), tags: $("#tags").val().split(",")})}, function(data){
+        $.post("../../../app/api/add.php", {data: JSON.stringify({type: window.type, content: editor.getValue(), title: $("#title").html(), tags: $("#tags").val().split(",")})}, function(data){
             id = data.id;
+            window.alertify.success("Saved");
         }, "json");
     }
 }
