@@ -4,6 +4,7 @@ bower_components
 php.ini
 *.log
 data/*.json
-app/defines/*.php
+app/defines/admin.php
+app/defines/timezone.php
 template.js
 dist/
