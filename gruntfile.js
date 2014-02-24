@@ -36,7 +36,7 @@ module.exports = function(grunt){
                 dest: "dist/settings.js"
             },
             list_css : {
-                src: ["bower_components/font-awesome/css/font-awesome.min.css", "bower_components/bootstrap/dist/css/bootstrap.min.css", "bower_components/nprogress/nprogress.css", "bower_components/alertify.js/themes/alertify.default.css", "bower_components/alertify.js/themes/alertify.core.css", "bower_components/leaflet-dist/leaflet.css"],
+                src: ["bower_components/font-awesome/css/font-awesome.min.css", "bower_components/bootstrap/dist/css/bootstrap.min.css", "bower_components/nprogress/nprogress.css", "bower_components/alertify.js/themes/alertify.default.css", "bower_components/alertify.js/themes/alertify.core.css", "bower_components/leaflet-dist/leaflet.css", "bower_components/leaflet-dist/leaflet.css"],
                 dest: "dist/list.css"
             },
             install_css : {
@@ -52,7 +52,7 @@ module.exports = function(grunt){
                 dest: "dist/settings.css"
             },
             edit_css : {
-                src: ["bower_components/font-awesome/css/font-awesome.min.css", "bower_components/bootstrap/dist/css/bootstrap.min.css", "bower_components/nprogress/nprogress.css", "bower_components/alertify.js/themes/alertify.default.css", "bower_components/alertify.js/themes/alertify.core.css"],
+                src: ["bower_components/font-awesome/css/font-awesome.min.css", "bower_components/bootstrap/dist/css/bootstrap.min.css", "bower_components/nprogress/nprogress.css", "bower_components/alertify.js/themes/alertify.default.css", "bower_components/alertify.js/themes/alertify.core.css", "bower_components/pen/src/pen.css", "bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.css", "bower_components/bootstrap3-datetimepicker/build/css/bootstrap-datetimepicker.min.css", "bower_components/leaflet-dist/leaflet.css", "bower_components/L.GeoSearch/src/css/l.geosearch.css", "bower_components/literallycanvas/lib/css/literally.css", "bower_components/codemirror/lib/codemirror.css"],
                 dest: "dist/edit.css"
             },
             pen : {
