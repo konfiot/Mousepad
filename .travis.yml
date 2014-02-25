@@ -1,6 +1,6 @@
 language: node_js
 script: | 
-    sudo apt-get install ftp && node_modules/.bin/bower install && npm test && mkdir mousepad && cp -r data app dist static index.php LICENSE mousepad && tar zjvf head.tar.bz2 ./mousepad && echo "user $username $password
+    sudo apt-get install ftp && node_modules/.bin/bower install && npm test && mkdir mousepad && cp -r data app dist static index.php LICENSE mousepad && tar cjvf head.tar.bz2 ./mousepad && echo "user $username $password
     binary
     put head.tar.bz2
     bye" | ftp -pn $address
