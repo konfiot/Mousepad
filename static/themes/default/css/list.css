@@ -136,7 +136,7 @@ img {
 }
 .item_body {
     padding: 0;
-    overflow: hidden;
+    overflow: auto;
 }
 .item_footer {
     margin: 0; 
@@ -166,6 +166,9 @@ img {
      border-top: none;
 }
 .note_preview {
+    margin: 10px;
+}
+.snippet_preview {
     margin: 10px;
 }
 .reminder_preview {

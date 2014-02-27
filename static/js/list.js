@@ -269,6 +269,9 @@ function get_preview(meta, content, id){
         case 'note' : 
             $("#" + id).html(window.templates.preview_note.render({content: content.replace(/\n/g, "<br />")}));
         break;
+        case 'snippet' : 
+            $("#" + id).html(window.templates.preview_snippet.render({content: content.replace(/\n/g, "<br />")}));
+        break;
         case 'sketch' :
             $("#" + id).html(window.templates.preview_sketch.render({content: content}));
         break;
