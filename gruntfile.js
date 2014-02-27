@@ -16,23 +16,23 @@ module.exports = function(grunt){
 		hogan: themes,
 		concat: {
             edit: {
-                src: ["bower_components/jquery/jquery.js", "bower_components/bootstrap/dist/js/bootstrap.js", "bower_components/nprogress/nprogress.js",  "bower_components/typeahead.js/dist/typeahead.js", "bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.js", "bower_components/alertify.js/lib/alertify.js", "bower_components/hogan/web/builds/2.0.0/hogan-2.0.0.js", "bower_components/requirejs/require.js", "static/js/editors.js", "static/js/edit.js", "static/js/feedback.js", "static/js/utils.js"],
+                src: ["bower_components/jquery/dist/jquery.js", "bower_components/bootstrap/dist/js/bootstrap.js", "bower_components/nprogress/nprogress.js",  "bower_components/typeahead.js/dist/typeahead.js", "bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.js", "bower_components/alertify.js/lib/alertify.js", "bower_components/hogan/web/builds/2.0.0/hogan-2.0.0.js", "bower_components/requirejs/require.js", "static/js/editors.js", "static/js/edit.js", "static/js/feedback.js", "static/js/utils.js"],
                 dest: "dist/js/edit.js"
             },
             list: {
-                src: ["bower_components/jquery/jquery.js", "bower_components/bootstrap/dist/js/bootstrap.js", "bower_components/jquery-qrcode/jquery.qrcode.min.js", "bower_components/nprogress/nprogress.js", "bower_components/alertify.js/lib/alertify.js", "bower_components/leaflet-dist/leaflet.js", "bower_components/hogan/web/builds/2.0.0/hogan-2.0.0.js", "static/js/list.js", "static/js/feedback.js", "static/js/utils.js"],
+                src: ["bower_components/jquery/dist/jquery.js", "bower_components/bootstrap/dist/js/bootstrap.js", "bower_components/jquery-qrcode/jquery.qrcode.min.js", "bower_components/nprogress/nprogress.js", "bower_components/alertify.js/lib/alertify.js", "bower_components/leaflet-dist/leaflet.js", "bower_components/hogan/web/builds/2.0.0/hogan-2.0.0.js", "static/js/list.js", "static/js/feedback.js", "static/js/utils.js"],
                 dest: "dist/js/list.js"
             },
             install: {
-                src: ["bower_components/jquery/jquery.js", "bower_components/bootstrap/dist/js/bootstrap.js", "bower_components/jsTimezoneDetect/jstz.js", "bower_components/zxcvbn/zxcvbn.js", "static/js/install.js"],
+                src: ["bower_components/jquery/dist/jquery.js", "bower_components/bootstrap/dist/js/bootstrap.js", "bower_components/jsTimezoneDetect/jstz.js", "bower_components/zxcvbn/zxcvbn.js", "static/js/install.js"],
                 dest: "dist/js/install.js"
             },
             login: {
-                src: ["bower_components/jquery/jquery.js", "bower_components/nprogress/nprogress.js", "bower_components/alertify.js/lib/alertify.js", "static/js/login.js", "static/js/feedback.js"],
+                src: ["bower_components/jquery/dist/jquery.js", "bower_components/nprogress/nprogress.js", "bower_components/alertify.js/lib/alertify.js", "static/js/login.js", "static/js/feedback.js"],
                 dest: "dist/js/login.js"
             },
             settings: {
-                src: ["bower_components/jquery/jquery.js", "bower_components/bootstrap/dist/js/bootstrap.js", "bower_components/nprogress/nprogress.js", "bower_components/alertify.js/lib/alertify.js", "bower_components/jsTimezoneDetect/jstz.js", "bower_components/zxcvbn/zxcvbn.js", "bower_components/hogan/web/builds/2.0.0/hogan-2.0.0.js", "static/js/settings.js", "static/js/feedback.js", "static/js/utils.js"],
+                src: ["bower_components/jquery/dist/jquery.js", "bower_components/bootstrap/dist/js/bootstrap.js", "bower_components/nprogress/nprogress.js", "bower_components/alertify.js/lib/alertify.js", "bower_components/jsTimezoneDetect/jstz.js", "bower_components/zxcvbn/zxcvbn.js", "bower_components/hogan/web/builds/2.0.0/hogan-2.0.0.js", "static/js/settings.js", "static/js/feedback.js", "static/js/utils.js"],
                 dest: "dist/js/settings.js"
             },
             list_css : {
@@ -52,7 +52,7 @@ module.exports = function(grunt){
                 dest: "dist/css/settings.css"
             },
             edit_css : {
-                src: ["bower_components/font-awesome/css/font-awesome.min.css", "bower_components/bootstrap/dist/css/bootstrap.min.css", "bower_components/nprogress/nprogress.css", "bower_components/alertify.js/themes/alertify.default.css", "bower_components/alertify.js/themes/alertify.core.css", "bower_components/pen/src/pen.css", "bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.css", "bower_components/bootstrap3-datetimepicker/build/css/bootstrap-datetimepicker.min.css", "bower_components/leaflet-dist/leaflet.css", "bower_components/L.GeoSearch/src/css/l.geosearch.css", "bower_components/literallycanvas/lib/css/literally.css", "bower_components/codemirror/lib/codemirror.css"],
+                src: ["bower_components/font-awesome/css/font-awesome.min.css", "bower_components/bootstrap/dist/css/bootstrap.min.css", "bower_components/nprogress/nprogress.css", "bower_components/alertify.js/themes/alertify.default.css", "bower_components/alertify.js/themes/alertify.core.css", "bower_components/pen/src/pen.css", "bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.css", "bower_components/bootstrap3-datetimepicker/build/css/bootstrap-datetimepicker.min.css", "bower_components/leaflet-dist/leaflet.css", "bower_components/L.GeoSearch/src/css/l.geosearch.css", "bower_components/literallycanvas/css/literally.css", "bower_components/codemirror/lib/codemirror.css"],
                 dest: "dist/css/edit.css"
             },
             pen : {
@@ -76,7 +76,7 @@ module.exports = function(grunt){
                 dest: "dist/js/vendor/datetime.js"
             },
             literallycanvas : {
-                src : ["bower_components/literallycanvas/lib/js/literallycanvas.jquery.js"],
+                src : ["bower_components/literallycanvas/js/literallycanvas.jquery.js"],
                 dest: "dist/js/vendor/literallycanvas.js"
             },
             codemirror : {

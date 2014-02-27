@@ -238,33 +238,21 @@ define("sketch", ["editor", "literallycanvas"], function (Editor) {
         else if (document.documentElement && document.documentElement.clientHeight) this.height = document.documentElement.clientHeight;
         this.height -= 250;
         $(this.selector).html("<div id='sketch' style='height: " +  this.height + "px;width: 100%'><canvas id='canvas' style='width: 100%'></canvas></div>");
-    
+        var that = this;
         $("#sketch").literallycanvas({
-            imageURLPrefix : "../../../bower_components/literallycanvas/lib/img/",
-            preserveCanvasContents: true
+            imageURLPrefix : "../../../bower_components/literallycanvas/img/",
+            onInit: function(lc) {
+                that.lc = lc;
+            }
         });
     };
     
     Sketch.prototype.getValue = function () {
-        return $('#sketch').canvasForExport().toDataURL();
+        return this.lc.getSnapshotJSON();
     };
     
     Sketch.prototype.setValue = function (value){
-        var img = new Image();
-        var canvas = document.getElementById('canvas');
-        $(this.selector).html("<div id='sketch' style='height: " +  this.height + "px;width: 100%'><canvas id='canvas' style='width: 100%'></canvas></div>");
-        img.src = value;
-        canvas.width = img.width;
-        canvas.height = img.height;
-        
-        var ctx = canvas.getContext('2d');
-        img.onload = function() {
-            ctx.drawImage(img, 0, 0); // Or at whatever offset you like
-            $("#sketch").literallycanvas({
-                imageURLPrefix : "../../../bower_components/literallycanvas/lib/img/",
-                preserveCanvasContents: true
-            });
-        };
+        this.lc.loadSnapshotJSON(value);
     };
     return Sketch;
 });
