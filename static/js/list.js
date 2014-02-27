@@ -267,7 +267,7 @@ function create_dir(){
 function get_preview(meta, content, id){
     switch (meta.type) {
         case 'note' : 
-            $("#" + id).html(window.templates.preview_note.render({content: content}));
+            $("#" + id).html(window.templates.preview_note.render({content: content.replace(/\n/g, "<br />")}));
         break;
         case 'sketch' :
             $("#" + id).html(window.templates.preview_sketch.render({content: content}));
