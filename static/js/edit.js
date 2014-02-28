@@ -39,6 +39,12 @@ $(function(){
         editor = new Editor("#note");
         $("#title").html(window.title);
         editor.init();
+        editor.change(function () {
+            clearTimeout(window.timeout);
+            window.timeout = setTimeout(function() {
+                save();
+            }, 5000);
+        });
         if (typeof window.content !== "undefined") {
             editor.setValue(window.content);
         } 

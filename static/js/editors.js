@@ -79,6 +79,12 @@ define("note", ["editor", "pen", "marked", "md"], function (Editor, Pen, marked,
         $(this.selector).html("Content");
     };
     
+    Note.prototype.change = function (cb) {
+        $(this.selector).on("DOMSubtreeModified", function(){
+            cb();
+        });
+    }
+    
     return Note;
 });
 
@@ -182,19 +188,30 @@ define("checklist", ["editor"], function (Editor) {
         bind();
     };
     
-    function bind(){
+    function bind(cb){
+        $("#checklist > .input-group:not(.hid) > input").unbind();
+        $("#checklist > .input-group:not(.hid) > button").unbind();
+        $("#checklist > .input-group:not(.hid) > .input-group-addon > input").unbind();
+        
         $("#checklist > .input-group:last > input").bind("input", function (data) {
             if ($("#checklist > .input-group:last > input").val() !== ""){
                 $("#checklist > .input-group:last > input").unbind();
                 $("#checklist > .input-group:last").css('opacity', '1.0');
                 $("#checklist > .input-group:last").attr('class', 'input-group');
                 $("#checklist").append("<div style='opacity: 0.5;' class='hid input-group'><span style='border-radius: 0 ; border-top: none' class='input-group-addon'><input type='checkbox'></span><input style='border-radius: 0 ; border-top: none' type='text' class='form-control'><span style='border-radius: 0 ; border-top: none' class='input-group-btn'><button style='border-radius: 0 ; border-top: none'  class='btn btn-default' type='button'><i class='fa fa-times'></i></button></span></div><!-- /input-group -->");
-                bind();
+                bind(cb);
             }
             
         });
         $("#checklist > .input-group:not(.hid) > .input-group-btn > button").bind("click", function () {
+            cb();
             $(this).parent().parent().remove();
+        });
+        $("#checklist > .input-group:not(.hid) > input").on("input", function () {
+            cb();
+        });
+        $("#checklist > .input-group:not(.hid) > .input-group-addon > input").on("change", function () {
+            cb();
         });
     }
     
@@ -219,7 +236,11 @@ define("checklist", ["editor"], function (Editor) {
             $("#checklist").append("<div class='input-group'><span style='border-radius: 0 ; " + ((!(first)) ? "border-top: none" : "") + "' class='input-group-addon'><input type='checkbox' "  + (json[i].done ? "checked" : "") + "></span><input style='border-radius: 0 ; " + ((!(first)) ? "border-top: none" : "") + "' type='text' class='form-control' value='" + json[i].value + "'><span style='border-radius: 0 ; " + ((!(first)) ? "border-top: none" : "") + "' class='input-group-btn'><button style='border-radius: 0 ; " + ((!(first)) ? "border-top: none" : "") + "'  class='btn btn-default' type='button'><i class='fa fa-times'></i></button></span></div><!-- /input-group -->");
             first = false;
         }
-        bind();
+        bind(this.cb);
+    };
+    
+    Checklist.prototype.change = function (cb) {
+        bind(cb);
     };
     return Checklist;
 });
@@ -254,6 +275,12 @@ define("sketch", ["editor", "literallycanvas"], function (Editor) {
     Sketch.prototype.setValue = function (value){
         this.lc.loadSnapshotJSON(value);
     };
+    
+    Sketch.prototype.change = function (cb) {
+        this.lc.on("drawContinue", function () {
+            cb();
+        });
+    }
     return Sketch;
 });
 
@@ -283,5 +310,11 @@ define("snippet", ["editor", "codemirror"], function (Editor, CodeMirror) {
     Snippet.prototype.switch = function (editor){
         this.editor.setOption("keyMap", editor);
     };
+    
+    Snippet.prototype.change = function (cb) {
+        this.editor.on("change", function () {
+            cb();
+        })
+    }
     return Snippet;
 });
