@@ -210,6 +210,18 @@ define("checklist", ["editor"], function (Editor) {
         $("#checklist > .input-group:not(.hid) > input").on("input", function () {
             cb();
         });
+        $("#checklist > .input-group:not(.hid) > input").keypress(function (event) {
+            switch (event.keyCode){
+                case 13 :    
+                case 40 :    
+                case 9 :    
+                    $(this).parent().next().children("input").focus();
+                break;
+                case 38 :
+                    $(this).parent().prev().children("input").focus();
+                break;
+            }
+        });
         $("#checklist > .input-group:not(.hid) > .input-group-addon > input").on("change", function () {
             cb();
         });
