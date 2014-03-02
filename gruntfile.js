@@ -105,12 +105,24 @@ module.exports = function(grunt){
             }
 		},
 		copy: {
-		    main: {
-		        expand: true,
+            font_awesome: {
+                expand: true,
                 cwd: "bower_components/font-awesome/fonts/",
                 src: '*',
                 dest: 'dist/fonts/',
-		    }
+            },
+            pen: {
+                expand: true,
+                cwd: "bower_components/pen/src/font/",
+                src: '*',
+                dest: 'dist/css/font',
+            },
+            img_literallycanvas: {
+                expand: true,
+                cwd: "bower_components/literallycanvas/img/",
+                src: '*',
+                dest: 'dist/img/literallycanvas',
+            }
 		}
 	});
 	

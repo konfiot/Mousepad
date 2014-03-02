@@ -261,7 +261,7 @@ define("sketch", ["editor", "literallycanvas"], function (Editor) {
         $(this.selector).html("<div id='sketch' style='height: " +  this.height + "px;width: 100%'><canvas id='canvas' style='width: 100%'></canvas></div>");
         var that = this;
         $("#sketch").literallycanvas({
-            imageURLPrefix : "../../../bower_components/literallycanvas/img/",
+            imageURLPrefix : "../../../dist/img/literallycanvas/",
             onInit: function(lc) {
                 that.lc = lc;
             }
