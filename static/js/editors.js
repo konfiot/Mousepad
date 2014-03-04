@@ -88,10 +88,10 @@ define("note", ["editor", "pen", "marked", "md"], function (Editor, Pen, marked,
     return Note;
 });
 
-define("reminder", ["editor", "leaflet", "datetime"], function (Editor, L) {
+define("reminder", ["editor", "datetime"], function (Editor) {
     function Reminder(selector){
         this.selector = selector;
-        this.modes = ["Time", "Place"];
+        this.modes = ["Time"];
         this.current_editor = "Time";
     }
     
@@ -108,69 +108,17 @@ define("reminder", ["editor", "leaflet", "datetime"], function (Editor, L) {
     
     Reminder.prototype.setValue = function (value) {
         var data = JSON.parse(value);
-        if (data.type === "Time"){
-            this.switch("Time");
-            $("#calendar").val(data.date);
-            $("#addinfo").val(data.addinfo);
-        } else if (data.type === "Place") {
-            this.switch("Place");
-    
-            if (typeof(this.marker) !== "undefined"){
-                this.map.removeLayer(this.marker);
-            }
-            this.marker = L.marker(data.coords, {draggable: true}).addTo(this.map);
-            this.map.setView(data.coords, 13);
-        }
+        $("#calendar").val(data.date);
+        $("#addinfo").val(data.addinfo);
     };
     
     Reminder.prototype.getValue = function () {
-        if (this.current_editor === "Time") {
-            return JSON.stringify({
-                type: "Time",
-                date: $("#calendar").val(),
-                addinfo: $("#addinfo").val()
-            });
-        } else if (this.current_editor === "Place"){
-            return JSON.stringify({type: "Place", coords: this.marker.getLatLng()});
-        }
+        return JSON.stringify({
+            date: $("#calendar").val(),
+            addinfo: $("#addinfo").val()
+        });
     };
     
-    Reminder.prototype.switch = function (editor) {
-        if (editor === "Time"){
-            if (this.current_editor === "Place"){
-                this.current_editor = "Time";
-                this.init();
-            }
-        } else if (editor === "Place"){
-            if (this.current_editor === "Time"){
-                var height;
-                
-                if (typeof(window.innerHeight) == 'number') height = window.innerHeight;
-                else if (document.documentElement && document.documentElement.clientHeight) height = document.documentElement.clientHeight;
-                height -= 250;
-                
-                this.current_editor = "Place";
-                $("#note").html("<div id='map' style='height: " +  height + "px'></div>");
-                
-                this.map = L.map('map').setView([51.505, - 0.09], 13);
-                L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-                    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                }).addTo(this.map);
-                new L.Control.GeoSearch({
-                    provider: new L.GeoSearch.Provider.OpenStreetMap(),
-                    showMarker: false
-                }).addTo(this.map);
-                
-                var that = this;
-                this.map.on('geosearch_foundlocations', function(location){
-                    if (typeof(that.marker) !== "undefined"){
-                        that.map.removeLayer(that.marker);
-                    }
-                    that.marker = L.marker([location.Locations[0].Y, location.Locations[0].X], {draggable: true}).addTo(that.map);
-                });
-            }
-        }
-    };
     return Reminder;
 });
 
@@ -248,6 +196,7 @@ define("checklist", ["editor"], function (Editor) {
             $("#checklist").append("<div class='input-group'><span style='border-radius: 0 ; " + ((!(first)) ? "border-top: none" : "") + "' class='input-group-addon'><input type='checkbox' "  + (json[i].done ? "checked" : "") + "></span><input style='border-radius: 0 ; " + ((!(first)) ? "border-top: none" : "") + "' type='text' class='form-control' value='" + json[i].value + "'><span style='border-radius: 0 ; " + ((!(first)) ? "border-top: none" : "") + "' class='input-group-btn'><button style='border-radius: 0 ; " + ((!(first)) ? "border-top: none" : "") + "'  class='btn btn-default' type='button'><i class='fa fa-times'></i></button></span></div><!-- /input-group -->");
             first = false;
         }
+        $("#checklist").append("<div class='input-group' style='opacity:0.5'><span style='border-radius: 0 ; border-top: none' class='input-group-addon'><input type='checkbox'></span><input style='border-radius: 0; border-top: none' type='text' class='form-control' ><span style='border-radius: 0 ;border-top: none;' class='input-group-btn'><button style='border-radius: 0;border-top: none;'  class='btn btn-default' type='button'><i class='fa fa-times'></i></button></span></div><!-- /input-group -->");
         bind(this.cb);
     };
     
@@ -329,4 +278,56 @@ define("snippet", ["editor", "codemirror"], function (Editor, CodeMirror) {
         })
     }
     return Snippet;
+});
+
+define("place", ["editor", "leaflet"], function (Editor, L) {
+    function Place(selector){
+        this.selector = selector;
+        this.modes = ["Place"];
+        this.current_editor = "Place";
+    }
+    
+    Place.prototype = Object.create(Editor.prototype);
+    
+    Place.prototype.init = function(){
+        var height;
+        
+        if (typeof(window.innerHeight) == 'number') height = window.innerHeight;
+        else if (document.documentElement && document.documentElement.clientHeight) height = document.documentElement.clientHeight;
+        height -= 250;
+        
+        this.current_editor = "Place";
+        $("#note").html("<div id='map' style='height: " +  height + "px'></div>");
+        
+        this.map = L.map('map').setView([51.505, - 0.09], 13);
+        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(this.map);
+        new L.Control.GeoSearch({
+            provider: new L.GeoSearch.Provider.OpenStreetMap(),
+            showMarker: false
+        }).addTo(this.map);
+        
+        var that = this;
+        this.map.on('geosearch_foundlocations', function(location){
+            if (typeof(that.marker) !== "undefined"){
+                that.map.removeLayer(that.marker);
+            }
+            that.marker = L.marker([location.Locations[0].Y, location.Locations[0].X], {draggable: true}).addTo(that.map);
+        });
+    };
+    
+    Place.prototype.setValue = function (value) {
+        var data = JSON.parse(value);
+        if (typeof(this.marker) !== "undefined"){
+            this.map.removeLayer(this.marker);
+        }
+        this.marker = L.marker(data.coords, {draggable: true}).addTo(this.map);
+        this.map.setView(data.coords, 13);
+    };
+    
+    Place.prototype.getValue = function () {
+        return JSON.stringify({coords: this.marker.getLatLng()});
+    };
+    return Place;
 });

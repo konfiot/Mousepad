@@ -5,7 +5,7 @@ function getAnchor() {
 }
 
 var editor, id;
-var types = ["note", "reminder", "checklist", "sketch", "snippet"];
+var types = ["note", "reminder", "checklist", "sketch", "snippet", "place"];
 
 $(function(){
     var anchor;
