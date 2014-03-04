@@ -119,6 +119,18 @@ define("reminder", ["editor", "datetime"], function (Editor) {
         });
     };
     
+    Reminder.prototype.change = function (cb) {
+        $("#calendar").on("change", function(){
+            cb();
+        });
+        $("#calendar").on("input", function(){
+            cb();
+        });
+        $("#addinfo").on("input", function(){
+            cb();
+        });
+    };
+    
     return Reminder;
 });
 
@@ -314,6 +326,11 @@ define("place", ["editor", "leaflet"], function (Editor, L) {
                 that.map.removeLayer(that.marker);
             }
             that.marker = L.marker([location.Locations[0].Y, location.Locations[0].X], {draggable: true}).addTo(that.map);
+            var cb = that.cb;
+            cb();
+            that.marker.on("drag", function () {
+                cb();
+            });
         });
     };
     
@@ -323,11 +340,20 @@ define("place", ["editor", "leaflet"], function (Editor, L) {
             this.map.removeLayer(this.marker);
         }
         this.marker = L.marker(data.coords, {draggable: true}).addTo(this.map);
+        var cb = this.cb;
+        this.marker.on("drag", function(){
+            cb();
+        });
         this.map.setView(data.coords, 13);
     };
     
     Place.prototype.getValue = function () {
         return JSON.stringify({coords: this.marker.getLatLng()});
     };
+    
+    Place.prototype.change = function (cb) {
+        this.cb = cb;
+    }
+    
     return Place;
 });
