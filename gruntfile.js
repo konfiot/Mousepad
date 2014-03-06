@@ -123,6 +123,14 @@ module.exports = function(grunt){
                 src: '*',
                 dest: 'dist/img/literallycanvas',
             }
+		},
+		csso : {
+            main : {
+                expand: true,
+                cwd: "dist/css",
+                src: "*.css",
+                dest: "dist/css",
+            },
 		}
 	});
 	
@@ -130,7 +138,8 @@ module.exports = function(grunt){
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-copy');
-
-	grunt.registerTask('default', ['hogan', 'concat', 'copy', 'uglify']);
+    grunt.loadNpmTasks('grunt-csso');
+	
+	grunt.registerTask('default', ['hogan', 'concat', 'copy', 'uglify', 'csso']);
 	grunt.registerTask('dev', ['hogan', 'concat', 'copy']);
 };
