@@ -83,7 +83,7 @@ define("note", ["editor", "pen", "marked", "md"], function (Editor, Pen, marked,
         $(this.selector).on("DOMSubtreeModified", function(){
             cb();
         });
-    }
+    };
     
     return Note;
 });
@@ -253,7 +253,7 @@ define("sketch", ["editor", "literallycanvas"], function (Editor) {
         this.lc.on("drawContinue", function () {
             cb();
         });
-    }
+    };
     return Sketch;
 });
 
@@ -287,8 +287,8 @@ define("snippet", ["editor", "codemirror"], function (Editor, CodeMirror) {
     Snippet.prototype.change = function (cb) {
         this.editor.on("change", function () {
             cb();
-        })
-    }
+        });
+    };
     return Snippet;
 });
 
