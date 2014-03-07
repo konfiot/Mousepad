@@ -41,7 +41,11 @@ $(function(){
         editor.init();
         editor.change(function () {
             clearTimeout(window.timeout);
+            window.onbeforeunload = function() {
+                return "You have unsaved changes. You sure you wanna quit ?";
+            };
             window.timeout = setTimeout(function() {
+                window.onbeforeunload = undefined;
                 save();
             }, 5000);
         });
