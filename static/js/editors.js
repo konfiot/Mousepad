@@ -75,7 +75,11 @@ define("note", ["editor", "pen", "marked", "md"], function (Editor, Pen, marked,
     };
 
     Note.prototype.init = function () {
-        this.editor = new Pen(this.selector);
+        this.editor = new Pen({
+            editor: $(this.selector)[0],
+            stay: false,
+            debug: false
+        });
         $(this.selector).html("Content");
     };
     

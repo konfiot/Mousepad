@@ -12,9 +12,9 @@
     "grunt-contrib-copy": "0.5.0",
     "grunt-contrib-uglify": "0.2.7",
     "grunt-csso": "0.6.0",
-    "grunt-css-url-rewrite": "0.3.3"
+    "grunt-css-url-rewrite": "0.3.3",
+    "grunt-contrib-clean": "~0.5.0"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "grunt"
   },
