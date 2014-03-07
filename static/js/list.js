@@ -99,7 +99,7 @@ function filter_dir(dir){
     if(dir === ""){
         dir = undefined;
     }
-    var old_list = list_all;
+    var old_list = window.list_all;
     list = {};
     for (var i in old_list){
         if (typeof(dir) !== "undefined"){
@@ -160,14 +160,14 @@ function pop_change_dir_modal(id){
         var array = [];
         tree.childrens = [];
         tree.id = id;
-        tree.name = ((typeof(id) === "undefined") ? "Home" : list_all[id].title);
+        tree.name = ((typeof(id) === "undefined") ? "Home" : window.list_all[id].title);
         tree.root = ((typeof(id) === "undefined") ? true : false);
-        for (var i in list_all){
-            if(list_all[i].type === "directory"){
-                if ((typeof (list_all[i].dir) === "undefined") && (typeof(id) === "undefined")){
+        for (var i in window.list_all){
+            if(window.list_all[i].type === "directory"){
+                if ((typeof (window.list_all[i].dir) === "undefined") && (typeof(id) === "undefined")){
                     tree.childrens.push(arguments.callee(i));
                     array.push(i);
-                } else if (list_all[i].dir === id){
+                } else if (window.list_all[i].dir === id){
                     tree.childrens.push(arguments.callee(i));
                     array.push(i);
                 }
@@ -223,9 +223,12 @@ function pop_confirmation_modal(id){
 
 function init(){
     $.post("../../../app/api/list.php", {data : JSON.stringify({verbose: true})}, function(data){
+        $("list").html("");
+        window.list_all = {};
+        window.list_content = {};
         for (var i in data){
-            list_all[i] = data[i].meta;
-            list_content[i] = data[i].content;
+            window.list_all[i] = data[i].meta;
+            window.list_content[i] = data[i].content;
         }
         filter_dir();
         window.refresh_shortcuts();
