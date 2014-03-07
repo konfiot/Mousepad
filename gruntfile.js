@@ -123,6 +123,12 @@ module.exports = function(grunt){
                 src: '*',
                 dest: 'dist/fonts',
             },
+            bootstrap: {
+                expand: true,
+                cwd: "bower_components/bootstrap/dist/fonts/",
+                src: '*',
+                dest: 'dist/fonts',
+            },
             img_literallycanvas: {
                 expand: true,
                 cwd: "bower_components/literallycanvas/img/",
