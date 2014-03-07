@@ -1,5 +1,11 @@
 var fs = require("fs");
 
+var css_url_rewrite = function(url, options, dataURI) {
+    var path = url.replace(options.baseDir, '');
+    var hash = require('crypto').createHash('md5').update(dataURI).digest('hex');
+    return '/v-' + hash + '/' + path;
+};
+
 module.exports = function(grunt){
     var themes = [];
     var themes_dir = fs.readdirSync("static/themes/");
@@ -52,7 +58,7 @@ module.exports = function(grunt){
                 dest: "dist/css/settings.css"
             },
             edit_css : {
-                src: ["bower_components/font-awesome/css/font-awesome.min.css", "bower_components/bootstrap/dist/css/bootstrap.min.css", "bower_components/nprogress/nprogress.css", "bower_components/alertify.js/themes/alertify.default.css", "bower_components/alertify.js/themes/alertify.core.css", "bower_components/pen/src/pen.css", "bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.css", "bower_components/bootstrap3-datetimepicker/build/css/bootstrap-datetimepicker.min.css", "bower_components/leaflet-dist/leaflet.css", "bower_components/L.GeoSearch/src/css/l.geosearch.css", "bower_components/literallycanvas/css/literally.css", "bower_components/codemirror/lib/codemirror.css"],
+                src: ["bower_components/font-awesome/css/font-awesome.min.css", "bower_components/bootstrap/dist/css/bootstrap.min.css", "bower_components/nprogress/nprogress.css", "bower_components/alertify.js/themes/alertify.default.css", "bower_components/alertify.js/themes/alertify.core.css", "tmp/pen_rewrited.css", "bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.css", "bower_components/bootstrap3-datetimepicker/build/css/bootstrap-datetimepicker.min.css", "bower_components/leaflet-dist/leaflet.css", "bower_components/L.GeoSearch/src/css/l.geosearch.css", "bower_components/literallycanvas/css/literally.css", "bower_components/codemirror/lib/codemirror.css"],
                 dest: "dist/css/edit.css"
             },
             pen : {
@@ -115,7 +121,7 @@ module.exports = function(grunt){
                 expand: true,
                 cwd: "bower_components/pen/src/font/",
                 src: '*',
-                dest: 'dist/css/font',
+                dest: 'dist/fonts',
             },
             img_literallycanvas: {
                 expand: true,
@@ -131,7 +137,20 @@ module.exports = function(grunt){
                 src: "*.css",
                 dest: "dist/css",
             },
-		}
+		},
+        cssUrlRewrite: {
+            pen : {
+                src: "bower_components/pen/src/pen.css",
+                dest: "tmp/pen_rewrited.css",
+                options: {
+                    skipExternal: true,
+                    rewriteUrl: function(url, options, dataURI){
+                        console.log(url);
+                        return url.replace("bower_components/pen/src/font/fontello", "../fonts/fontello");
+                    }
+                }
+            }
+        }
 	});
 	
 	grunt.loadNpmTasks('grunt-hogan');
@@ -139,7 +158,8 @@ module.exports = function(grunt){
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-csso');
+    grunt.loadNpmTasks('grunt-css-url-rewrite');
 	
-	grunt.registerTask('default', ['hogan', 'concat', 'copy', 'uglify', 'csso']);
-	grunt.registerTask('dev', ['hogan', 'concat', 'copy']);
+	grunt.registerTask('default', ['hogan', 'cssUrlRewrite', 'concat', 'copy', 'uglify', 'csso']);
+	grunt.registerTask('dev', ['hogan', 'cssUrlRewrite', 'concat', 'copy']);
 };
