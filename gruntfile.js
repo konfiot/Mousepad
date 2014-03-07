@@ -145,11 +145,13 @@ module.exports = function(grunt){
                 options: {
                     skipExternal: true,
                     rewriteUrl: function(url, options, dataURI){
-                        console.log(url);
                         return url.replace("bower_components/pen/src/font/fontello", "../fonts/fontello");
                     }
                 }
             }
+        },
+        clean: {
+            folder: ["tmp"]
         }
 	});
 	
@@ -159,7 +161,8 @@ module.exports = function(grunt){
 	grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-csso');
     grunt.loadNpmTasks('grunt-css-url-rewrite');
+    grunt.loadNpmTasks('grunt-contrib-clean');
 	
-	grunt.registerTask('default', ['hogan', 'cssUrlRewrite', 'concat', 'copy', 'uglify', 'csso']);
-	grunt.registerTask('dev', ['hogan', 'cssUrlRewrite', 'concat', 'copy']);
+	grunt.registerTask('default', ['hogan', 'cssUrlRewrite', 'concat', 'copy', 'uglify', 'csso', 'clean']);
+	grunt.registerTask('dev', ['hogan', 'cssUrlRewrite', 'concat', 'copy', 'clean']);
 };
