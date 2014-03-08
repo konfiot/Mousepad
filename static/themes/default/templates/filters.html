@@ -1,23 +1,23 @@
 <li>
-    <a href='#' onclick='filter_tags(\"\")'>All</a>
+    <a href='#' onclick='filter_tags("")'>All</a>
 </li>
 <li>Tags</li>
 {{#tags}}
     <li>
-        <a href='#' onclick=\ "filter_tags('{{.}}')\">{{.}}</a>
+        <a href='#' onclick="filter_tags('{{.}}')">{{.}}</a>
     </li>
 {{/tags}}
 <li>Last edited</li>
 {{#dates}}
     {{#display}}
         <li>
-            <a href='#' onclick=\ "filter_date({{value}})\">{{text}}</a>
+            <a href='#' onclick="filter_date('{{value}}')">{{text}}</a>
         </li>
     {{/display}}
 {{/dates}}
 <li>Type</li>
 {{#types}}
     <li style='text-transform: capitalize'>
-        <a href='#' onclick=\ "filter_types('{{.}}')\">{{.}}</a>
+        <a href='#' onclick="filter_types('{{.}}')">{{.}}</a>
     </li>
 {{/types}}

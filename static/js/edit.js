@@ -152,7 +152,3 @@ function init(){
         $("#mode_" + modes[0]).attr("class", "mode active");
     }
 }
-
-    $(function(){
-
-    });
