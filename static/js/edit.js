@@ -112,7 +112,7 @@ function init(){
                 var array = [];
                 for (var i in window.list){
                     if (window.list[i].type !== "directory") {
-                        array.push({title: window.list[i].title});
+                        array.push({title: window.list[i].title, id: i});
                     }
                 }
                 console.log(array);
@@ -128,16 +128,16 @@ function init(){
         });
         $("#search").on("typeahead:selected", function (event, item) {
             $("#search").val("");
-            $(location).attr('href',"edit.html#" + item.name);
+            $(location).attr('href',"edit.html#" + item.id);
             location.reload();
         });
         $("#tags").tagsinput('input').typeahead(null, {
             displayKey: 'tag',
             source: tagsearch.ttAdapter()
-        }).bind('typeahead:selected', $.proxy(function(obj, datum) {
+        }).bind('typeahead:selected', function(obj, datum) {
             this.tagsinput('add', datum.value);
-            this.tagsinput('input').typeahead('setQuery', '');
-        }, $('#tags')));
+            this.tagsinput('input').typeahead('val', '');
+        });
         
         $("#tags").change(function(){
             if ((typeof(id) === "string") && (id !== "") && (types.indexOf(id) === -1)){
