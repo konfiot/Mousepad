@@ -10,6 +10,7 @@ var types = ["note", "reminder", "checklist", "sketch", "snippet", "place"];
 $(function(){
     var anchor;
     anchor = getAnchor();
+    $("#tags").html("");
     if ((typeof(anchor) === "string") && (anchor !== "") && (types.indexOf(anchor) === -1)){
         id = anchor;
         $.ajax({
@@ -24,6 +25,9 @@ $(function(){
                 window.type = data.meta.type;
                 window.title = data.meta.title;
                 window.content = data.content;
+                for (var i in data.meta.tags){
+                    $("#tags").tagsinput('add', data.meta.tags[i]);
+                }
             },
             dataType: "json",
             async: false
@@ -51,7 +55,7 @@ $(function(){
         });
         if (typeof window.content !== "undefined") {
             editor.setValue(window.content);
-        } 
+        }
         init();
     });
 });
@@ -84,31 +88,52 @@ function init(){
         for (var i in window.list) {
             for (var j in window.list[i].tags) {
                 if ((tags.indexOf(window.list[i].tags[j]) === -1) && (window.list[i].tags[j] !== "")) {
-                    tags.push(window.list[i].tags[j]);
+                    tags.push({tag: window.list[i].tags[j]});
                 }
             }
         }
         
-        $("#search").typeahead({
+        var tagsearch = new window.Bloodhound({
+            datumTokenizer: function(d) {
+                return window.Bloodhound.tokenizers.whitespace(d.tag);
+            },
+            queryTokenizer: window.Bloodhound.tokenizers.whitespace,
+            local: tags
+         });
+        
+        tagsearch.initialize();
+
+        var search = new window.Bloodhound({
+            datumTokenizer: function(d) {
+                return window.Bloodhound.tokenizers.whitespace(d.title);
+            },
+            queryTokenizer: window.Bloodhound.tokenizers.whitespace,
             local: (function(){
                 var array = [];
                 for (var i in window.list){
                     if (window.list[i].type !== "directory") {
-                        array.push({name: i, value: window.list[i].title});
+                        array.push({title: window.list[i].title});
                     }
                 }
+                console.log(array);
                 return array;
-            })(),
+            })()
+         });
+        
+        search.initialize();
+
+        $("#search").typeahead(null, {
+            displayKey: 'title',
+            source: search.ttAdapter()
         });
         $("#search").on("typeahead:selected", function (event, item) {
             $("#search").val("");
             $(location).attr('href',"edit.html#" + item.name);
             location.reload();
         });
-        
-        $("#tags").tagsinput('input').typeahead({
-            name: 'Tags',
-            local: tags
+        $("#tags").tagsinput('input').typeahead(null, {
+            displayKey: 'tag',
+            source: tagsearch.ttAdapter()
         }).bind('typeahead:selected', $.proxy(function(obj, datum) {
             this.tagsinput('add', datum.value);
             this.tagsinput('input').typeahead('setQuery', '');
@@ -127,3 +152,7 @@ function init(){
         $("#mode_" + modes[0]).attr("class", "mode active");
     }
 }
+
+    $(function(){
+
+    });
