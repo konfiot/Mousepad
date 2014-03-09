@@ -29,7 +29,7 @@
     "nprogress": "*",
     "alertify.js": "*",
     "pen": "https://github.com/sofish/pen/archive/master.zip",
-    "typeahead.js": "~10.0.1",
+    "typeahead.js": "~0.10.1",
     "bootstrap-tagsinput": "*",
     "zxcvbn": "*",
     "jsTimezoneDetect": "*",

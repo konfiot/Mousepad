@@ -88,14 +88,14 @@ function init(){
         for (var i in window.list) {
             for (var j in window.list[i].tags) {
                 if ((tags.indexOf(window.list[i].tags[j]) === -1) && (window.list[i].tags[j] !== "")) {
-                    tags.push({tag: window.list[i].tags[j]});
+                    tags.push(window.list[i].tags[j]);
                 }
             }
         }
-        
+        $.unique(tags);
         var tagsearch = new window.Bloodhound({
             datumTokenizer: function(d) {
-                return window.Bloodhound.tokenizers.whitespace(d.tag);
+                return window.Bloodhound.tokenizers.whitespace(d);
             },
             queryTokenizer: window.Bloodhound.tokenizers.whitespace,
             local: tags
@@ -123,7 +123,7 @@ function init(){
         search.initialize();
 
         $("#search").typeahead(null, {
-            displayKey: 'title',
+            displayKey: function(d){return d},
             source: search.ttAdapter()
         });
         $("#search").on("typeahead:selected", function (event, item) {
