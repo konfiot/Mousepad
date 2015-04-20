@@ -1,12 +1,12 @@
 language: node_js
-script: | 
-    sudo apt-get install ftp && node_modules/.bin/bower install && npm test && mkdir mousepad && cp -r data app dist static index.php LICENSE mousepad && tar cjvf head.tar.bz2 ./mousepad && echo "user $username $password
-    binary
-    put head.tar.bz2
-    bye" | ftp -pn $address
-
+script: |
+  sudo apt-get install ftp && node_modules/.bin/bower install && npm test && mkdir mousepad && cp -r data app dist static index.php LICENSE mousepad && tar cjvf head.tar.bz2 ./mousepad && echo "user $username $password
+  binary
+  put head.tar.bz2
+  bye" | ftp -pn $address
 env:
   global:
-    - secure: DyHLtEIWN4QbUZK6Bv4RLOU47kIamZ9tFnjOm9eIP3UKYrQRhxWy1FlXP4n5u+eBguqW8Lkx1fvPf7M1pCHT+F537dLesRF7zpKxnRsdR2XF/faTsg5TO3+e66ruz2bKRIhojvwiIRVDxecs9VZszV5AovtQOXciM7EbTMKOPrI=
-    - secure: DGlqxrRJdOrpCsI+OzpH8f6hEN9rheXZqQNIkt1J/SWY/4fRYBIh3ggHkoJPH8B8FZK5euMq2Agk2MWXsps/dMuJx/XTW1KqnAnyMzKaUATNTR1vYE2hIWGK43cDICEGmgtLQSFmj5hzMXRF++TwrLmLl5VvhK4pAeudzLPLqrI=
-    - secure: ACiLlK5kch82fjuA1uar+8NOMTCSSyultACRZDtMEZSV5GdE0KGukd56jgAoBEg/Q/K08SkBVydTSB/6JiIO0liH9G84zeQxRgdUIuQH609A/xrubJkGfXTzvcb1Dzcr3pjCCstF10U2uNcL3g+638UGQxAhUdzGubO5RFri+zk=
+  - secure: DyHLtEIWN4QbUZK6Bv4RLOU47kIamZ9tFnjOm9eIP3UKYrQRhxWy1FlXP4n5u+eBguqW8Lkx1fvPf7M1pCHT+F537dLesRF7zpKxnRsdR2XF/faTsg5TO3+e66ruz2bKRIhojvwiIRVDxecs9VZszV5AovtQOXciM7EbTMKOPrI=
+  - secure: DGlqxrRJdOrpCsI+OzpH8f6hEN9rheXZqQNIkt1J/SWY/4fRYBIh3ggHkoJPH8B8FZK5euMq2Agk2MWXsps/dMuJx/XTW1KqnAnyMzKaUATNTR1vYE2hIWGK43cDICEGmgtLQSFmj5hzMXRF++TwrLmLl5VvhK4pAeudzLPLqrI=
+  - secure: ACiLlK5kch82fjuA1uar+8NOMTCSSyultACRZDtMEZSV5GdE0KGukd56jgAoBEg/Q/K08SkBVydTSB/6JiIO0liH9G84zeQxRgdUIuQH609A/xrubJkGfXTzvcb1Dzcr3pjCCstF10U2uNcL3g+638UGQxAhUdzGubO5RFri+zk=
+  - secure: BMIb1fhRdbWKtimKO240U4ZzubrmtQo8w2x6/b2l1sh2JP9GXAl/ID9wcBp2uYujlCDod4jjphQwB7cYOE5xNNwCup7gJHhnFeTNWDczpzO6fuglrMS5jxP14wy1k0SY0R9E9AS2I4Aqcma9RZxNJuLtdWNofceMrMq41VD0o10=
